@@ -1,0 +1,1297 @@
+{
+  "meta": {
+    "title": "SPACE LIBRARY 空间产品库 · 知识关系云图",
+    "source": "Notion - 7.SPACE LIBRARY 空间产品库",
+    "description": "基于学校类型、房间类型、活动内容三组属性构建的校园空间产品关系图谱",
+    "generated": "2026-05-31"
+  },
+  "categories": [
+    {
+      "name": "学校类型",
+      "color": "#e17055"
+    },
+    {
+      "name": "房间类型",
+      "color": "#6c5ce7"
+    },
+    {
+      "name": "活动内容",
+      "color": "#00b894"
+    },
+    {
+      "name": "空间产品",
+      "color": "#0984e3"
+    },
+    {
+      "name": "设计属性",
+      "color": "#fdcb6e"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "sch_regular",
+      "label": "普高",
+      "category": "学校类型",
+      "description": "普通高中——标准化教学空间为主，注重功能性与规范合规，造价控制较严格。",
+      "size": 26
+    },
+    {
+      "id": "sch_bilingual",
+      "label": "民办双语",
+      "category": "学校类型",
+      "description": "民办双语学校——中西合璧的教学空间，兼顾国内课程和国际课程需求，设计风格多元。",
+      "size": 28
+    },
+    {
+      "id": "sch_international",
+      "label": "国际学校",
+      "category": "学校类型",
+      "description": "国际学校——高标准设计，强调开放式学习空间、STEAM中心、创客空间等特色功能区。",
+      "size": 30
+    },
+    {
+      "id": "sch_kindergarten",
+      "label": "国际幼儿园",
+      "category": "学校类型",
+      "description": "国际幼儿园——以儿童尺度和安全性为核心，色彩丰富，注重游戏化和探索性空间。",
+      "size": 24
+    },
+    {
+      "id": "rm_canteen",
+      "label": "餐厅 CANTEEN",
+      "category": "房间类型",
+      "description": "学校餐厅空间——承载就餐、社交、活动等多功能使用，需考虑人流动线和卫生规范。",
+      "size": 22
+    },
+    {
+      "id": "rm_hallway",
+      "label": "走廊楼梯 HALLWAY",
+      "category": "房间类型",
+      "description": "交通空间——走廊、楼梯间，是校园动线的骨架，同时可作为展示和非正式学习空间。",
+      "size": 20
+    },
+    {
+      "id": "rm_special",
+      "label": "功能教室 SPECIAL",
+      "category": "房间类型",
+      "description": "功能教室——音乐、美术、技术、书法等专业教室，配套特殊设备和声学/光学要求。",
+      "size": 26
+    },
+    {
+      "id": "rm_dorm",
+      "label": "宿舍 DORM",
+      "category": "房间类型",
+      "description": "学生宿舍——住宿空间及配套公共区域，关注私密性、储物、照明和舒适度。",
+      "size": 20
+    },
+    {
+      "id": "rm_regular",
+      "label": "普通教室 CLASSROOM",
+      "category": "房间类型",
+      "description": "标准教室——日常教学的核心空间，灵活桌椅布局，多媒体设备集成。",
+      "size": 24
+    },
+    {
+      "id": "rm_stadium",
+      "label": "体育场 STADIUM",
+      "category": "房间类型",
+      "description": "室内外运动场馆——篮球、田径等体育活动空间，大跨度结构设计。",
+      "size": 20
+    },
+    {
+      "id": "rm_admin",
+      "label": "行政 ADMIN",
+      "category": "房间类型",
+      "description": "行政办公区域——校长室、教务处、会议室等学校管理空间。",
+      "size": 16
+    },
+    {
+      "id": "rm_common",
+      "label": "公共空间 COMMON",
+      "category": "房间类型",
+      "description": "公共活动空间——休息区、展示区、社交区等开放性空间，是校园文化的展示窗口。",
+      "size": 24
+    },
+    {
+      "id": "rm_library",
+      "label": "图书馆 LIBRARY",
+      "category": "房间类型",
+      "description": "图书馆/学习中心——阅读、自习、讨论、数字资源等复合功能空间，是校园的知识枢纽。",
+      "size": 26
+    },
+    {
+      "id": "rm_restroom",
+      "label": "卫生间 RESTROOM",
+      "category": "房间类型",
+      "description": "卫生间——注重材料防水耐用性和无障碍设计。",
+      "size": 14
+    },
+    {
+      "id": "rm_entrance",
+      "label": "门厅 ENTRANCE",
+      "category": "房间类型",
+      "description": "门厅/大堂——学校的第一印象空间，承载接待、导视、展示和品牌形象功能。",
+      "size": 22
+    },
+    {
+      "id": "rm_auditorium",
+      "label": "剧场报告厅 AUDITORIUM",
+      "category": "房间类型",
+      "description": "剧场/报告厅/多功能厅——大型集会、演出、典礼空间，声学和舞台设计要求高。",
+      "size": 22
+    },
+    {
+      "id": "rm_gym",
+      "label": "健身更衣 GYM",
+      "category": "房间类型",
+      "description": "健身房及更衣室——运动设施空间及淋浴更衣配套。",
+      "size": 16
+    },
+    {
+      "id": "rm_outdoor",
+      "label": "室外 OUTDOOR",
+      "category": "房间类型",
+      "description": "室外空间——操场、庭院、屋顶花园等户外活动和景观空间。",
+      "size": 18
+    },
+    {
+      "id": "rm_pool",
+      "label": "游泳池 POOL",
+      "category": "房间类型",
+      "description": "游泳池及配套空间——泳池入口、走廊、淋浴间等水上运动设施。",
+      "size": 16
+    },
+    {
+      "id": "rm_showroom",
+      "label": "展厅 SHOWROOM",
+      "category": "房间类型",
+      "description": "展示空间——学生作品、校史、艺术展览等展示功能区。",
+      "size": 16
+    },
+    {
+      "id": "rm_steam",
+      "label": "STEAM实验室",
+      "category": "房间类型",
+      "description": "STEAM和实验室——科学、技术、工程、艺术、数学综合实践空间，创客中心的核心。",
+      "size": 24
+    },
+    {
+      "id": "rm_office",
+      "label": "办公室 OFFICE",
+      "category": "房间类型",
+      "description": "教师办公和员工休息空间。",
+      "size": 14
+    },
+    {
+      "id": "rm_maker",
+      "label": "创客空间 MAKER",
+      "category": "房间类型",
+      "description": "创客空间——动手制作、原型开发、跨学科项目学习的开放工坊。",
+      "size": 22
+    },
+    {
+      "id": "act_dancing",
+      "label": "舞蹈 DANCING",
+      "category": "活动内容",
+      "description": "舞蹈活动——需要镜面墙、弹性地板、把杆等专业配置。",
+      "size": 18
+    },
+    {
+      "id": "act_art",
+      "label": "美术 ART",
+      "category": "活动内容",
+      "description": "美术创作——绘画、雕塑、陶艺等视觉艺术活动，需要水槽、储物和自然采光。",
+      "size": 20
+    },
+    {
+      "id": "act_gathering",
+      "label": "集会 GATHERING",
+      "category": "活动内容",
+      "description": "集会活动——全校或年级集会、典礼、庆典等大型聚集活动。",
+      "size": 18
+    },
+    {
+      "id": "act_dining",
+      "label": "就餐 DINING",
+      "category": "活动内容",
+      "description": "就餐活动——学生和教职工的日常用餐场景。",
+      "size": 18
+    },
+    {
+      "id": "act_accommodation",
+      "label": "住宿 ACCOMMODATION",
+      "category": "活动内容",
+      "description": "住宿生活——学生的日常起居、休息和个人时间管理。",
+      "size": 16
+    },
+    {
+      "id": "act_playroom",
+      "label": "游戏室 PLAYROOM KG",
+      "category": "活动内容",
+      "description": "幼儿游戏——适合学前儿童的探索性游戏和感统训练活动。",
+      "size": 18
+    },
+    {
+      "id": "act_study",
+      "label": "学习 STUDY",
+      "category": "活动内容",
+      "description": "课堂学习——常规教学、小组讨论、自主学习等核心学术活动。",
+      "size": 22
+    },
+    {
+      "id": "act_basketball",
+      "label": "篮球 BASKETBALL",
+      "category": "活动内容",
+      "description": "篮球运动——室内外篮球场地及相关体育活动。",
+      "size": 16
+    },
+    {
+      "id": "act_swimming",
+      "label": "游泳 SWIMMING",
+      "category": "活动内容",
+      "description": "游泳活动——泳池教学和自由游泳。",
+      "size": 16
+    },
+    {
+      "id": "act_makerspace",
+      "label": "创客 MAKERSPACE",
+      "category": "活动内容",
+      "description": "创客活动——编程、机器人、3D打印、电子制作等动手实践项目。",
+      "size": 20
+    },
+    {
+      "id": "act_reception",
+      "label": "接待 RECEPTION",
+      "category": "活动内容",
+      "description": "来访接待——家长、访客的接待和校园参观引导。",
+      "size": 14
+    },
+    {
+      "id": "act_reading",
+      "label": "阅读 READING",
+      "category": "活动内容",
+      "description": "阅读活动——自主阅读、故事时间、读书分享等。",
+      "size": 20
+    },
+    {
+      "id": "act_sports",
+      "label": "体育 SPORTS",
+      "category": "活动内容",
+      "description": "综合体育——田径、球类、体操等多种运动项目。",
+      "size": 18
+    },
+    {
+      "id": "act_performance",
+      "label": "演出 PERFORMANCE",
+      "category": "活动内容",
+      "description": "表演活动——戏剧、音乐会、舞蹈表演等舞台演出。",
+      "size": 18
+    },
+    {
+      "id": "act_steam",
+      "label": "STEAM探究",
+      "category": "活动内容",
+      "description": "STEAM探究——跨学科项目式学习，融合科学实验和工程设计。",
+      "size": 20
+    },
+    {
+      "id": "act_display",
+      "label": "展示 DISPLAY",
+      "category": "活动内容",
+      "description": "作品展示——学生作品、项目成果、艺术创作的陈列展览。",
+      "size": 16
+    },
+    {
+      "id": "act_music",
+      "label": "音乐 MUSIC",
+      "category": "活动内容",
+      "description": "音乐活动——器乐演奏、合唱、音乐欣赏等，需要声学处理。",
+      "size": 18
+    },
+    {
+      "id": "act_calligraphy",
+      "label": "书法 CALLIGRAPHY",
+      "category": "活动内容",
+      "description": "书法练习——传统书法和现代书写艺术。",
+      "size": 14
+    },
+    {
+      "id": "act_presentation",
+      "label": "演讲 PRESENTATION",
+      "category": "活动内容",
+      "description": "演讲和展示——学生报告、项目答辩、TED式分享。",
+      "size": 16
+    },
+    {
+      "id": "act_healing",
+      "label": "心理疗愈 HEALING",
+      "category": "活动内容",
+      "description": "心理疗愈——心理咨询、冥想放松、情绪管理等身心健康活动。",
+      "size": 14
+    },
+    {
+      "id": "act_office",
+      "label": "办公 OFFICE",
+      "category": "活动内容",
+      "description": "办公活动——教师备课、行政办公、会议等工作场景。",
+      "size": 14
+    },
+    {
+      "id": "sp_art_studio",
+      "label": "创客中心-艺术工作室",
+      "category": "空间产品",
+      "description": "国际学校STEAM实验室：现代风格，PVC地板+吸音铝板天花，配备水槽、电子白板、活动桌椅、多媒体终端。造价$$$(2000-4000元/㎡)。",
+      "images": [
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg"
+      ],
+      "size": 16
+    },
+    {
+      "id": "sp_ib_center",
+      "label": "创客中心-IB CENTER",
+      "category": "空间产品",
+      "description": "IB课程专用创客中心，支持跨学科项目式学习。",
+      "images": [
+        "images/sp_ib_center.jpg"
+      ],
+      "size": 14
+    },
+    {
+      "id": "sp_library_read",
+      "label": "图书馆阅览室",
+      "category": "空间产品",
+      "description": "图书馆核心阅读空间，安静阅读区配合自然采光。",
+      "images": [
+        "images/sp_library_read.jpg"
+      ],
+      "size": 14
+    },
+    {
+      "id": "sp_library_kids",
+      "label": "儿童图书馆",
+      "category": "空间产品",
+      "description": "幼儿园专属图书馆，儿童尺度家具，色彩活泼，游戏化阅读空间。",
+      "size": 14,
+      "images": [
+        "images/sp_library_kids.jpg"
+      ]
+    },
+    {
+      "id": "sp_library_lc",
+      "label": "图书馆 Learning Center",
+      "category": "空间产品",
+      "description": "学习中心型图书馆，整合数字资源、讨论空间和自习区。",
+      "size": 14
+    },
+    {
+      "id": "sp_auditorium",
+      "label": "剧场",
+      "category": "空间产品",
+      "description": "校园剧场——专业舞台、灯光音响系统，承载演出和大型集会。",
+      "images": [
+        "images/sp_auditorium.jpg"
+      ],
+      "size": 14
+    },
+    {
+      "id": "sp_lecture_hall",
+      "label": "报告厅/阶梯教室",
+      "category": "空间产品",
+      "description": "阶梯式座席，多媒体演示系统，用于讲座和学术报告。",
+      "size": 14
+    },
+    {
+      "id": "sp_regular_class",
+      "label": "普通教室",
+      "category": "空间产品",
+      "description": "标准教学空间，灵活桌椅布局，电子白板和投影设备。",
+      "images": [
+        "images/sp_regular_class.jpg"
+      ],
+      "size": 14
+    },
+    {
+      "id": "sp_innovation_class",
+      "label": "创新教室",
+      "category": "空间产品",
+      "description": "灵活可变的教学空间，支持多种教学模式切换。",
+      "size": 14
+    },
+    {
+      "id": "sp_music_room",
+      "label": "音乐教室",
+      "category": "空间产品",
+      "description": "声学处理的音乐教学空间，配备乐器储存和排练区。",
+      "size": 14,
+      "images": [
+        "images/sp_music_room.jpg"
+      ]
+    },
+    {
+      "id": "sp_tech_room",
+      "label": "技术教室",
+      "category": "空间产品",
+      "description": "信息技术/电脑教室，配备工位、电源和网络设施。",
+      "size": 14
+    },
+    {
+      "id": "sp_computer_room",
+      "label": "电脑教室",
+      "category": "空间产品",
+      "description": "计算机教学空间，标准化工位和网络接入。",
+      "size": 12
+    },
+    {
+      "id": "sp_lab",
+      "label": "实验室",
+      "category": "空间产品",
+      "description": "科学实验室——实验台、通风橱、紧急冲洗设施等专业配置。",
+      "size": 14,
+      "images": [
+        "images/sp_lab.jpg"
+      ]
+    },
+    {
+      "id": "sp_discussion",
+      "label": "讨论室",
+      "category": "空间产品",
+      "description": "小组讨论空间，灵活家具和白板墙。",
+      "size": 12
+    },
+    {
+      "id": "sp_reading_room",
+      "label": "阅读室",
+      "category": "空间产品",
+      "description": "安静阅读专用空间，舒适座椅和良好采光。",
+      "size": 12
+    },
+    {
+      "id": "sp_canteen",
+      "label": "餐厅",
+      "category": "空间产品",
+      "description": "学校餐厅，可容纳大量学生同时就餐。",
+      "size": 14
+    },
+    {
+      "id": "sp_dorm",
+      "label": "宿舍",
+      "category": "空间产品",
+      "description": "学生宿舍标准间及公共活动空间。",
+      "size": 14
+    },
+    {
+      "id": "sp_entrance_kg",
+      "label": "幼儿园门厅",
+      "category": "空间产品",
+      "description": "幼儿园地下门厅，安全友好的接送空间。",
+      "size": 12
+    },
+    {
+      "id": "sp_entrance_reform",
+      "label": "英校门厅改造",
+      "category": "空间产品",
+      "description": "门厅改造项目，提升学校入口形象和功能。",
+      "size": 12
+    },
+    {
+      "id": "sp_gym",
+      "label": "健身房",
+      "category": "空间产品",
+      "description": "校园健身空间，配备运动器械和弹性地板。",
+      "size": 12
+    },
+    {
+      "id": "sp_pool_entrance",
+      "label": "泳池入口",
+      "category": "空间产品",
+      "description": "游泳池入口及走廊，防滑材料和导视系统。",
+      "size": 12
+    },
+    {
+      "id": "sp_shower",
+      "label": "淋浴间",
+      "category": "空间产品",
+      "description": "运动后淋浴配套设施。",
+      "size": 10
+    },
+    {
+      "id": "sp_staff_lounge",
+      "label": "员工休息",
+      "category": "空间产品",
+      "description": "教职工休息和社交空间。",
+      "size": 12
+    },
+    {
+      "id": "sp_office",
+      "label": "办公空间",
+      "category": "空间产品",
+      "description": "教师和行政人员的办公区域。",
+      "size": 12
+    },
+    {
+      "id": "sp_common_corridor",
+      "label": "公共空间走道",
+      "category": "空间产品",
+      "description": "兼具交通和展示功能的公共走道空间。",
+      "size": 12
+    },
+    {
+      "id": "sp_dorm_common",
+      "label": "宿舍公共空间",
+      "category": "空间产品",
+      "description": "宿舍楼内的公共活动和社交空间。",
+      "size": 12
+    },
+    {
+      "id": "sp_art_space",
+      "label": "艺术空间",
+      "category": "空间产品",
+      "description": "综合艺术创作和展示空间。",
+      "size": 14,
+      "images": [
+        "images/sp_art_space.jpg"
+      ]
+    },
+    {
+      "id": "sp_activity",
+      "label": "活动空间",
+      "category": "空间产品",
+      "description": "多功能活动空间，支持集会、游戏、社交等多种用途。",
+      "size": 14
+    },
+    {
+      "id": "style_modern",
+      "label": "现代风格",
+      "category": "设计属性",
+      "description": "现代设计风格——简洁线条、功能导向、科技感。",
+      "size": 18
+    },
+    {
+      "id": "style_chinese",
+      "label": "中式风格",
+      "category": "设计属性",
+      "description": "中式设计元素——传统文化符号与现代空间的融合。",
+      "size": 14
+    },
+    {
+      "id": "style_british",
+      "label": "传统英式",
+      "category": "设计属性",
+      "description": "英式学院风——深色木饰面、经典比例、学术氛围。",
+      "size": 14
+    },
+    {
+      "id": "style_industrial",
+      "label": "工业风格",
+      "category": "设计属性",
+      "description": "工业设计风格——裸顶、外露管线、金属元素。",
+      "size": 14
+    },
+    {
+      "id": "cost_high",
+      "label": "高造价 $$$$",
+      "category": "设计属性",
+      "description": "单方造价4000元/㎡以上——高端定制，精细化设计和材料。",
+      "size": 16
+    },
+    {
+      "id": "cost_mid_high",
+      "label": "中高造价 $$$",
+      "category": "设计属性",
+      "description": "单方造价2000-4000元/㎡——品质设计，平衡效果与成本。",
+      "size": 16
+    },
+    {
+      "id": "cost_mid",
+      "label": "中造价 $$",
+      "category": "设计属性",
+      "description": "单方造价1000-2000元/㎡——务实设计，注重性价比。",
+      "size": 14
+    },
+    {
+      "id": "cost_low",
+      "label": "低造价 $",
+      "category": "设计属性",
+      "description": "单方造价1000元/㎡以下——标准化设计，控制成本。",
+      "size": 14
+    }
+  ],
+  "links": [
+    {
+      "source": "sch_international",
+      "target": "rm_steam",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_international",
+      "target": "rm_maker",
+      "relation": "特色空间"
+    },
+    {
+      "source": "sch_international",
+      "target": "rm_library",
+      "relation": "核心空间"
+    },
+    {
+      "source": "sch_international",
+      "target": "rm_auditorium",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_international",
+      "target": "rm_pool",
+      "relation": "配套空间"
+    },
+    {
+      "source": "sch_international",
+      "target": "rm_special",
+      "relation": "丰富配置"
+    },
+    {
+      "source": "sch_international",
+      "target": "cost_high",
+      "relation": "造价倾向"
+    },
+    {
+      "source": "sch_international",
+      "target": "style_modern",
+      "relation": "主流风格"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "rm_regular",
+      "relation": "核心空间"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "rm_library",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "rm_special",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "rm_auditorium",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "cost_mid_high",
+      "relation": "造价倾向"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "style_chinese",
+      "relation": "可选风格"
+    },
+    {
+      "source": "sch_bilingual",
+      "target": "style_british",
+      "relation": "可选风格"
+    },
+    {
+      "source": "sch_regular",
+      "target": "rm_regular",
+      "relation": "核心空间"
+    },
+    {
+      "source": "sch_regular",
+      "target": "rm_canteen",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_regular",
+      "target": "rm_dorm",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_regular",
+      "target": "rm_stadium",
+      "relation": "标配空间"
+    },
+    {
+      "source": "sch_regular",
+      "target": "cost_mid",
+      "relation": "造价倾向"
+    },
+    {
+      "source": "sch_regular",
+      "target": "cost_low",
+      "relation": "造价倾向"
+    },
+    {
+      "source": "sch_kindergarten",
+      "target": "rm_entrance",
+      "relation": "核心空间"
+    },
+    {
+      "source": "sch_kindergarten",
+      "target": "rm_common",
+      "relation": "核心空间"
+    },
+    {
+      "source": "sch_kindergarten",
+      "target": "rm_outdoor",
+      "relation": "核心空间"
+    },
+    {
+      "source": "sch_kindergarten",
+      "target": "act_playroom",
+      "relation": "核心活动"
+    },
+    {
+      "source": "sch_kindergarten",
+      "target": "cost_mid_high",
+      "relation": "造价倾向"
+    },
+    {
+      "source": "rm_special",
+      "target": "act_art",
+      "relation": "承载活动"
+    },
+    {
+      "source": "rm_special",
+      "target": "act_music",
+      "relation": "承载活动"
+    },
+    {
+      "source": "rm_special",
+      "target": "act_dancing",
+      "relation": "承载活动"
+    },
+    {
+      "source": "rm_special",
+      "target": "act_calligraphy",
+      "relation": "承载活动"
+    },
+    {
+      "source": "rm_steam",
+      "target": "act_steam",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_steam",
+      "target": "act_makerspace",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_maker",
+      "target": "act_makerspace",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_maker",
+      "target": "act_art",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_library",
+      "target": "act_reading",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_library",
+      "target": "act_study",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_regular",
+      "target": "act_study",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_regular",
+      "target": "act_presentation",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_auditorium",
+      "target": "act_performance",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_auditorium",
+      "target": "act_gathering",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_auditorium",
+      "target": "act_presentation",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_canteen",
+      "target": "act_dining",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_canteen",
+      "target": "act_gathering",
+      "relation": "兼用活动"
+    },
+    {
+      "source": "rm_dorm",
+      "target": "act_accommodation",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_stadium",
+      "target": "act_sports",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_stadium",
+      "target": "act_basketball",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_pool",
+      "target": "act_swimming",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_entrance",
+      "target": "act_reception",
+      "relation": "核心功能"
+    },
+    {
+      "source": "rm_entrance",
+      "target": "act_display",
+      "relation": "包含功能"
+    },
+    {
+      "source": "rm_common",
+      "target": "act_display",
+      "relation": "包含功能"
+    },
+    {
+      "source": "rm_common",
+      "target": "act_gathering",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_common",
+      "target": "act_healing",
+      "relation": "可选功能"
+    },
+    {
+      "source": "rm_showroom",
+      "target": "act_display",
+      "relation": "核心功能"
+    },
+    {
+      "source": "rm_gym",
+      "target": "act_sports",
+      "relation": "核心活动"
+    },
+    {
+      "source": "rm_office",
+      "target": "act_office",
+      "relation": "核心功能"
+    },
+    {
+      "source": "rm_outdoor",
+      "target": "act_sports",
+      "relation": "包含活动"
+    },
+    {
+      "source": "rm_hallway",
+      "target": "act_display",
+      "relation": "展示功能"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "rm_steam",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "sch_international",
+      "relation": "学校类型"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "act_art",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "act_performance",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "act_calligraphy",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "style_modern",
+      "relation": "设计风格"
+    },
+    {
+      "source": "sp_art_studio",
+      "target": "cost_mid_high",
+      "relation": "造价等级"
+    },
+    {
+      "source": "sp_ib_center",
+      "target": "rm_steam",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_ib_center",
+      "target": "sch_international",
+      "relation": "学校类型"
+    },
+    {
+      "source": "sp_ib_center",
+      "target": "act_steam",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_library_read",
+      "target": "rm_library",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_library_read",
+      "target": "act_reading",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_library_kids",
+      "target": "rm_library",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_library_kids",
+      "target": "sch_kindergarten",
+      "relation": "学校类型"
+    },
+    {
+      "source": "sp_library_kids",
+      "target": "act_playroom",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_library_lc",
+      "target": "rm_library",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_library_lc",
+      "target": "act_study",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_auditorium",
+      "target": "rm_auditorium",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_auditorium",
+      "target": "act_performance",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_lecture_hall",
+      "target": "rm_auditorium",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_lecture_hall",
+      "target": "act_presentation",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_regular_class",
+      "target": "rm_regular",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_regular_class",
+      "target": "act_study",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_innovation_class",
+      "target": "rm_regular",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_innovation_class",
+      "target": "act_makerspace",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_music_room",
+      "target": "rm_special",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_music_room",
+      "target": "act_music",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_tech_room",
+      "target": "rm_special",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_tech_room",
+      "target": "act_steam",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_computer_room",
+      "target": "rm_special",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_computer_room",
+      "target": "act_study",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_lab",
+      "target": "rm_steam",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_lab",
+      "target": "act_steam",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_discussion",
+      "target": "rm_library",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_discussion",
+      "target": "act_study",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_reading_room",
+      "target": "rm_library",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_reading_room",
+      "target": "act_reading",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_canteen",
+      "target": "rm_canteen",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_canteen",
+      "target": "act_dining",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_dorm",
+      "target": "rm_dorm",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_dorm",
+      "target": "act_accommodation",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_dorm_common",
+      "target": "rm_dorm",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_dorm_common",
+      "target": "act_gathering",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_entrance_kg",
+      "target": "rm_entrance",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_entrance_kg",
+      "target": "sch_kindergarten",
+      "relation": "学校类型"
+    },
+    {
+      "source": "sp_entrance_kg",
+      "target": "act_reception",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_entrance_reform",
+      "target": "rm_entrance",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_entrance_reform",
+      "target": "act_reception",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_gym",
+      "target": "rm_gym",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_gym",
+      "target": "act_sports",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_pool_entrance",
+      "target": "rm_pool",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_pool_entrance",
+      "target": "act_swimming",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_shower",
+      "target": "rm_gym",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_staff_lounge",
+      "target": "rm_office",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_staff_lounge",
+      "target": "act_healing",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_office",
+      "target": "rm_office",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_office",
+      "target": "act_office",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_common_corridor",
+      "target": "rm_hallway",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_common_corridor",
+      "target": "act_display",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_art_space",
+      "target": "rm_special",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_art_space",
+      "target": "act_art",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_art_space",
+      "target": "act_display",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_activity",
+      "target": "rm_common",
+      "relation": "房间类型"
+    },
+    {
+      "source": "sp_activity",
+      "target": "act_gathering",
+      "relation": "活动内容"
+    },
+    {
+      "source": "sp_activity",
+      "target": "act_playroom",
+      "relation": "活动内容"
+    },
+    {
+      "source": "style_modern",
+      "target": "style_industrial",
+      "relation": "可混搭"
+    },
+    {
+      "source": "style_chinese",
+      "target": "style_modern",
+      "relation": "可融合"
+    },
+    {
+      "source": "cost_high",
+      "target": "cost_mid_high",
+      "relation": "梯度"
+    },
+    {
+      "source": "cost_mid_high",
+      "target": "cost_mid",
+      "relation": "梯度"
+    },
+    {
+      "source": "cost_mid",
+      "target": "cost_low",
+      "relation": "梯度"
+    },
+    {
+      "source": "act_art",
+      "target": "act_calligraphy",
+      "relation": "同类活动"
+    },
+    {
+      "source": "act_art",
+      "target": "act_display",
+      "relation": "成果展示"
+    },
+    {
+      "source": "act_music",
+      "target": "act_performance",
+      "relation": "舞台呈现"
+    },
+    {
+      "source": "act_dancing",
+      "target": "act_performance",
+      "relation": "舞台呈现"
+    },
+    {
+      "source": "act_steam",
+      "target": "act_makerspace",
+      "relation": "实践延伸"
+    },
+    {
+      "source": "act_reading",
+      "target": "act_study",
+      "relation": "学习方式"
+    },
+    {
+      "source": "act_basketball",
+      "target": "act_sports",
+      "relation": "运动项目"
+    },
+    {
+      "source": "act_swimming",
+      "target": "act_sports",
+      "relation": "运动项目"
+    }
+  ]
+}

@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPACE LIBRARY 空间产品库 · 知识关系云图</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f9fa; overflow: hidden; }
+
+.header {
+  background: #fff; border-bottom: 1px solid #e0e0e0;
+  padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+}
+.header h1 { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+.header .subtitle { font-size: 12px; color: #999; margin-top: 2px; }
+.header .stats { font-size: 14px; color: #666; }
+
+#graph-container { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; }
+svg { width: 100%; height: 100%; }
+
+.tooltip {
+  position: fixed; padding: 10px 14px; background: rgba(26,26,46,0.92); color: #fff;
+  border-radius: 8px; font-size: 13px; pointer-events: none; opacity: 0;
+  transition: opacity 0.15s; max-width: 300px; z-index: 200;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.tooltip .tt-title { font-weight: 600; margin-bottom: 4px; font-size: 14px; }
+.tooltip .tt-cat { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; }
+.tooltip .tt-img { width: 100%; max-height: 160px; object-fit: cover; border-radius: 6px; margin-top: 8px; display: none; }
+.tooltip .tt-img.loaded { display: block; }
+
+.detail-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300;
+  display: none; align-items: center; justify-content: center;
+}
+.detail-overlay.active { display: flex; }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.detail-panel {
+  background: #fff; border-radius: 16px; width: 680px; max-width: 90vw;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.25s;
+}
+.detail-header {
+  padding: 28px 32px 20px; border-bottom: 1px solid #eee;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.detail-color-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.detail-header h2 { font-size: 22px; font-weight: 700; color: #1a1a2e; flex: 1; }
+.detail-close {
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  background: #f0f0f0; cursor: pointer; font-size: 18px; color: #666;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.detail-close:hover { background: #e0e0e0; }
+.detail-category {
+  display: inline-block; padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px;
+}
+.detail-body { padding: 24px 32px; }
+.detail-body p { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 16px; }
+.detail-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.detail-gallery img { width: 100%; border-radius: 8px; cursor: pointer; transition: transform 0.2s; object-fit: cover; aspect-ratio: 16/10; }
+.detail-gallery img:hover { transform: scale(1.03); }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 400; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+.detail-section-title { font-size: 13px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 0 10px; }
+.detail-relations { display: flex; flex-wrap: wrap; gap: 8px; }
+.detail-rel-chip {
+  padding: 6px 14px; border-radius: 20px; background: #f0f4ff;
+  color: #3366cc; font-size: 13px; cursor: pointer; transition: background 0.15s;
+}
+.detail-rel-chip:hover { background: #dde6ff; }
+.project-meta { display: grid; grid-template-columns: 96px 1fr; gap: 8px 12px; margin: 0 0 18px; font-size: 14px; }
+.project-meta .meta-label { color: #999; font-weight: 600; }
+.project-meta .meta-value { color: #333; word-break: break-word; }
+
+.controls { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; gap: 8px; }
+.ctrl-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: none;
+  background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  cursor: pointer; font-size: 18px; display: flex; align-items: center;
+  justify-content: center; color: #555;
+}
+.ctrl-btn:hover { background: #f0f0f0; }
+
+.top-tools {
+  position: fixed; top: 72px; left: 50%; transform: translateX(-50%);
+  z-index: 100; display: flex; gap: 8px; align-items: center;
+}
+.search-box { width: 280px; }
+.search-box input, .filter-select, .filter-apply, .filter-clear {
+  height: 40px; border-radius: 24px;
+  border: 1px solid #ddd; font-size: 14px; outline: none;
+  background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.search-box input { width: 100%; padding: 10px 16px; }
+.search-box input:focus { border-color: #6c5ce7; box-shadow: 0 2px 12px rgba(108,92,231,0.2); }
+.filter-select { padding: 0 12px; color: #444; max-width: 170px; cursor: pointer; }
+.filter-apply, .filter-clear { padding: 0 14px; color: #666; cursor: pointer; }
+.filter-apply { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+.filter-clear:hover, .filter-select:hover { background: #f7f7f7; }
+.filter-apply:hover { background: #30304b; }
+
+.legend {
+  position: fixed; bottom: 20px; left: 20px; z-index: 100;
+  background: rgba(255,255,255,0.95); border-radius: 12px;
+  padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 12px;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; margin: 4px 0; cursor: pointer; }
+.legend-item:hover { font-weight: 600; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+.legend-item.dimmed { opacity: 0.3; }
+
+.link { stroke-opacity: 0.25; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>SPACE LIBRARY 空间产品库</h1>
+    <div class="subtitle">学校类型 · 房间类型 · 活动内容 关系图谱</div>
+  </div>
+  <div class="stats" id="stats"></div>
+</div>
+
+<div class="top-tools">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="搜索空间、活动、学校类型..." />
+  </div>
+  <select class="filter-select" id="activityFilter"><option value="">活动内容</option></select>
+  <select class="filter-select" id="roomFilter"><option value="">房间类型</option></select>
+  <select class="filter-select" id="schoolFilter"><option value="">学校类型</option></select>
+  <button class="filter-apply" id="applyFilters">确定</button>
+  <button class="filter-clear" id="clearFilters">清除</button>
+</div>
+
+<div id="graph-container"></div>
+<div class="tooltip" id="tooltip"><div class="tt-cat"></div><div class="tt-title"></div><img class="tt-img" id="ttImg" /></div>
+<div class="detail-overlay" id="detailOverlay"><div class="detail-panel" id="detailPanel"></div></div>
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('active')"><img id="lightboxImg" /></div>
+<div class="legend" id="legend"></div>
+<div class="controls">
+  <button class="ctrl-btn" id="zoomIn" title="放大">+</button>
+  <button class="ctrl-btn" id="zoomOut" title="缩小">−</button>
+  <button class="ctrl-btn" id="resetView" title="重置视图">⟳</button>
+</div>
+
+<script>
+function getGraphDataUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get('data');
+  if (!requested) return 'space-library-graph.json';
+  if (/^https?:\/\//i.test(requested) || requested.includes('..')) {
+    return 'space-library-graph.json';
+  }
+  return requested;
+}
+
+const GRAPH_DATA_URL = getGraphDataUrl();
+
+async function loadGraphData() {
+  try {
+    const response = await fetch(GRAPH_DATA_URL, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    initGraph(data);
+  } catch (error) {
+    const container = document.getElementById('graph-container');
+    container.innerHTML = `
+      <div style="padding:32px;color:#666;font-size:14px;">
+        图谱数据加载失败：${error.message}
+      </div>`;
+    console.error('Failed to load graph data', error);
+  }
+}
+
+loadGraphData();
+
+function initGraph(data) {
+  const graphData = data;
+  const colorMap = {};
+  graphData.categories.forEach(c => colorMap[c.name] = c.color);
+  const activeNodeFilter = { id: null };
+
+  document.getElementById('stats').textContent =
+    `${graphData.nodes.length} 个实体 · ${graphData.links.length} 条关系`;
+
+  // Legend with filter
+  const legendEl = document.getElementById('legend');
+  const activeCategories = new Set(graphData.categories.map(c => c.name));
+
+  graphData.categories.forEach(c => {
+    const count = graphData.nodes.filter(n => n.category === c.name).length;
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<div class="legend-dot" style="background:${c.color}"></div>${c.name} (${count})`;
+    item.onclick = () => {
+      if (activeCategories.has(c.name)) { activeCategories.delete(c.name); item.classList.add('dimmed'); }
+      else { activeCategories.add(c.name); item.classList.remove('dimmed'); }
+      updateVisibility();
+    };
+    legendEl.appendChild(item);
+  });
+
+  function fillFilter(selectId, categoryName) {
+    const select = document.getElementById(selectId);
+    const options = graphData.nodes
+      .filter(n => n.category === categoryName)
+      .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hans-CN'));
+    options.forEach(n => {
+      const option = document.createElement('option');
+      option.value = n.id;
+      option.textContent = n.label;
+      select.appendChild(option);
+    });
+  }
+
+  fillFilter('activityFilter', '活动内容');
+  fillFilter('roomFilter', '房间类型');
+  fillFilter('schoolFilter', '学校类型');
+
+  const container = document.getElementById('graph-container');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  function nodeRadius(d) {
+    if (d.category === '空间产品') return d.size || 8;
+    return d.size || 14;
+  }
+
+  function nodeOpacity(d) {
+    if (d.category === '空间产品') return 0.42;
+    return 0.85;
+  }
+
+  function nodeFontSize(d) {
+    if (d.category === '空间产品') return 9;
+    return 11;
+  }
+
+  const svg = d3.select('#graph-container').append('svg').attr('viewBox', [0, 0, width, height]);
+  const g = svg.append('g');
+
+  const zoomBehavior = d3.zoom().scaleExtent([0.15, 5]).on('zoom', e => g.attr('transform', e.transform));
+  svg.call(zoomBehavior);
+
+  document.getElementById('zoomIn').onclick = () => svg.transition().call(zoomBehavior.scaleBy, 1.3);
+  document.getElementById('zoomOut').onclick = () => svg.transition().call(zoomBehavior.scaleBy, 0.7);
+  document.getElementById('resetView').onclick = () => svg.transition().call(zoomBehavior.transform, d3.zoomIdentity.translate(width/2, height/2).scale(0.6).translate(-width/2, -height/2));
+
+  // Initial zoom out to fit
+  svg.call(zoomBehavior.transform, d3.zoomIdentity.translate(width/2, height/2).scale(0.65).translate(-width/2, -height/2));
+
+  const simulation = d3.forceSimulation(graphData.nodes)
+    .force('link', d3.forceLink(graphData.links).id(d => d.id).distance(100))
+    .force('charge', d3.forceManyBody().strength(-300))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(d => nodeRadius(d) + 6))
+    .force('x', d3.forceX(width / 2).strength(0.03))
+    .force('y', d3.forceY(height / 2).strength(0.03));
+
+  const link = g.append('g').selectAll('line').data(graphData.links).join('line')
+    .attr('class', 'link').attr('stroke', '#bbb').attr('stroke-width', 1.2);
+
+  const linkLabel = g.append('g').selectAll('text').data(graphData.links).join('text')
+    .text(d => d.relation || '').attr('font-size', 9).attr('fill', '#aaa')
+    .attr('text-anchor', 'middle').attr('dy', -3).style('pointer-events', 'none').style('opacity', 0);
+
+  const node = g.append('g').selectAll('g').data(graphData.nodes).join('g')
+    .attr('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+    );
+
+  node.append('circle').attr('r', d => nodeRadius(d))
+    .attr('fill', d => colorMap[d.category] || '#999')
+    .attr('stroke', '#fff').attr('stroke-width', 2).attr('opacity', d => nodeOpacity(d));
+
+  node.append('text').text(d => d.label).attr('text-anchor', 'middle')
+    .attr('dy', d => nodeRadius(d) + 11).attr('font-size', d => nodeFontSize(d))
+    .attr('font-weight', 500).attr('fill', '#333').style('pointer-events', 'none');
+
+  // Tooltip
+  const tooltip = document.getElementById('tooltip');
+  node.on('mouseover', (e, d) => {
+    tooltip.querySelector('.tt-title').textContent = d.label;
+    tooltip.querySelector('.tt-cat').textContent = d.category;
+    const ttImg = document.getElementById('ttImg');
+    if (d.images && d.images.length > 0) {
+      ttImg.src = d.images[0]; ttImg.classList.add('loaded');
+      ttImg.onerror = () => ttImg.classList.remove('loaded');
+    } else { ttImg.classList.remove('loaded'); ttImg.src = ''; }
+    tooltip.style.opacity = 1;
+    link.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.05)
+        .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? colorMap[d.category] : '#bbb')
+        .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 2.5 : 1);
+    linkLabel.style('opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0);
+    node.select('circle').attr('opacity', n => {
+      if (n.id === d.id) return 1;
+      return graphData.links.some(l => (l.source.id===d.id&&l.target.id===n.id)||(l.target.id===d.id&&l.source.id===n.id)) ? nodeOpacity(n) : 0.12;
+    });
+    node.select('text').attr('opacity', n => {
+      if (n.id === d.id) return 1;
+      return graphData.links.some(l => (l.source.id===d.id&&l.target.id===n.id)||(l.target.id===d.id&&l.source.id===n.id)) ? 1 : 0.1;
+    });
+  })
+  .on('mousemove', e => { tooltip.style.left = (e.clientX+14)+'px'; tooltip.style.top = (e.clientY-10)+'px'; })
+  .on('mouseout', () => {
+    tooltip.style.opacity = 0;
+    link.attr('stroke-opacity', 0.25).attr('stroke', '#bbb').attr('stroke-width', 1.2);
+    linkLabel.style('opacity', 0);
+    node.select('circle').attr('opacity', d => nodeOpacity(d));
+    node.select('text').attr('opacity', 1);
+  });
+
+  // Click detail
+  const overlay = document.getElementById('detailOverlay');
+  const panel = document.getElementById('detailPanel');
+
+  function getDetailImages(d, rels) {
+    const seen = new Set();
+    const images = [];
+    const addImages = node => {
+      if (!node.images) return;
+      node.images.forEach(img => {
+        if (seen.has(img)) return;
+        seen.add(img);
+        images.push(img);
+      });
+    };
+    addImages(d);
+    rels.forEach(r => addImages(r.node));
+    return images;
+  }
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[ch]));
+  }
+
+  function renderProjectMeta(d) {
+    const project = d.meta && d.meta.project;
+    if (!project) return '';
+    const rows = [
+      ['项目状态', project.status],
+      ['项目类型', project.type],
+      ['优先级', project.priority],
+      ['项目周期', project.period],
+      ['空间数量', project.spaceCount ? `${project.spaceCount} 个空间产品` : ''],
+      ['项目经理', Array.isArray(project.managers) ? project.managers.join(', ') : project.managers],
+      ['EVA 目录', project.evaPath],
+      ['项目描述', project.description],
+    ].filter(([, value]) => value);
+    if (!rows.length) return '';
+    return `<div class="project-meta">${rows.map(([label, value]) => `
+      <div class="meta-label">${escapeHtml(label)}</div>
+      <div class="meta-value">${escapeHtml(value)}</div>
+    `).join('')}</div>`;
+  }
+
+  node.on('click', (e, d) => {
+    e.stopPropagation();
+    const color = colorMap[d.category] || '#999';
+    const rels = graphData.links.filter(l => l.source.id===d.id||l.target.id===d.id)
+      .map(l => ({ node: l.source.id===d.id ? l.target : l.source, relation: l.relation||'关联' }));
+    const detailImages = getDetailImages(d, rels);
+
+    panel.innerHTML = `
+      <div class="detail-header">
+        <div class="detail-color-dot" style="background:${color}"></div>
+        <div style="flex:1">
+          <h2>${d.label}</h2>
+          <span class="detail-category" style="background:${color}20;color:${color}">${d.category}</span>
+        </div>
+        <button class="detail-close" onclick="closeDetail()">✕</button>
+      </div>
+      <div class="detail-body">
+        ${renderProjectMeta(d)}
+        ${detailImages.length ? `<div class="detail-gallery">${detailImages.map(img => `<img src="${img}" onclick="event.stopPropagation();document.getElementById('lightboxImg').src='${img}';document.getElementById('lightbox').classList.add('active')" onerror="this.style.display='none'" />`).join('')}</div>` : ''}
+        <p>${d.description||'暂无描述'}</p>
+        ${rels.length ? `<div class="detail-section-title">关联节点 (${rels.length})</div>
+        <div class="detail-relations">${rels.map(r => `<span class="detail-rel-chip" onclick="navigateTo('${r.node.id}')" title="${r.relation}">${r.node.label} · ${r.relation}</span>`).join('')}</div>` : ''}
+      </div>`;
+    overlay.classList.add('active');
+  });
+
+  overlay.addEventListener('click', e => { if (e.target===overlay) closeDetail(); });
+  window.closeDetail = () => overlay.classList.remove('active');
+  window.navigateTo = id => {
+    closeDetail();
+    const t = graphData.nodes.find(n => n.id===id);
+    if (t) {
+      svg.transition().duration(500).call(zoomBehavior.transform, d3.zoomIdentity.translate(width/2-t.x, height/2-t.y).scale(1.5));
+      setTimeout(() => {
+        node.filter(n=>n.id===id).select('circle').transition().duration(200).attr('r',nodeRadius(t)*1.5).transition().duration(200).attr('r',nodeRadius(t));
+        node.filter(n=>n.id===id).dispatch('click');
+      }, 550);
+    }
+  };
+
+  // Search
+  document.getElementById('searchInput').addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    if (activeNodeFilter.id) { updateVisibility(); return; }
+    if (!q) { updateVisibility(); return; }
+    node.select('circle').attr('opacity', d => (d.label.toLowerCase().includes(q)||d.category.toLowerCase().includes(q)||d.id.includes(q)) ? 1 : 0.06);
+    node.select('text').attr('opacity', d => (d.label.toLowerCase().includes(q)||d.category.toLowerCase().includes(q)||d.id.includes(q)) ? 1 : 0.04);
+    link.attr('stroke-opacity', 0.04);
+  });
+
+  function clearFilterSelects() {
+    document.getElementById('activityFilter').value = '';
+    document.getElementById('roomFilter').value = '';
+    document.getElementById('schoolFilter').value = '';
+  }
+
+  function relatedSpaceIds(filterId) {
+    const ids = new Set([filterId]);
+    graphData.links.forEach(l => {
+      const sourceId = l.source.id || l.source;
+      const targetId = l.target.id || l.target;
+      const sourceNode = typeof l.source === 'object' ? l.source : graphData.nodes.find(n => n.id === sourceId);
+      const targetNode = typeof l.target === 'object' ? l.target : graphData.nodes.find(n => n.id === targetId);
+      if (sourceId === filterId && targetNode?.category === '空间产品') ids.add(targetId);
+      if (targetId === filterId && sourceNode?.category === '空间产品') ids.add(sourceId);
+    });
+    return ids;
+  }
+
+  function applyNodeFilter(filterId) {
+    activeNodeFilter.id = filterId || null;
+    document.getElementById('searchInput').value = '';
+    updateVisibility();
+  }
+
+  function selectedFilterId() {
+    return document.getElementById('activityFilter').value ||
+      document.getElementById('roomFilter').value ||
+      document.getElementById('schoolFilter').value ||
+      '';
+  }
+
+  function wireFilter(selectId) {
+    document.getElementById(selectId).addEventListener('change', function() {
+      ['activityFilter', 'roomFilter', 'schoolFilter'].forEach(id => {
+        if (id !== selectId) document.getElementById(id).value = '';
+      });
+    });
+  }
+
+  wireFilter('activityFilter');
+  wireFilter('roomFilter');
+  wireFilter('schoolFilter');
+  document.getElementById('applyFilters').onclick = () => applyNodeFilter(selectedFilterId());
+  document.getElementById('clearFilters').onclick = () => {
+    activeNodeFilter.id = null;
+    clearFilterSelects();
+    document.getElementById('searchInput').value = '';
+    updateVisibility();
+  };
+
+  // Category filter
+  function updateVisibility() {
+    if (activeNodeFilter.id) {
+      const visibleIds = relatedSpaceIds(activeNodeFilter.id);
+      node.select('circle').attr('opacity', d => visibleIds.has(d.id) ? (d.category === '空间产品' ? 0.58 : 0.9) : 0.03);
+      node.select('text').attr('opacity', d => visibleIds.has(d.id) ? 1 : 0.02);
+      link.attr('stroke-opacity', l => {
+        const sourceId = l.source.id || l.source;
+        const targetId = l.target.id || l.target;
+        return visibleIds.has(sourceId) && visibleIds.has(targetId) ? 0.5 : 0.02;
+      });
+      return;
+    }
+    node.select('circle').attr('opacity', d => activeCategories.has(d.category) ? nodeOpacity(d) : 0.06);
+    node.select('text').attr('opacity', d => activeCategories.has(d.category) ? 1 : 0.04);
+    link.attr('stroke-opacity', l => activeCategories.has(l.source.category)&&activeCategories.has(l.target.category) ? 0.25 : 0.03);
+  }
+
+  simulation.on('tick', () => {
+    link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    linkLabel.attr('x',d=>(d.source.x+d.target.x)/2).attr('y',d=>(d.source.y+d.target.y)/2);
+    node.attr('transform', d=>`translate(${d.x},${d.y})`);
+  });
+
+  document.addEventListener('keydown', e => { if (e.key==='Escape') closeDetail(); });
+}
+</script>
+</body>
+</html>
