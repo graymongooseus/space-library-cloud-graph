@@ -85,6 +85,14 @@ test('omits design attribute and material equipment nodes from the public browsi
   assert.equal(graph.nodes.some((node) => node.category === '设计属性'), false);
   assert.equal(graph.nodes.some((node) => node.category === '材料设备'), false);
   assert.equal(graph.links.some((link) => ['设计风格', '造价', '材料', '配套设备'].includes(link.relation)), false);
+
+  const spaceNode = graph.nodes.find((node) => node.id === 'space_space_attrs');
+  assert.deepEqual(spaceNode.meta.designAttributes, {
+    styles: ['现代'],
+    cost: '$$',
+    materials: ['PVC地板'],
+    equipment: ['电子白板'],
+  });
 });
 
 test('keeps project detail metadata on project nodes for front-end panels', () => {

@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPACE LIBRARY 空间产品库 · 3D 知识关系云图</title>
-<script src="vendor/three.min.js?v=e4f6100"></script>
+<script src="vendor/three.min.js?v=fg1770"></script>
 <script>
 if (typeof THREE === 'undefined' && typeof module !== 'undefined' && module.exports && module.exports.REVISION) {
   window.THREE = module.exports;
 }
 </script>
-<script src="vendor/3d-force-graph.min.js?v=e4f6100"></script>
+<script src="vendor/3d-force-graph.min.js?v=fg1770"></script>
 <script>
 if (typeof ForceGraph3D === 'undefined' && typeof module !== 'undefined' && module.exports) {
   window.ForceGraph3D = module.exports.default || module.exports;
@@ -634,6 +634,26 @@ function renderProjectMeta(node) {
   `).join('')}</div>`;
 }
 
+function renderSpaceMeta(node) {
+  const attrs = node.meta && node.meta.designAttributes;
+  if (!attrs) return '';
+  const rows = [
+    ['设计风格', attrs.styles],
+    ['色系', attrs.colors],
+    ['单方造价', attrs.cost],
+    ['材料', attrs.materials],
+    ['配套设备', attrs.equipment],
+  ]
+    .map(([label, value]) => [label, Array.isArray(value) ? value.join(', ') : value])
+    .filter(([, value]) => value);
+  if (!rows.length) return '';
+  return `<div class="detail-section-title">设计属性</div>
+    <div class="project-meta">${rows.map(([label, value]) => `
+      <div class="meta-label">${escapeHtml(label)}</div>
+      <div class="meta-value">${escapeHtml(value)}</div>
+    `).join('')}</div>`;
+}
+
 function closeDetail() {
   document.getElementById('detailOverlay').classList.remove('active');
 }
@@ -662,6 +682,7 @@ function handleNodeClick(node) {
       </div>
       <div class="detail-body">
         ${renderProjectMeta(node)}
+        ${renderSpaceMeta(node)}
         ${detailImages.length ? `<div class="detail-gallery">${detailImages.map(image => `<img src="${escapeHtml(image)}" alt="" data-lightbox-image="${escapeHtml(image)}" onerror="this.style.display='none'">`).join('')}</div>` : ''}
         <p>${escapeHtml(node.description || '暂无描述')}</p>
         ${relations.length ? `<div class="detail-section-title">关联节点 (${relations.length})</div>

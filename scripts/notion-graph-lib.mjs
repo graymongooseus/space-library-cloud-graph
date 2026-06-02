@@ -112,6 +112,22 @@ function projectMeta(project) {
   return meta;
 }
 
+function designAttributeMeta(space) {
+  const meta = {};
+  const styles = cleanList(space.styles);
+  const colors = cleanList(space.colors);
+  const materials = cleanList(space.materials);
+  const equipment = cleanList(space.equipment);
+
+  if (styles.length) meta.styles = styles;
+  if (colors.length) meta.colors = colors;
+  if (space.cost) meta.cost = space.cost;
+  if (materials.length) meta.materials = materials;
+  if (equipment.length) meta.equipment = equipment;
+
+  return meta;
+}
+
 export function buildGraphFromSpaces(spaces) {
   const nodes = new Map();
   const links = new Map();
@@ -126,6 +142,7 @@ export function buildGraphFromSpaces(spaces) {
         notionPageId: space.id,
         roomType: space.roomType || '',
         schoolType: space.schoolType || '',
+        designAttributes: designAttributeMeta(space),
       },
     });
 

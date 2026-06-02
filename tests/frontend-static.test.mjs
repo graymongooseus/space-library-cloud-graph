@@ -41,13 +41,15 @@ test('3d cloud page keeps explicit filter apply and clear controls', () => {
 test('3d cloud page includes detail gallery and project metadata rendering', () => {
   assert.match(html3d, /function getDetailImages\(/);
   assert.match(html3d, /function renderProjectMeta\(/);
+  assert.match(html3d, /function renderSpaceMeta\(/);
+  assert.match(html3d, /designAttributes/);
   assert.match(html3d, /detailImages\.map/);
   assert.match(html3d, /project-meta/);
 });
 
 test('3d cloud page renders nodes as bright custom spheres', () => {
-  assert.match(html3d, /vendor\/three\.min\.js\?v=/);
-  assert.match(html3d, /vendor\/3d-force-graph\.min\.js\?v=/);
+  assert.match(html3d, /vendor\/three\.min\.js\?v=fg1770/);
+  assert.match(html3d, /vendor\/3d-force-graph\.min\.js\?v=fg1770/);
   assert.match(html3d, /function makeNodeObject\(/);
   assert.match(html3d, /new THREE\.SphereGeometry/);
   assert.match(html3d, /new THREE\.MeshBasicMaterial/);
