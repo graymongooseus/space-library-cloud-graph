@@ -45,6 +45,14 @@ test('3d cloud page includes detail gallery and project metadata rendering', () 
   assert.match(html3d, /project-meta/);
 });
 
+test('3d cloud page renders nodes as bright custom spheres', () => {
+  assert.match(html3d, /three(?:@|\.min\.js)/);
+  assert.match(html3d, /function makeNodeObject\(/);
+  assert.match(html3d, /new THREE\.SphereGeometry/);
+  assert.match(html3d, /new THREE\.MeshBasicMaterial/);
+  assert.match(html3d, /\.nodeThreeObject\(makeNodeObject\)/);
+});
+
 test('3d cloud page inline script is syntactically valid', () => {
   const scripts = Array.from(html3d.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi));
   assert.ok(scripts.length > 0);

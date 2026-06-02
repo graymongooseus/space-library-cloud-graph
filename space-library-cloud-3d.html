@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPACE LIBRARY 空间产品库 · 3D 知识关系云图</title>
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script src="https://unpkg.com/3d-force-graph"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -348,6 +349,8 @@ function initGraph(data) {
     .nodeOpacity(nodeOpacity)
     .nodeRelSize(7)
     .nodeVal(nodeSize)
+    .nodeThreeObject(makeNodeObject)
+    .nodeThreeObjectExtend(false)
     .linkColor(() => 'rgba(170,195,255,0.55)')
     .linkOpacity(0.46)
     .linkWidth(0.85)
@@ -409,8 +412,44 @@ function nodeOpacity(node) {
 }
 
 function nodeColor(node) {
-  if (searchMatches.size && !searchMatches.has(node.id)) return 'rgba(80,88,120,0.7)';
+  if (searchMatches.size && !searchMatches.has(node.id)) return '#3e4968';
   return safeColor(colorMap[node.category] || '#8ea2ff');
+}
+
+function nodeSphereRadius(node) {
+  if (node.category === '项目') return Math.max(8, Math.min(18, (node.size || 18) * 0.42));
+  if (node.category === '空间产品') return Math.max(4, Math.min(8, (node.size || 8) * 0.38));
+  return Math.max(6, Math.min(12, (node.size || 12) * 0.42));
+}
+
+function makeNodeObject(node) {
+  if (typeof THREE === 'undefined') return null;
+  const color = nodeColor(node);
+  const radius = nodeSphereRadius(node);
+  const opacity = nodeOpacity(node);
+  const geometry = new THREE.SphereGeometry(radius, 32, 20);
+  const material = new THREE.MeshBasicMaterial({
+    color,
+    transparent: true,
+    opacity,
+    depthWrite: false
+  });
+  const sphere = new THREE.Mesh(geometry, material);
+
+  const haloGeometry = new THREE.SphereGeometry(radius * 1.75, 32, 20);
+  const haloMaterial = new THREE.MeshBasicMaterial({
+    color,
+    transparent: true,
+    opacity: node.category === '空间产品' ? 0.16 : 0.24,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+  const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+
+  const group = new THREE.Group();
+  group.add(halo);
+  group.add(sphere);
+  return group;
 }
 
 function updateStats(sourceGraph = activeGraph) {
