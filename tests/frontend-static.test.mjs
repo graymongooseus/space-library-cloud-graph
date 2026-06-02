@@ -46,8 +46,8 @@ test('3d cloud page includes detail gallery and project metadata rendering', () 
 });
 
 test('3d cloud page renders nodes as bright custom spheres', () => {
-  assert.match(html3d, /vendor\/three\.min\.js/);
-  assert.match(html3d, /vendor\/3d-force-graph\.min\.js/);
+  assert.match(html3d, /vendor\/three\.min\.js\?v=/);
+  assert.match(html3d, /vendor\/3d-force-graph\.min\.js\?v=/);
   assert.match(html3d, /function makeNodeObject\(/);
   assert.match(html3d, /new THREE\.SphereGeometry/);
   assert.match(html3d, /new THREE\.MeshBasicMaterial/);
