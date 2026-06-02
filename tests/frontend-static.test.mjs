@@ -73,6 +73,13 @@ test('3d cloud page shows active filter chips and search glow', () => {
   assert.match(html3d, /emissive/);
 });
 
+test('3d cloud page renders project nodes as scaled pink light spheres', () => {
+  assert.match(html3d, /project: \{ color: '#ffe3ee'/);
+  assert.match(html3d, /function projectConnectionStrength\(/);
+  assert.match(html3d, /function projectColor\(/);
+  assert.match(html3d, /\(node\.size \|\| 22\) \* 0\.765/);
+});
+
 test('3d cloud page vendors graph libraries locally', () => {
   assert.ok(existsSync('vendor/three.min.js'));
   assert.ok(existsSync('vendor/3d-force-graph.min.js'));

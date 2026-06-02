@@ -323,7 +323,7 @@ let searchMatches = new Set();
 let autoRotateFrame = 0;
 
 const VISUAL_THEME = {
-  project: { color: '#f5f8ff', halo: '#78a7ff', minRadius: 11, maxRadius: 24, opacity: 1, haloOpacity: 0.34 },
+  project: { color: '#ffe3ee', halo: '#ff8fbd', minRadius: 10, maxRadius: 22, opacity: 1, haloOpacity: 0.34 },
   category: { color: '#78d7ff', halo: '#5ea8ff', minRadius: 7, maxRadius: 14, opacity: 0.92, haloOpacity: 0.2 },
   space: { color: '#a8b8ff', halo: '#6d82ff', minRadius: 2.2, maxRadius: 5.4, opacity: 0.58, haloOpacity: 0.12 },
   dim: '#243049',
@@ -469,9 +469,28 @@ function visualRole(node) {
   return VISUAL_THEME.category;
 }
 
+function interpolateColor(from, to, ratio) {
+  const clamp = Math.max(0, Math.min(1, ratio));
+  const parse = color => [1, 3, 5].map(index => parseInt(color.slice(index, index + 2), 16));
+  const start = parse(from);
+  const end = parse(to);
+  const mixed = start.map((value, index) => Math.round(value + (end[index] - value) * clamp));
+  return `#${mixed.map(value => value.toString(16).padStart(2, '0')).join('')}`;
+}
+
+function projectConnectionStrength(node) {
+  const spaceCount = node.meta && node.meta.project && Number(node.meta.project.spaceCount);
+  const count = Number.isFinite(spaceCount) ? spaceCount : (node.size || 0);
+  return Math.max(0, Math.min(1, count / 34));
+}
+
+function projectColor(node) {
+  return interpolateColor(VISUAL_THEME.project.color, '#ff6fa8', projectConnectionStrength(node));
+}
+
 function nodeSize(node) {
   const role = visualRole(node);
-  const base = node.category === '项目' ? (node.size || 22) * 0.85 : (node.size || 10) * 0.48;
+  const base = node.category === '项目' ? (node.size || 22) * 0.765 : (node.size || 10) * 0.48;
   return Math.max(role.minRadius, Math.min(role.maxRadius, base));
 }
 
@@ -483,6 +502,7 @@ function nodeOpacity(node) {
 function nodeColor(node) {
   if (searchMatches.size && !searchMatches.has(node.id)) return VISUAL_THEME.dim;
   if (searchMatches.has(node.id)) return VISUAL_THEME.search;
+  if (node.category === '项目') return projectColor(node);
   return visualRole(node).color;
 }
 
@@ -497,11 +517,12 @@ function makeNodeObject(node) {
   const opacity = nodeOpacity(node);
   const role = visualRole(node);
   const isSearchMatch = searchMatches.has(node.id);
+  const projectGlow = node.category === '项目' ? interpolateColor('#ffd6e7', '#ff5d9c', projectConnectionStrength(node)) : role.halo;
   const geometry = new THREE.SphereGeometry(radius, 32, 20);
   const material = new THREE.MeshPhongMaterial({
     color,
-    emissive: isSearchMatch ? VISUAL_THEME.search : role.halo,
-    emissiveIntensity: isSearchMatch ? 0.9 : (node.category === '空间产品' ? 0.24 : 0.42),
+    emissive: isSearchMatch ? VISUAL_THEME.search : projectGlow,
+    emissiveIntensity: isSearchMatch ? 0.9 : (node.category === '空间产品' ? 0.24 : 0.48),
     shininess: node.category === '项目' ? 90 : 42,
     transparent: true,
     opacity,
@@ -512,7 +533,7 @@ function makeNodeObject(node) {
   const haloScale = isSearchMatch ? 2.8 : (node.category === '空间产品' ? 2.05 : 1.95);
   const haloGeometry = new THREE.SphereGeometry(radius * haloScale, 32, 20);
   const haloMaterial = new THREE.MeshBasicMaterial({
-    color: isSearchMatch ? VISUAL_THEME.search : role.halo,
+    color: isSearchMatch ? VISUAL_THEME.search : projectGlow,
     transparent: true,
     opacity: isSearchMatch ? 0.42 : role.haloOpacity,
     depthWrite: false,
@@ -526,7 +547,7 @@ function makeNodeObject(node) {
   if (node.category === '项目') {
     const coreGeometry = new THREE.SphereGeometry(radius * 0.42, 24, 16);
     const coreMaterial = new THREE.MeshBasicMaterial({
-      color: '#ffffff',
+      color: interpolateColor('#ffffff', '#ffd1e2', projectConnectionStrength(node)),
       transparent: true,
       opacity: 0.88,
       depthWrite: false,

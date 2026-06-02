@@ -10,6 +10,42 @@ const nodesById = new Map(graph.nodes.map((node) => [node.id, node]));
 const referencedImages = new Set(
   graph.nodes.flatMap((node) => Array.isArray(node.images) ? node.images : [])
 );
+const endpointId = (endpoint) => endpoint && typeof endpoint === 'object' ? endpoint.id : endpoint;
+
+function relatedNodes(node) {
+  return graph.links
+    .filter((link) => endpointId(link.source) === node.id || endpointId(link.target) === node.id)
+    .map((link) => nodesById.get(endpointId(link.source) === node.id ? endpointId(link.target) : endpointId(link.source)))
+    .filter(Boolean);
+}
+
+function detailImages(node) {
+  const seen = new Set();
+  const images = [];
+  const addImages = (sourceNode) => {
+    for (const image of sourceNode.images || []) {
+      if (seen.has(image)) continue;
+      seen.add(image);
+      images.push(image);
+    }
+  };
+  addImages(node);
+  relatedNodes(node).forEach(addImages);
+  return images;
+}
+
+for (const relativePath of referencedImages) {
+  assert.ok(
+    existsSync(path.join(root, relativePath)),
+    `${relativePath} is referenced in graph JSON but missing on disk`
+  );
+}
+
+for (const projectName of ['2011 ZHONGSHAN ARDINGLY COLLEGE', '2312_SHENGHUA ZIZHU']) {
+  const project = graph.nodes.find((node) => node.category === '项目' && node.label.includes(projectName));
+  assert.ok(project, `${projectName} project node should exist`);
+  assert.ok(detailImages(project).length > 0, `${projectName} should show detail images from related spaces`);
+}
 
 for (const file of readdirSync(path.join(root, 'images'))) {
   if (!/\.(jpe?g|png|webp)$/i.test(file)) continue;

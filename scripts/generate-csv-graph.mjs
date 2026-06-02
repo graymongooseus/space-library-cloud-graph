@@ -5,6 +5,16 @@ import { buildGraphFromSpaces, slug } from './notion-graph-lib.mjs';
 const root = path.resolve('.');
 const csvPath = path.join(root, 'data downloaded', '7 SPACE LIBRARY 空间产品库_all.csv');
 const outputPath = path.join(root, 'space-library-graph.json');
+const localImageFallbacks = [
+  { pattern: /美工|艺术|art/i, files: ['sp_art_space.jpg', 'sp_art_studio.jpg', 'sp_art_studio_photo.jpg'] },
+  { pattern: /工作室|studio/i, files: ['sp_art_studio.jpg', 'sp_art_studio_photo.jpg'] },
+  { pattern: /多功能|礼堂|auditorium/i, files: ['sp_auditorium.jpg'] },
+  { pattern: /ib|中心/i, files: ['sp_ib_center.jpg'] },
+  { pattern: /实验|lab/i, files: ['sp_lab.jpg'] },
+  { pattern: /图书|library/i, files: ['sp_library_kids.jpg', 'sp_library_read.jpg'] },
+  { pattern: /音乐|music/i, files: ['sp_music_room.jpg'] },
+  { pattern: /教室|class/i, files: ['sp_regular_class.jpg'] },
+];
 
 function parseCsv(text) {
   const rows = [];
@@ -89,7 +99,27 @@ function imagePaths(value) {
   return splitList(value)
     .map((file) => file.replace(/^["']|["']$/g, '').trim())
     .filter(Boolean)
-    .map((file) => `images/${file}`);
+    .map((file) => `images/${file}`)
+    .filter((imagePath) => existsSync(path.join(root, imagePath)));
+}
+
+function fallbackImagePaths(row) {
+  const haystack = [
+    row['绌洪棿鍚嶇О'],
+    row['鎴块棿绫诲瀷'],
+    row['娲诲姩鍐呭'],
+  ].filter(Boolean).join(' ');
+  const images = [];
+  for (const fallback of localImageFallbacks) {
+    if (!fallback.pattern.test(haystack)) continue;
+    for (const file of fallback.files) {
+      const imagePath = `images/${file}`;
+      if (existsSync(path.join(root, imagePath)) && !images.includes(imagePath)) {
+        images.push(imagePath);
+      }
+    }
+  }
+  return images;
 }
 
 if (!existsSync(csvPath)) {
@@ -121,6 +151,24 @@ const spaces = rows
       row['活动内容'],
     ].filter(Boolean).join(' · '),
   }));
+
+for (const space of spaces) {
+  const haystack = [
+    space.name,
+    space.roomType,
+    space.schoolType,
+    ...(Array.isArray(space.activities) ? space.activities : []),
+  ].filter(Boolean).join(' ');
+  for (const fallback of localImageFallbacks) {
+    if (!fallback.pattern.test(haystack)) continue;
+    for (const file of fallback.files) {
+      const imagePath = `images/${file}`;
+      if (existsSync(path.join(root, imagePath)) && !space.images.includes(imagePath)) {
+        space.images.push(imagePath);
+      }
+    }
+  }
+}
 
 const graph = buildGraphFromSpaces(spaces);
 

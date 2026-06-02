@@ -34,8 +34,10 @@
       "size": 8,
       "description": "国际学校 · MAKER SPACE · ART, MAKERSPACE",
       "images": [
-        "images/WY-374.jpg",
-        "images/%25E7%25BE%258E%25E5%25B7%25A5%25E5%25AE%25A4.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "1-美工教室",
@@ -112,7 +114,11 @@
       "size": 8,
       "description": "民办双语 · STEAM & LAB · ART, STUDY",
       "images": [
-        "images/art.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "2-艺术教室",
@@ -172,8 +178,7 @@
       "size": 8,
       "description": "国际幼儿园 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · GATHERING, READING",
       "images": [
-        "images/DSC06375-%25E6%2581%25A2%25E5%25A4%258D%25E7%259A%2584.jpg",
-        "images/DSC05789-%25E7%25B7%25A8%25E8%25BC%25AF.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "3-多功能厅",
@@ -230,9 +235,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · STADIUM · GATHERING, SPORTS, WAITING",
-      "images": [
-        "images/pe-squash_court.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "4-体育楼 - 壁球场",
         "roomType": "STADIUM",
@@ -293,9 +296,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · GATHERING",
-      "images": [
-        "images/Picture3.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "5-员工休息区",
         "roomType": "COMMON",
@@ -343,7 +344,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · STUDY",
       "images": [
-        "images/lib1.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "6-综合楼 - 图书馆大厅",
@@ -390,7 +393,9 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
-      "images": [],
+      "images": [
+        "images/sp_regular_class.jpg"
+      ],
       "meta": {
         "notionPageId": "7-校园空间产品模板",
         "roomType": "REGULAR CLASSROOM",
@@ -433,7 +438,10 @@
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · ART, DISPLAY, GATHERING, MUSIC, PERFOMANCE, PRESENTATION, READING",
       "images": [
-        "images/B1_LOBBY.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_music_room.jpg"
       ],
       "meta": {
         "notionPageId": "8-幼儿园 - 地下门厅",
@@ -494,9 +502,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, DISPLAY",
-      "images": [
-        "images/Enscape_2022-05-16-17-04-33.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "9-走廊",
         "roomType": "HALLWAY / STAIR",
@@ -548,11 +554,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/WY-244.jpg",
-        "images/WY-174.jpg",
-        "images/corridor_%25E6%25B5%2585%25E8%2593%259D.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "10-威雅走道",
         "roomType": "HALLWAY / STAIR",
@@ -578,8 +580,11 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · ART, CALIGRAPHY, DISPLAY, PERFOMANCE, PRESENTATION",
       "images": [
-        "images/2PC02855.jpg",
-        "images/IC_ARTSTUDIO1.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_ib_center.jpg",
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "11-创客中心 - 艺术工作室",
@@ -625,9 +630,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · OUTDOOR · STUDY",
-      "images": [
-        "images/DSC09966.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "12-青浦幼儿园-活动场地",
         "roomType": "OUTDOOR",
@@ -669,9 +672,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION, GATHERING, PLAYROOM KG, STUDY",
-      "images": [
-        "images/DSC01355-%25E7%25BC%2596%25E8%25BE%2591_5x7.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "13-大台阶",
         "roomType": "HALLWAY / STAIR",
@@ -709,9 +710,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E8%25B5%25B0%25E9%2581%2593_1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "14-走道",
         "roomType": "HALLWAY / STAIR",
@@ -752,7 +751,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · DISPLAY, READING, STUDY",
       "images": [
-        "images/%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%25E4%25BC%2591%25E9%2597%25B2%25E5%258C%25BA.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "15-图书馆休闲区",
@@ -780,9 +781,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · CANTEEN · DINING",
-      "images": [
-        "images/Picture16.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "16-餐厅",
         "roomType": "CANTEEN",
@@ -839,7 +838,8 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · DISPLAY, GATHERING, PRESENTATION, READING, STEAM, STUDY",
       "images": [
-        "images/IC_IBCENTER.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "17-创客中心 - IB CENTER",
@@ -882,9 +882,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · CANTEEN · DINING, GATHERING",
-      "images": [
-        "images/Canteen.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "18-幼儿餐厅",
         "roomType": "CANTEEN",
@@ -925,8 +923,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · READING, STUDY",
       "images": [
-        "images/WY-156.jpg",
-        "images/%25E5%259B%25BE%25E4%25B9%25A6%25E5%25AE%25A4.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "19-小学图书馆",
@@ -950,7 +949,8 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · MUSIC",
       "images": [
-        "images/music_room.jpg"
+        "images/sp_music_room.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "20-音乐教室",
@@ -988,7 +988,7 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · GATHERING, PERFOMANCE",
       "images": [
-        "images/%25E5%25A4%259A%25E5%258A%259F%25E8%2583%25BD%25E5%258E%25851.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "21-多功能厅",
@@ -1019,9 +1019,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, GATHERING, RECEPTION, STUDY",
-      "images": [
-        "images/lib2.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "22-综合楼 - 首层大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -1053,9 +1051,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · ENTRANCE / LOBBY · CIRCULATION, GATHERING",
-      "images": [
-        "images/IMG_7696.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "23-宿舍大堂入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -1082,7 +1078,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/aca-psclassroom1.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "24-教学楼 - 小学初中教室",
@@ -1116,9 +1112,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · ADMIN · SERVICE",
-      "images": [
-        "images/Enscape_2023-02-06-15-35-08.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "25-办公空间",
         "roomType": "ADMIN",
@@ -1176,7 +1170,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · STUDY",
       "images": [
-        "images/lib3.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "26-综合楼 - 图书馆",
@@ -1204,7 +1200,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/4F_%25E9%25AB%2598%25E5%25B9%25B4%25E7%25BA%25A7%25E6%2599%25AE%25E9%2580%259A%25E6%2595%2599%25E5%25AE%25A4_(1).jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "27-高年级普通教室",
@@ -1242,7 +1238,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "28-计算机教室",
@@ -1273,7 +1269,11 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · ART, MAKERSPACE, STUDY",
       "images": [
-        "images/Enscape_2023-01-12-13-53-43.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_auditorium.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "29-多功能教室",
@@ -1303,9 +1303,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · DINING, GATHERING",
-      "images": [
-        "images/%25E6%2595%2599%25E5%25AE%25A4%25E8%258C%25B6%25E6%25B0%25B4%25E9%2597%25B4.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "30-茶水间",
         "roomType": "COMMON",
@@ -1333,9 +1331,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · RECEPTION",
-      "images": [
-        "images/%25E5%25A4%25A7%25E5%258E%25854.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "31-大厅",
         "roomType": "COMMON",
@@ -1365,7 +1361,7 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · STUDY",
       "images": [
-        "images/WY-302.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "32-剧场",
@@ -1385,9 +1381,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR",
-      "images": [
-        "images/4F%25E7%2594%25B5%25E6%25A2%25AF%25E5%258E%2585.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "33-电梯厅",
         "roomType": "HALLWAY / STAIR",
@@ -1415,7 +1409,7 @@
       "size": 8,
       "description": "民办双语 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/criteria_classroom.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "34-普通教室",
@@ -1446,7 +1440,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · RECEPTION",
       "images": [
-        "images/%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%25E5%2589%258D%25E5%258E%2585.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "35-图书馆前台",
@@ -1472,9 +1468,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION",
-      "images": [
-        "images/DSC09891.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "36-接待大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -1498,7 +1492,7 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/IMG20230220151935.jpg"
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "37-中学实验室",
@@ -1527,9 +1521,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E7%2594%25B7%25E7%2594%259F%25E5%25AE%25BF%25E8%2588%258D%25E8%25B5%25B0%25E9%2581%2593.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "38-宿舍走道",
         "roomType": "HALLWAY / STAIR",
@@ -1556,7 +1548,8 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E9%25AB%2598%25E5%25B9%25B4%25E7%25BA%25A7%25E9%259F%25B3%25E4%25B9%2590%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_music_room.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "39-音乐教室",
@@ -1586,9 +1579,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/DSC00274.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "40-公共走道",
         "roomType": "HALLWAY / STAIR",
@@ -1615,9 +1606,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · GYM / LOCKER · SPORTS",
-      "images": [
-        "images/%25E5%25BE%25AE%25E4%25BF%25A1%25E5%259B%25BE%25E7%2589%2587_20220426142010.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "41-健身房",
         "roomType": "GYM / LOCKER",
@@ -1651,9 +1640,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/hallway.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "42-走道",
         "roomType": "HALLWAY / STAIR",
@@ -1694,7 +1681,8 @@
       "size": 8,
       "description": "民办双语 · STEAM & LAB · STEAM",
       "images": [
-        "images/LAB.png"
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "43-实验教室",
@@ -1727,7 +1715,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/_MIN5594-HDR-PANO-F.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "44-普通教室",
@@ -1764,9 +1752,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · GATHERING",
-      "images": [
-        "images/%25E4%25BC%259A%25E8%25AE%25AE%25E5%25AE%25A4.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "45-小型会议室",
         "roomType": "COMMON",
@@ -1795,9 +1781,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · CIRCULATION, GATHERING, STUDY",
-      "images": [
-        "images/common.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "46-公共空间",
         "roomType": "COMMON",
@@ -1823,9 +1807,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, ENTRANCE, RECEPTION",
-      "images": [
-        "images/%25E5%25BE%25AE%25E4%25BF%25A1%25E5%259B%25BE%25E7%2589%2587_20220426142022.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "47-接待台",
         "roomType": "ENTRANCE / LOBBY",
@@ -1857,10 +1839,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · GATHERING",
-      "images": [
-        "images/2PC01756.jpg",
-        "images/4F%25E4%25BC%2591%25E9%2597%25B2%25E5%258C%25BA.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "48-4F休闲区",
         "roomType": "COMMON",
@@ -1891,7 +1870,7 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · SERVICE",
       "images": [
-        "images/Enscape_2022-05-11-01-51-59.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "49-心理咨询室",
@@ -1919,7 +1898,8 @@
       "size": 8,
       "description": "国际幼儿园 · STEAM & LAB · STEAM, STUDY",
       "images": [
-        "images/9._STEAM.png"
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "50-STEAM 教室",
@@ -1960,8 +1940,7 @@
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
       "images": [
-        "images/2PC02831.jpg",
-        "images/IC_HALLWAY.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "51-创客中心 - 走道",
@@ -1994,9 +1973,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · CIRCULATION, GATHERING",
-      "images": [
-        "images/AL_L5256_Jfoto9576_20230424_1368475778.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "52-公共空间",
         "roomType": "COMMON",
@@ -2023,10 +2000,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · DORM · ACCOMMODATION",
-      "images": [
-        "images/WY-260.jpg",
-        "images/%25E5%25AE%25BF%25E8%2588%258D%25E4%25B8%25AD%25E5%25AD%25A6-1.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "53-中学宿舍",
         "roomType": "DORM",
@@ -2060,7 +2034,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · STUDY",
       "images": [
-        "images/library_entrance_(secondary).png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "54-小初教学楼 - 图书馆",
@@ -2083,9 +2059,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · DORM · ACCOMMODATION",
-      "images": [
-        "images/ROOM.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "55-中学宿舍",
         "roomType": "DORM",
@@ -2111,7 +2085,10 @@
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION",
       "images": [
-        "images/Enscape_2022-05-17-10-35-39.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "56-艺术中心入口",
@@ -2136,8 +2113,7 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · CIRCULATION",
       "images": [
-        "images/WY-123.jpg",
-        "images/%25E5%25B9%25BC%25E5%2584%25BF%25E5%259B%25AD%25E6%25B4%25BB%25E5%258A%25A8%25E5%258C%25BA.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "57-幼儿园活动室",
@@ -2157,7 +2133,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · MAKERSPACE, STUDY",
       "images": [
-        "images/Enscape_2022-05-19-16-27-36.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "58-教室",
@@ -2185,7 +2161,7 @@
       "size": 8,
       "description": "民办双语 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/2F_%25E4%25BD%258E%25E5%25B9%25B4%25E7%25BA%25A7%25E6%2599%25AE%25E9%2580%259A%25E6%2595%2599%25E5%25AE%25A4.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "59-低年级普通教室",
@@ -2217,7 +2193,10 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · PLAYROOM KG, STUDY",
       "images": [
-        "images/DSC01548.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "60-幼儿园艺术教室",
@@ -2237,7 +2216,8 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E9%259F%25B3%25E4%25B9%2590%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_music_room.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "61-音乐教室",
@@ -2265,8 +2245,7 @@
       "size": 8,
       "description": "民办双语 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/AL_L5323_Jfoto9576_20230424_1368476850.jpg",
-        "images/AL_L5438_Jfoto9576_20230424_1368478690.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "62-普通教室",
@@ -2293,7 +2272,10 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · ART, STUDY",
       "images": [
-        "images/%25E9%25AB%2598%25E5%25B9%25B4%25E7%25BA%25A7%25E7%25BE%258E%25E6%259C%25AF%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "63-美术教室",
@@ -2318,8 +2300,7 @@
       "size": 8,
       "description": "国际学校 · GYM / LOCKER · LOCKER, WAITING",
       "images": [
-        "images/Enscape_2023-12-21-18-35-00.png",
-        "images/locker1.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "64-高中体育中心 - 更衣室",
@@ -2348,9 +2329,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · RESTROOM / TOILET · CIRCULATION, RECEPTION",
-      "images": [
-        "images/%25E5%25BE%25AE%25E4%25BF%25A1%25E5%259B%25BE%25E7%2589%2587_20221201143906.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "65-幼儿园 - 卫生间",
         "roomType": "RESTROOM / TOILET",
@@ -2385,9 +2364,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · DORM · STUDY",
-      "images": [
-        "images/dorm.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "66-宿舍楼 - 房间",
         "roomType": "DORM",
@@ -2409,10 +2386,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/Enscape_2023-12-08-11-09-36.png",
-        "images/hallway1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "67-教学楼 - 走道",
         "roomType": "HALLWAY / STAIR",
@@ -2435,9 +2409,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · CANTEEN · DINING",
-      "images": [
-        "images/%25E9%25AB%2598%25E4%25B8%25AD%25E9%25A4%2590%25E5%258E%25852.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "68-食堂",
         "roomType": "CANTEEN",
@@ -2468,9 +2440,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · SERVICE",
-      "images": [
-        "images/2F%25E5%25AE%25B6%25E9%2595%25BF%25E6%258E%25A5%25E5%25BE%2585%25E5%25AE%25A4.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "69-家长接待室",
         "roomType": "COMMON",
@@ -2500,9 +2470,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E9%25AB%2598%25E4%25B8%25AD_(4).png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "70-公共走道",
         "roomType": "HALLWAY / STAIR",
@@ -2530,10 +2498,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · CANTEEN · DINING, GATHERING",
-      "images": [
-        "images/WY-50.jpg",
-        "images/ct.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "71-威雅餐厅",
         "roomType": "CANTEEN",
@@ -2552,9 +2517,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · SHOWROOM · PERFOMANCE",
-      "images": [
-        "images/Enscape_2022-05-19-16-36-12.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "72-室内舞台",
         "roomType": "SHOWROOM",
@@ -2587,9 +2550,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · OFFICE · OFFICE",
-      "images": [
-        "images/%25E6%258B%259B%25E7%2594%259F%25E5%258A%259E%25E5%2585%25AC%25E5%25AE%25A4.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "73-招生办公室",
         "roomType": "OFFICE",
@@ -2623,9 +2584,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/_MIN5614-HDR-F.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "74-公共空间走道",
         "roomType": "HALLWAY / STAIR",
@@ -2647,9 +2606,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · OUTDOOR · GATHERING",
-      "images": [
-        "images/Picture1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "75-幼儿园景观",
         "roomType": "OUTDOOR",
@@ -2672,7 +2629,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · CIRCULATION, RECEPTION",
       "images": [
-        "images/%25E5%259B%25BE%25E7%2589%258713.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "76-幼儿园 - 普通教室",
@@ -2705,9 +2662,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · RECEPTION",
-      "images": [
-        "images/%25E5%25A4%25A7%25E5%25A0%2582.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "77-教学楼大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -2730,7 +2685,10 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · ART",
       "images": [
-        "images/art_room.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "78-美术教室",
@@ -2763,7 +2721,9 @@
       "size": 8,
       "description": "国际学校 · COMMON · ART, DANCING, DISPLAY, GATHERING, PERFOMANCE",
       "images": [
-        "images/Enscape_2022-05-11-02-41-33.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg"
       ],
       "meta": {
         "notionPageId": "79-艺术空间",
@@ -2799,8 +2759,9 @@
       "size": 8,
       "description": "民办双语 · LIBRARY · READING",
       "images": [
-        "images/2PC01733.jpg",
-        "images/%25E9%2598%2585%25E8%25AF%25BB%25E5%258C%25BA.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "80-阅读区",
@@ -2856,7 +2817,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · READING, STUDY",
       "images": [
-        "images/Enscape_2022-05-05-15-34-09_read_stand_c.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "82-阅读室",
@@ -2887,9 +2850,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · CANTEEN · DINING",
-      "images": [
-        "images/L1-canteen.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "83-幼儿园 - 餐厅",
         "roomType": "CANTEEN",
@@ -2919,9 +2880,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · RESTROOM / TOILET · SERVICE",
-      "images": [
-        "images/WC.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "84-卫生间",
         "roomType": "RESTROOM / TOILET",
@@ -2951,9 +2910,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/Enscape_2022-05-10-16-53-12.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "85-共享走廊",
         "roomType": "HALLWAY / STAIR",
@@ -2979,9 +2936,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · OUTDOOR · GATHERING",
-      "images": [
-        "images/Enscape_2023-01-30-16-27-20.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "86-户外休闲区",
         "roomType": "OUTDOOR",
@@ -3007,8 +2962,7 @@
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · ENTRANCE, GATHERING",
       "images": [
-        "images/Enscape_2023-12-07-17-37-58.png",
-        "images/pe-lobby.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "87-高中体育中心 - 大堂",
@@ -3033,9 +2987,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · STUDY",
-      "images": [
-        "images/Enscape_2023-11-30-13-39-07.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "88-教学楼 - 大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -3061,9 +3013,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · STUDY",
-      "images": [
-        "images/DSC06335-HDR.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "89-走道",
         "roomType": "HALLWAY / STAIR",
@@ -3081,9 +3031,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · STUDY",
-      "images": [
-        "images/%25E9%25AB%2598%25E4%25B8%25AD_(6).png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "90-教学讨论区",
         "roomType": "COMMON",
@@ -3113,9 +3061,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · CIRCULATION",
-      "images": [
-        "images/ADL-122.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "91-幼儿园 - 入口门头",
         "roomType": "ENTRANCE / LOBBY",
@@ -3145,9 +3091,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ADMIN · SERVICE, STUDY",
-      "images": [
-        "images/%25E6%2595%2599%25E5%25B8%2588%25E5%258A%259E%25E5%2585%25AC%25E5%25AE%25A4.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "92-教师办公室",
         "roomType": "ADMIN",
@@ -3174,9 +3118,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ADMIN · GATHERING",
-      "images": [
-        "images/%25E9%25AB%2598%25E4%25B8%25AD_(5).png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "93-洽谈区",
         "roomType": "ADMIN",
@@ -3208,7 +3150,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · DANCING",
       "images": [
-        "images/%25E8%2588%259E%25E8%25B9%2588.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "94-舞蹈教室",
@@ -3246,7 +3188,7 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/Enscape_2023-12-20-16-54-30.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "95-书法教室",
@@ -3269,9 +3211,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E6%2595%2599%25E5%25AD%25A6%25E6%25A5%25BC%25E8%25B5%25B0%25E9%2581%2593.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "96-教学楼走道",
         "roomType": "HALLWAY / STAIR",
@@ -3301,7 +3241,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E7%2590%25B4%25E6%2588%25BF_%25E5%25BF%2583%25E7%2590%2586.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "97-心理教室",
@@ -3332,9 +3272,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · DORM · ACCOMMODATION",
-      "images": [
-        "images/Enscape_2020-11-24-11-46-52.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "98-教师宿舍",
         "roomType": "DORM",
@@ -3355,9 +3293,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, ENTRANCE, RECEPTION",
-      "images": [
-        "images/%25E5%25A4%25A7%25E5%258E%2585%25EF%25BC%2588%25E5%2588%259D%25E4%25B8%25AD%25E9%2583%25A8%25EF%25BC%2589.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "99-大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -3390,9 +3326,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · GATHERING, WAITING",
-      "images": [
-        "images/PE-HALLWAY1.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "100-体育楼 - 走道",
         "roomType": "HALLWAY / STAIR",
@@ -3422,9 +3356,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · RESTROOM / TOILET · SPORTS, SWIMMING",
-      "images": [
-        "images/Picture5.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "101-更衣室",
         "roomType": "RESTROOM / TOILET",
@@ -3471,9 +3403,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · CANTEEN · CIRCULATION, GATHERING, RECEPTION, STUDY",
-      "images": [
-        "images/canteen1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "102-综合楼 - 食堂",
         "roomType": "CANTEEN",
@@ -3497,9 +3427,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/5S4A2404.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "103-走道 楼梯",
         "roomType": "HALLWAY / STAIR",
@@ -3521,9 +3449,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/ADL-32.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "104-幼儿园 - 走道",
         "roomType": "HALLWAY / STAIR",
@@ -3555,10 +3481,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · STADIUM · BASKETBALL",
-      "images": [
-        "images/WY-99.jpg",
-        "images/%25E7%25AF%25AE%25E7%2590%2583%25E9%25A6%2586-1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "105-篮球场",
         "roomType": "STADIUM",
@@ -3586,7 +3509,10 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · ART",
       "images": [
-        "images/WY-382.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "106-艺术教室",
@@ -3611,7 +3537,7 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/Enscape_2023-12-20-16-51-20.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "107-电脑教室",
@@ -3635,7 +3561,8 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · PERFOMANCE, STUDY",
       "images": [
-        "images/15._MUSIC_RM.png"
+        "images/sp_music_room.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "108-音乐教室",
@@ -3660,7 +3587,9 @@
       "size": 8,
       "description": "国际学校 · SHOWROOM · ART, DISPLAY, GATHERING, PERFOMANCE",
       "images": [
-        "images/%25E6%25A0%25A1%25E5%258F%25B2%25E9%25A6%2586_2.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg"
       ],
       "meta": {
         "notionPageId": "109-校史馆",
@@ -3690,9 +3619,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · ENTRANCE, RECEPTION",
-      "images": [
-        "images/DSC06872-HDR-%25E7%25B7%25A8%25E8%25BC%25AF.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "110-接待入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -3711,7 +3638,7 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · STEAM, STUDY",
       "images": [
-        "images/11._LV2_INNOVATION.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "111-创新教室",
@@ -3735,7 +3662,7 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/%25E7%2594%259F%25E5%258C%2596%25E5%25AE%259E%25E9%25AA%258C%25E5%25AE%25A4.png"
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "112-生化实验室",
@@ -3768,10 +3695,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/DSC06104-%25E7%25B7%25A8%25E8%25BC%25AF.jpg",
-        "images/DSC05953.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "113-走道",
         "roomType": "HALLWAY / STAIR",
@@ -3790,7 +3714,7 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/4F_%25E7%2594%259F%25E7%2589%25A9%25E5%25AE%259E%25E9%25AA%258C%25E5%25AE%25A4.jpg"
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "114-生物实验室",
@@ -3813,9 +3737,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · STUDY",
-      "images": [
-        "images/WATER.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "115-茶歇室",
         "roomType": "COMMON",
@@ -3857,9 +3779,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/Enscape_2022-05-19-15-37-32.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "116-出入口",
         "roomType": "HALLWAY / STAIR",
@@ -3887,7 +3807,9 @@
       "size": 8,
       "description": "民办双语 · LIBRARY · GATHERING, PERFOMANCE",
       "images": [
-        "images/%25E5%259B%25BE%25E7%2589%25873.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "117-图书馆",
@@ -3917,9 +3839,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · RECEPTION",
-      "images": [
-        "images/Picture2.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "118-大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -3946,7 +3866,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · READING, STUDY",
       "images": [
-        "images/%25E6%2595%2599%25E5%25B8%2588%25E9%2598%2585%25E8%25A7%2588%25E5%25AE%25A4.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "119-图书馆阅览室",
@@ -3972,9 +3894,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · OFFICE · OFFICE",
-      "images": [
-        "images/%25E6%25A0%25A1%25E8%2591%25A3%25E5%258A%259E%25E5%2585%25AC%25E5%25AE%25A4.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "120-校董办公室",
         "roomType": "OFFICE",
@@ -3993,9 +3913,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, DISPLAY",
-      "images": [
-        "images/Enscape_2022-05-17-15-07-09_exhibition_co_2.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "121-校园文化主题展廊",
         "roomType": "HALLWAY / STAIR",
@@ -4018,7 +3936,7 @@
       "size": 8,
       "description": "民办双语 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · GATHERING, PERFOMANCE",
       "images": [
-        "images/%25E5%259B%25BE%25E7%2589%258710.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "122-剧场",
@@ -4048,9 +3966,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, ENTRANCE, RECEPTION",
-      "images": [
-        "images/night.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "123-入口大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -4079,9 +3995,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · CIRCULATION, PLAYROOM KG",
-      "images": [
-        "images/DSC09355-%25E7%25BC%2596%25E8%25BE%25912.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "124-出入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -4100,7 +4014,7 @@
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · SPORTS",
       "images": [
-        "images/pool.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "125-高中体育中心 - 泳池",
@@ -4130,9 +4044,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · GYM / LOCKER · STUDY",
-      "images": [
-        "images/WY-86.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "126-体育馆健身房",
         "roomType": "GYM / LOCKER",
@@ -4155,7 +4067,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/Enscape_2023-12-20-19-29-47.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "127-普通教室 - 高年级",
@@ -4179,7 +4091,9 @@
       "size": 8,
       "description": "国际幼儿园 · LIBRARY · GATHERING, READING",
       "images": [
-        "images/DSC06683.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "128-图书馆",
@@ -4199,7 +4113,10 @@
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, STEAM",
       "images": [
-        "images/hallway%201.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "129-美校美工教室走道",
@@ -4234,7 +4151,8 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/Enscape_2023-12-20-19-29-47%201.png"
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "130-实验室",
@@ -4258,7 +4176,7 @@
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · RECEPTION, SERVICE, STUDY",
       "images": [
-        "images/IC_LOBBY.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "131-创客中心 - 大堂",
@@ -4290,9 +4208,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · CIRCULATION, SWIMMING",
-      "images": [
-        "images/Picture2%201.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "132-泳池走廊",
         "roomType": "SWIMMING POOL",
@@ -4317,9 +4233,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · GATHERING",
-      "images": [
-        "images/hall.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "133-公共空间",
         "roomType": "COMMON",
@@ -4342,7 +4256,9 @@
       "size": 8,
       "description": "国际幼儿园 · LIBRARY · READING, STUDY",
       "images": [
-        "images/5S4A2639-min.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "134-图书馆阅读区",
@@ -4394,9 +4310,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · RECEPTION, SERVICE, STUDY",
-      "images": [
-        "images/PE-HALLWAY.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "136-体育楼 - 大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -4428,9 +4342,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SHOWROOM · DISPLAY, ENTRANCE",
-      "images": [
-        "images/horner_wall.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "137-荣誉堂",
         "roomType": "SHOWROOM",
@@ -4457,9 +4369,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · GATHERING, PLAYROOM KG",
-      "images": [
-        "images/2F%25E4%25BC%2591%25E9%2597%25B2%25E5%258C%25BA.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "138-2F休闲区",
         "roomType": "COMMON",
@@ -4492,9 +4402,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, RECEPTION",
-      "images": [
-        "images/0I9A6765.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "139-英校门厅改造",
         "roomType": "ENTRANCE / LOBBY",
@@ -4515,9 +4423,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · DORM · ACCOMMODATION",
-      "images": [
-        "images/%25E5%25AE%25BF%25E8%2588%258D%25E6%2588%25BF%25E9%2597%25B4_%25E5%25A5%25B3.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "140-宿舍",
         "roomType": "DORM",
@@ -4543,9 +4449,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION",
-      "images": [
-        "images/DSC09727.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "141-青浦幼儿园-主入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -4568,7 +4472,7 @@
       "size": 8,
       "description": "国际学校 · COMMON · GATHERING, PRESENTATION, READING, STUDY",
       "images": [
-        "images/IC_COMMON.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "142-创客中心 - 公共空间",
@@ -4605,7 +4509,7 @@
       "size": 8,
       "description": "国际学校 · STADIUM · SPORTS",
       "images": [
-        "images/BASKETBALL.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "143-高中体育中心 - 篮球场",
@@ -4631,9 +4535,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/Picture3%201.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "144-走道",
         "roomType": "HALLWAY / STAIR",
@@ -4659,7 +4561,7 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E7%25BE%258E%25E6%259C%25AF%25E6%2595%2599%25E5%25AE%25A41.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "145-美术教室",
@@ -4690,7 +4592,11 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · ART, GATHERING, MAKERSPACE, STUDY",
       "images": [
-        "images/Picture2%202.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_auditorium.jpg",
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "146-学生发展中心",
@@ -4719,9 +4625,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · CANTEEN · DINING, GATHERING",
-      "images": [
-        "images/DSC05744.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "147-幼儿餐厅",
         "roomType": "CANTEEN",
@@ -4739,9 +4643,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · STUDY",
-      "images": [
-        "images/%25E6%25B3%25B3%25E6%25B1%25A0%25E7%2594%25B7%25E6%259B%25B4%25E8%25A1%25A3.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "148-更衣室",
         "roomType": "SWIMMING POOL",
@@ -4766,9 +4668,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, ENTRANCE, SWIMMING",
-      "images": [
-        "images/Picture4.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "149-泳池入口",
         "roomType": "HALLWAY / STAIR",
@@ -4794,7 +4694,9 @@
       "size": 8,
       "description": "国际幼儿园 · LIBRARY · CIRCULATION, GATHERING, READING",
       "images": [
-        "images/%25E5%259B%25BE%25E7%2589%258710%201.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "150-幼儿园 - 开放式图书馆",
@@ -4827,7 +4729,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · STUDY",
       "images": [
-        "images/LIBRARY2.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "151-图书馆",
@@ -4855,7 +4759,11 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · ART, GATHERING, PRESENTATION, READING",
       "images": [
-        "images/Enscape_2022-05-17-10-28-39_IN_F2-1.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_auditorium.jpg",
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "152-多媒体艺术中心",
@@ -4886,7 +4794,8 @@
       "size": 8,
       "description": "民办双语 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · GATHERING, PERFOMANCE",
       "images": [
-        "images/%25E4%25B9%25A6%25E5%2590%25A7_CMasking_ID001(1).jpg"
+        "images/sp_auditorium.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "153-报告厅 阶梯教室",
@@ -4913,7 +4822,7 @@
       "size": 8,
       "description": "国际学校 · ADMIN · STUDY",
       "images": [
-        "images/%25E5%25BE%25AE%25E4%25BF%25A1%25E5%259B%25BE%25E7%2589%2587_20220426141944.png"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "154-多功能会议室",
@@ -4941,9 +4850,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · ACCOMMODATION, CIRCULATION, GATHERING",
-      "images": [
-        "images/%25E5%25AE%25BF%25E8%2588%258D%25E5%25A4%25A7%25E5%258E%2585_%25E7%2594%25B7.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "155-宿舍大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -4972,9 +4879,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E5%25A5%25B3%25E7%2594%259F%25E5%25AE%25BF%25E8%2588%258D%25E8%25B5%25B0%25E9%2581%2593.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "156-宿舍走道",
         "roomType": "HALLWAY / STAIR",
@@ -4996,9 +4901,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · SWIMMING POOL · DINING",
-      "images": [
-        "images/Picture21.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "157-泳池",
         "roomType": "SWIMMING POOL",
@@ -5028,10 +4931,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/WY-43.jpg",
-        "images/%25E5%25B9%25BC%25E5%2584%25BF%25E5%259B%25AD%25E6%25A5%25BC%25E6%25A2%25AF.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "158-幼儿园走道",
         "roomType": "HALLWAY / STAIR",
@@ -5050,7 +4950,10 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · ART",
       "images": [
-        "images/10._LV2_ARTS.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "159-艺术教室",
@@ -5073,9 +4976,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/_MIN5114-F.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "160-二层走道",
         "roomType": "HALLWAY / STAIR",
@@ -5098,7 +4999,7 @@
       "size": 8,
       "description": "国际学校 · MAKER SPACE · STUDY",
       "images": [
-        "images/%25E6%258A%2580%25E6%259C%25AF%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "161-技术教室",
@@ -5131,7 +5032,7 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E4%25B9%25A6%25E6%25B3%2595%25E6%2595%2599%25E5%25AE%25A4.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "162-书法教室",
@@ -5160,9 +5061,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · OFFICE · STUDY",
-      "images": [
-        "images/%25E6%2595%2599%25E5%25B8%2588%25E5%258A%259E%25E5%2585%25AC%25E5%25AE%25A4%201.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "163-教师办公室",
         "roomType": "OFFICE",
@@ -5191,8 +5090,11 @@
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · ART, CIRCULATION, GATHERING, MUSIC, PRESENTATION, READING, SERVICE, STUDY",
       "images": [
-        "images/2PC02660.jpg",
-        "images/IC_GALLARYRAMP.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_ib_center.jpg",
+        "images/sp_music_room.jpg"
       ],
       "meta": {
         "notionPageId": "164-创客中心 - 艺术坡道",
@@ -5233,8 +5135,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/DSC01252.jpg",
-        "images/DSC09254.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "165-幼儿园教室",
@@ -5253,9 +5154,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · GATHERING, STUDY",
-      "images": [
-        "images/WY-261.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "166-宿舍活动区",
         "roomType": "COMMON",
@@ -5276,9 +5175,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, STUDY",
-      "images": [
-        "images/Picture1.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "167-报告厅过道",
         "roomType": "HALLWAY / STAIR",
@@ -5304,8 +5201,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · PLAYROOM KG",
       "images": [
-        "images/WY-116.jpg",
-        "images/%25E5%25B9%25BC%25E5%2584%25BF%25E5%259B%25AD%25E6%2595%2599%25E5%25AE%25A4-3.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "168-幼儿园教室",
@@ -5329,7 +5225,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/Enscape_2022-05-19-16-13-27.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "169-教室",
@@ -5359,9 +5255,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/Enscape_2022-05-17-15-16-16-0.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "170-走道",
         "roomType": "HALLWAY / STAIR",
@@ -5387,9 +5281,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · RESTROOM / TOILET",
-      "images": [
-        "images/Enscape_2022-05-20-12-55-11.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "171-淋浴间",
         "roomType": "RESTROOM / TOILET",
@@ -5414,9 +5306,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · STADIUM · BASKETBALL, GATHERING, SPORTS",
-      "images": [
-        "images/%25E9%25A3%258E%25E9%259B%25A8%25E6%2593%258D%25E5%259C%25BA_2.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "172-风雨操场",
         "roomType": "STADIUM",
@@ -5446,8 +5336,7 @@
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · GATHERING, RECEPTION, SERVICE",
       "images": [
-        "images/2PC02637.jpg",
-        "images/DROP_OFF.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "173-创客中心 - 地下接送大堂",
@@ -5482,10 +5371,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/Enscape_2023-11-27-20-26-52.png",
-        "images/lift_lobby_(secondary).png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "174-教学楼 - 走道电梯间",
         "roomType": "HALLWAY / STAIR",
@@ -5509,7 +5395,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · DANCING",
       "images": [
-        "images/%25E8%2588%259E%25E8%25B9%2588%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "175-舞蹈教室",
@@ -5538,9 +5424,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · CANTEEN · DINING",
-      "images": [
-        "images/%25E5%25B0%258F%25E5%25AD%25A6%25E9%25A4%2590%25E5%258E%2585_2.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "176-食堂",
         "roomType": "CANTEEN",
@@ -5569,9 +5453,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, DISPLAY, GATHERING, STUDY",
-      "images": [
-        "images/Enscape_2023-11-30-13-08-08.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "177-教学楼 - 入口台阶",
         "roomType": "HALLWAY / STAIR",
@@ -5593,9 +5475,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · SHOWROOM · DISPLAY",
-      "images": [
-        "images/%25E5%259B%25BE%25E7%2589%25874.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "178-校史成列",
         "roomType": "SHOWROOM",
@@ -5626,9 +5506,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, ENTRANCE, RECEPTION",
-      "images": [
-        "images/%25E9%25AB%2598%25E4%25B8%25AD_(3).png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "179-大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -5660,10 +5538,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION, GATHERING, PLAYROOM KG, STUDY",
-      "images": [
-        "images/DSC01558.jpg",
-        "images/DSC01555.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "180-幼儿园走道",
         "roomType": "HALLWAY / STAIR",
@@ -5681,9 +5556,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · SERVICE, STUDY",
-      "images": [
-        "images/Enscape_2022-05-16-21-41-27.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "181-打印区",
         "roomType": "COMMON",
@@ -5711,7 +5584,8 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/Picture4%201.png"
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "182-STEAM教室",
@@ -5738,9 +5612,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · OUTDOOR · GATHERING, PERFOMANCE, SPORTS",
-      "images": [
-        "images/PS4.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "183-幼儿园 - 户外景观",
         "roomType": "OUTDOOR",
@@ -5770,10 +5642,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · STADIUM · GATHERING, WAITING",
-      "images": [
-        "images/2PC03212.jpg",
-        "images/pe-stadium.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "184-体育楼 - 体育馆 风雨操场",
         "roomType": "STADIUM",
@@ -5804,9 +5673,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E5%25A4%2596%25E8%25B5%25B0%25E5%25BB%258A.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "185-外走廊",
         "roomType": "HALLWAY / STAIR",
@@ -5835,7 +5702,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · READING, STUDY",
       "images": [
-        "images/%25E5%25BE%25AE%25E4%25BF%25A1%25E6%2588%25AA%25E5%259B%25BE_20230928155227.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "186-幼儿园阅读室",
@@ -5863,7 +5732,8 @@
       "size": 8,
       "description": "民办双语 · STEAM & LAB · STUDY",
       "images": [
-        "images/%25E7%25A7%2591%25E5%2588%259B%25E6%2595%2599%25E5%25AE%25A4.jpg"
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "187-科创教室",
@@ -5887,7 +5757,12 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · ART, MUSIC, PERFOMANCE",
       "images": [
-        "images/IC_PAC.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_auditorium.jpg",
+        "images/sp_ib_center.jpg",
+        "images/sp_music_room.jpg"
       ],
       "meta": {
         "notionPageId": "188-创客中心 - 剧场演艺厅",
@@ -5925,9 +5800,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · ENTRANCE / LOBBY · CIRCULATION",
-      "images": [
-        "images/Enscape_2023-01-12-13-34-08.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "189-入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -5953,10 +5826,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · ACCOMMODATION, CIRCULATION",
-      "images": [
-        "images/Enscape_2023-12-15-14-04-02.png",
-        "images/dorm_lobby.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "190-宿舍楼 - 走道",
         "roomType": "HALLWAY / STAIR",
@@ -5978,10 +5848,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/%25E5%259B%25BE%25E7%2589%258716.jpg",
-        "images/%25E5%259B%25BE%25E7%2589%258717.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "191-幼儿园 - 楼梯间",
         "roomType": "HALLWAY / STAIR",
@@ -6013,10 +5880,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · STUDY",
-      "images": [
-        "images/AL_L5474_Jfoto9576_20230424_1368479266.jpg",
-        "images/%25E8%25B5%25B0%25E9%2581%2593C1-%25E9%2580%259A%25E9%2581%2593.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "192-C1走道",
         "roomType": "HALLWAY / STAIR",
@@ -6039,7 +5903,8 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/STEAM.jpg"
+        "images/sp_lab.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "193-STEAM 教室",
@@ -6071,7 +5936,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · CIRCULATION, GATHERING, RECEPTION",
       "images": [
-        "images/IMG_9715.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "194-TODDLER教室",
@@ -6090,9 +5955,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · GATHERING",
-      "images": [
-        "images/2F_%25E8%25B5%25B0%25E5%25BB%258A.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "195-走廊",
         "roomType": "HALLWAY / STAIR",
@@ -6119,7 +5982,8 @@
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION",
       "images": [
-        "images/%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%25E4%25B8%25AD%25E5%25BA%25AD.jpg"
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "196-图书馆中庭",
@@ -6145,9 +6009,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · CIRCULATION, ENTRANCE",
-      "images": [
-        "images/lobby_1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "197-高中教学楼 - 大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -6170,9 +6032,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · GATHERING, WAITING",
-      "images": [
-        "images/PE-HALLWAY1.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "198-体育楼 - 走道",
         "roomType": "HALLWAY / STAIR",
@@ -6203,7 +6063,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · GATHERING, STUDY",
       "images": [
-        "images/Open_classroom.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "199-幼儿园教室",
@@ -6231,7 +6091,7 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · PERFOMANCE, PRESENTATION",
       "images": [
-        "images/AUDITORIUM.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "200-报告厅",
@@ -6261,9 +6121,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING, STUDY",
-      "images": [
-        "images/Enscape_2022-05-10-19-10-02.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "201-自习走廊",
         "roomType": "HALLWAY / STAIR",
@@ -6289,9 +6147,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · SERVICE",
-      "images": [
-        "images/resting.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "202-员工休息",
         "roomType": "COMMON",
@@ -6316,8 +6172,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/WY-179.jpg",
-        "images/WY-180.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "203-中学教室",
@@ -6341,7 +6196,8 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/STUDENT_CENTER.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "204-学生中心",
@@ -6371,7 +6227,7 @@
       "size": 8,
       "description": "国际学校 · STEAM & LAB · STUDY",
       "images": [
-        "images/4F_%25E5%258C%2596%25E5%25AD%25A6%25E5%25AE%259E%25E9%25AA%258C%25E5%25AE%25A4_(1).jpg"
+        "images/sp_lab.jpg"
       ],
       "meta": {
         "notionPageId": "205-化学实验",
@@ -6400,10 +6256,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · DORM · ACCOMMODATION",
-      "images": [
-        "images/WY-265.jpg",
-        "images/%25E5%25AE%25BF%25E8%2588%258D%25E5%25B0%258F%25E5%25AD%25A6-1.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "206-小学宿舍",
         "roomType": "DORM",
@@ -6424,10 +6277,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · ENTRANCE / LOBBY · GATHERING",
-      "images": [
-        "images/2PC01767.jpg",
-        "images/%25E5%25A4%25A7%25E5%258E%2585.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "207-大厅",
         "roomType": "ENTRANCE / LOBBY",
@@ -6461,9 +6311,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · HALLWAY / STAIR · GATHERING, PLAYROOM KG",
-      "images": [
-        "images/Main_Corridor.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "208-主走道",
         "roomType": "HALLWAY / STAIR",
@@ -6490,7 +6338,10 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · ART",
       "images": [
-        "images/%25E7%25BE%258E%25E6%259C%25AF%25E6%2595%2599%25E5%25AE%25A4_%25E7%258E%25B0%25E4%25BB%25A31.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "209-中山一中 美术教室 样板",
@@ -6513,9 +6364,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · SPORTS",
-      "images": [
-        "images/DSC00185.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "210-泳池",
         "roomType": "SWIMMING POOL",
@@ -6538,10 +6387,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · CANTEEN · GATHERING",
-      "images": [
-        "images/DSC09480.jpg",
-        "images/DSC09540.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "211-幼儿园餐厅",
         "roomType": "CANTEEN",
@@ -6561,7 +6407,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · READING, STUDY",
       "images": [
-        "images/IC_LIARBRY.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "212-创客中心 - 图书馆",
@@ -6600,7 +6448,7 @@
       "size": 8,
       "description": "国际学校 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · GATHERING",
       "images": [
-        "images/%25E5%25A4%25A7%25E4%25BC%259A%25E8%25AE%25AE%25E5%25AE%25A4.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "213-多人会议室",
@@ -6629,9 +6477,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · GATHERING, RECEPTION",
-      "images": [
-        "images/_MIN5011-F.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "214-入口大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -6654,7 +6500,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · CALIGRAPHY",
       "images": [
-        "images/calligraphic_classroom.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "215-书法教室",
@@ -6686,9 +6532,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · CIRCULATION, GATHERING, RECEPTION",
-      "images": [
-        "images/5S4A2366.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "216-主入口 前台",
         "roomType": "ENTRANCE / LOBBY",
@@ -6714,7 +6558,7 @@
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · BASKETBALL",
       "images": [
-        "images/Enscape_2023-12-25-17-47-18.png"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "217-活动中心 - 球场",
@@ -6737,9 +6581,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · GATHERING, WAITING",
-      "images": [
-        "images/ACA-PSLOBBY.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "218-教学楼 - 小学大堂",
         "roomType": "ENTRANCE / LOBBY",
@@ -6772,9 +6614,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HEALING",
-      "images": [
-        "images/%25E5%25BF%2583%25E7%2590%2586%25E5%2592%25A8%25E8%25AF%25A2%25E5%25AE%25A4.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "219-心理咨询室",
         "roomType": "",
@@ -6806,9 +6646,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · RESTROOM / TOILET · SERVICE",
-      "images": [
-        "images/WC1.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "220-儿童卫生间",
         "roomType": "RESTROOM / TOILET",
@@ -6833,9 +6671,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · SWIMMING",
-      "images": [
-        "images/%25E6%25B8%25B8%25E6%25B3%25B3%25E9%25A6%2586.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "221-室内泳池",
         "roomType": "SWIMMING POOL",
@@ -6857,9 +6693,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · CIRCULATION",
-      "images": [
-        "images/Enscape_2023-01-12-15-14-07.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "222-过道",
         "roomType": "HALLWAY / STAIR",
@@ -6888,10 +6722,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · GATHERING, SPORTS, WAITING",
-      "images": [
-        "images/2PC03221.jpg",
-        "images/PE-pool.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "223-体育楼 - 游泳馆",
         "roomType": "SWIMMING POOL",
@@ -6923,9 +6754,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/%25E5%259B%25BE%25E7%2589%258711.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "224-接待区走道",
         "roomType": "HALLWAY / STAIR",
@@ -6954,9 +6783,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · GATHERING, PLAYROOM KG",
-      "images": [
-        "images/DSC00201.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "225-活动空间",
         "roomType": "COMMON",
@@ -6983,9 +6810,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · ENTRANCE / LOBBY · RECEPTION",
-      "images": [
-        "images/Picture13.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "226-前台接待",
         "roomType": "ENTRANCE / LOBBY",
@@ -7016,9 +6841,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · DINING, GATHERING",
-      "images": [
-        "images/Enscape_2022-12-14-11-16-42.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "227-茶水间",
         "roomType": "COMMON",
@@ -7044,10 +6867,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · CIRCULATION, RECEPTION",
-      "images": [
-        "images/%25E5%259B%25BE%25E7%2589%258715.jpg",
-        "images/ADL-133.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "228-幼儿园 - 前台接待",
         "roomType": "ENTRANCE / LOBBY",
@@ -7077,7 +6897,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/5S4A2595.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "229-普通教室",
@@ -7100,9 +6920,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · OUTDOOR · GATHERING, SPORTS",
-      "images": [
-        "images/DJI_0442.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "230-活动场地",
         "roomType": "OUTDOOR",
@@ -7120,10 +6938,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · ENTRANCE / LOBBY · CIRCULATION, GATHERING",
-      "images": [
-        "images/AL_L5334_Jfoto9576_20230424_1368477026.jpg",
-        "images/c01-zmz-hcm1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "231-室外主入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -7148,7 +6963,10 @@
       "size": 8,
       "description": "普高 · SPECIAL CLASSROOM · ART",
       "images": [
-        "images/%25E7%25BE%258E%25E6%259C%25AF%25E6%2595%2599%25E5%25AE%25A4_%25E4%25B8%25AD%25E5%25BC%258F1.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "232-美术教室",
@@ -7191,9 +7009,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ENTRANCE / LOBBY · ENTRANCE, RECEPTION, WAITING",
-      "images": [
-        "images/20210512_Lucton_Chongqing_Concept_Design_package.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "233-入口接待处",
         "roomType": "ENTRANCE / LOBBY",
@@ -7225,7 +7041,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · DINING, GATHERING",
       "images": [
-        "images/DSC05802-%25E7%25B7%25A8%25E8%25BC%25AF.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "234-幼儿园教室",
@@ -7244,9 +7060,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, DISPLAY, ENTRANCE, GATHERING, RECEPTION",
-      "images": [
-        "images/%25E4%25B8%25AD%25E5%25BA%25AD_1.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "235-中庭",
         "roomType": "HALLWAY / STAIR",
@@ -7278,8 +7092,7 @@
       "size": 8,
       "description": "国际幼儿园 · AUDITORIUM / PERFM. CENTER / MUTI-FUNCTION · CIRCULATION, GATHERING",
       "images": [
-        "images/5S4A2469.jpg",
-        "images/5S4A2462.jpg"
+        "images/sp_auditorium.jpg"
       ],
       "meta": {
         "notionPageId": "236-儿童剧场",
@@ -7302,9 +7115,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/corridor_(secondary).png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "237-教学楼 - 走道",
         "roomType": "HALLWAY / STAIR",
@@ -7328,7 +7139,9 @@
       "size": 8,
       "description": "民办双语 · LIBRARY · CIRCULATION, GATHERING, STUDY",
       "images": [
-        "images/%25E4%25B9%25A6%25E5%2590%25A7_CMasking_ID001(1).jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "238-图书馆 Learning Center",
@@ -7351,9 +7164,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · RESTROOM / TOILET · SERVICE",
-      "images": [
-        "images/%25E5%258D%25AB%25E7%2594%259F%25E9%2597%25B4-%25E5%25A5%25B3.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "239-女卫生间",
         "roomType": "RESTROOM / TOILET",
@@ -7382,9 +7193,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · GATHERING, WAITING",
-      "images": [
-        "images/ACA-MSCORRIDOR.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "240-教学楼 - 中学走道",
         "roomType": "HALLWAY / STAIR",
@@ -7415,9 +7224,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · DORM · ACCOMMODATION",
-      "images": [
-        "images/%25E5%25AE%25BF%25E8%2588%258D%25E5%2585%25A5%25E5%258F%25A3_%25E7%2594%25B7.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "241-学生宿舍入口",
         "roomType": "DORM",
@@ -7447,9 +7254,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · SERVICE, STUDY",
-      "images": [
-        "images/discuss.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "242-讨论室",
         "roomType": "COMMON",
@@ -7472,9 +7277,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · GATHERING, MAKERSPACE",
-      "images": [
-        "images/Enscape_2023-01-12-15-11-07.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "243-休闲区",
         "roomType": "COMMON",
@@ -7505,7 +7308,7 @@
       "size": 8,
       "description": "国际学校 · CANTEEN · DINING, READING, STUDY",
       "images": [
-        "images/IC_CANTEEN_HSMS.jpg"
+        "images/sp_ib_center.jpg"
       ],
       "meta": {
         "notionPageId": "244-创新中心 - 中学餐厅",
@@ -7543,9 +7346,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · CIRCULATION, GATHERING",
-      "images": [
-        "images/HALLWAY.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "245-教学区区走道 ",
         "roomType": "HALLWAY / STAIR",
@@ -7574,9 +7375,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · CIRCULATION, GATHERING",
-      "images": [
-        "images/%25E5%25AE%25BF%25E8%2588%258D%25E4%25BC%2591%25E9%2597%25B2.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "246-宿舍公共休闲区",
         "roomType": "COMMON",
@@ -7607,9 +7406,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · ENTRANCE / LOBBY · CIRCULATION, GATHERING",
-      "images": [
-        "images/entrance.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "247-主入口",
         "roomType": "ENTRANCE / LOBBY",
@@ -7635,9 +7432,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · ADMIN · GATHERING, RECEPTION",
-      "images": [
-        "images/Enscape_2022-07-20-11-23-57.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "248-接待室",
         "roomType": "ADMIN",
@@ -7665,9 +7460,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · RESTROOM / TOILET · SERVICE",
-      "images": [
-        "images/%25E5%258D%25AB%25E7%2594%259F%25E9%2597%25B4-%25E7%2594%25B7.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "249-男卫生间",
         "roomType": "RESTROOM / TOILET",
@@ -7696,9 +7489,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · STUDY",
-      "images": [
-        "images/%25E8%25B5%25B0%25E9%2581%2593C2-%25E9%2580%259A%25E9%2581%2593.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "250-C2走道",
         "roomType": "HALLWAY / STAIR",
@@ -7721,7 +7512,7 @@
       "size": 8,
       "description": "民办双语 · HALLWAY / STAIR · STUDY",
       "images": [
-        "images/AL_L5369_Jfoto9576_20230424_1368477586.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "251-教室外廊",
@@ -7745,9 +7536,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · HALLWAY / STAIR · CIRCULATION, STUDY",
-      "images": [
-        "images/Enscape_2022-05-10-17-07-40.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "252-私密区走廊",
         "roomType": "HALLWAY / STAIR",
@@ -7772,9 +7561,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · CIRCULATION, GATHERING",
-      "images": [
-        "images/dorm.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "253-宿舍公共空间",
         "roomType": "COMMON",
@@ -7800,9 +7587,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · COMMON · READING, WAITING",
-      "images": [
-        "images/ACA-SHARED.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "254-教学楼 - 办公茶歇区",
         "roomType": "COMMON",
@@ -7835,7 +7620,11 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · ART, DISPLAY, GATHERING, MUSIC, PERFOMANCE, PRESENTATION, READING",
       "images": [
-        "images/ADL-127.jpg"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_music_room.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "255-幼儿园 - 活动室",
@@ -7868,7 +7657,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/%25E6%2599%25AE%25E9%2580%259A%25E6%2595%2599%25E5%25AE%25A4%25EF%25BC%2588%25E5%2588%259D%25E4%25B8%25AD%25EF%25BC%2589.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "256-普通教室",
@@ -7897,9 +7686,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · CANTEEN · CIRCULATION, DINING, GATHERING",
-      "images": [
-        "images/0I9A6568.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "257-英校餐厅改造",
         "roomType": "CANTEEN",
@@ -7922,7 +7709,7 @@
       "size": 8,
       "description": "国际幼儿园 · REGULAR CLASSROOM · CIRCULATION, GATHERING, RECEPTION",
       "images": [
-        "images/IMG_9726.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "258-NIDO教室",
@@ -7942,7 +7729,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · STUDY",
       "images": [
-        "images/Enscape_2023-12-19-20-37-26.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "259-图书馆 - 公共服务区",
@@ -7965,9 +7754,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · STADIUM · SPORTS",
-      "images": [
-        "images/Enscape_2023-12-12-16-28-14.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "260-高中体育楼 - 球场",
         "roomType": "STADIUM",
@@ -7993,7 +7780,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/CLASSROOM2.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "261-普通教室",
@@ -8029,7 +7816,10 @@
       "size": 8,
       "description": "国际学校 · MAKER SPACE · MAKERSPACE, STEAM",
       "images": [
-        "images/makerspace.png"
+        "images/sp_art_space.jpg",
+        "images/sp_art_studio.jpg",
+        "images/sp_art_studio_photo.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "262-美校美工教室",
@@ -8053,9 +7843,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · OUTDOOR · ENTRANCE",
-      "images": [
-        "images/%25E5%25A4%2596%25E7%25AB%258B%25E9%259D%25A2.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "263-外立面",
         "roomType": "OUTDOOR",
@@ -8074,9 +7862,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "民办双语 · COMMON · ACCOMMODATION",
-      "images": [
-        "images/DORM.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "264-宿舍公共区",
         "roomType": "COMMON",
@@ -8102,7 +7888,7 @@
       "size": 8,
       "description": "民办双语 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/MUTIMEDIA.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "265-多媒体教室",
@@ -8134,7 +7920,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · READING, STUDY",
       "images": [
-        "images/WY-217.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "266-中学图书馆",
@@ -8158,7 +7946,7 @@
       "size": 8,
       "description": "国际幼儿园 · SPECIAL CLASSROOM · GATHERING, PLAYROOM KG",
       "images": [
-        "images/DSC06723.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "267-活动教室",
@@ -8179,8 +7967,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/WY-151.jpg",
-        "images/%25E6%25A0%2587%25E5%2587%2586%25E5%25B0%258F%25E5%25AD%25A6%25E6%2595%2599%25E5%25AE%25A4.jpg"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "268-小学教室",
@@ -8204,7 +7991,9 @@
       "size": 8,
       "description": "国际学校 · LIBRARY · STUDY",
       "images": [
-        "images/Enscape_2023-11-27-16-13-45.png"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "269-小初教学楼 - 图书馆",
@@ -8229,7 +8018,9 @@
       "size": 8,
       "description": "国际幼儿园 · LIBRARY · STUDY",
       "images": [
-        "images/DSC09199.jpg"
+        "images/sp_ib_center.jpg",
+        "images/sp_library_kids.jpg",
+        "images/sp_library_read.jpg"
       ],
       "meta": {
         "notionPageId": "270-儿童图书馆",
@@ -8248,9 +8039,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · SWIMMING POOL · SWIMMING",
-      "images": [
-        "images/Picture3%202.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "271-泳池",
         "roomType": "SWIMMING POOL",
@@ -8276,7 +8065,8 @@
       "size": 8,
       "description": "国际学校 · SPECIAL CLASSROOM · STUDY",
       "images": [
-        "images/%25E5%25A4%259A%25E5%258A%259F%25E8%2583%25BD%25E6%2595%2599%25E5%25AE%25A4.png"
+        "images/sp_auditorium.jpg",
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "272-多功能教室",
@@ -8306,9 +8096,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际幼儿园 · COMMON · PLAYROOM KG",
-      "images": [
-        "images/DSC01370.jpg"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "273-幼儿园活动房",
         "roomType": "COMMON",
@@ -8326,9 +8114,7 @@
       "category": "空间产品",
       "size": 8,
       "description": "国际学校 · RESTROOM / TOILET · SERVICE",
-      "images": [
-        "images/wc.png"
-      ],
+      "images": [],
       "meta": {
         "notionPageId": "274-男卫生间",
         "roomType": "RESTROOM / TOILET",
@@ -8351,7 +8137,7 @@
       "size": 8,
       "description": "国际学校 · REGULAR CLASSROOM · STUDY",
       "images": [
-        "images/Enscape_2023-12-21-17-46-35.png"
+        "images/sp_regular_class.jpg"
       ],
       "meta": {
         "notionPageId": "275-普通教室 - 低年级",
