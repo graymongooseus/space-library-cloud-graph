@@ -49,10 +49,7 @@ body {
   backdrop-filter: blur(16px);
 }
 
-.search-box { width: min(280px, 34vw); }
-.search-box input,
 .filter-select,
-.filter-apply,
 .filter-clear {
   height: 38px;
   border: 1px solid rgba(255,255,255,0.16);
@@ -60,37 +57,25 @@ body {
   outline: none;
   font-size: 14px;
 }
-.search-box input:focus-visible,
 .filter-select:focus-visible,
-.filter-apply:focus-visible,
 .filter-clear:focus-visible {
   border-color: rgba(255,255,255,0.72);
   box-shadow: 0 0 0 3px rgba(120,180,255,0.36);
 }
-.search-box input {
-  width: 100%;
-  padding: 0 15px;
-  background: rgba(255,255,255,0.92);
-  color: #111;
-}
 .filter-select {
   max-width: 168px;
   padding: 0 12px;
-  background: rgba(255,255,255,0.92);
-  color: #222;
+  background: rgba(14,16,24,0.58);
+  color: rgba(255,255,255,0.86);
   cursor: pointer;
+  backdrop-filter: blur(14px);
 }
-.filter-apply,
 .filter-clear {
   width: 44px;
   padding: 0;
   cursor: pointer;
   font-size: 17px;
   line-height: 1;
-}
-.filter-apply {
-  background: #fff;
-  color: #111;
 }
 .filter-clear {
   background: rgba(255,255,255,0.08);
@@ -168,7 +153,7 @@ body {
   overflow-y: auto;
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 14px;
-  background: rgba(14,16,24,0.76);
+  background: rgba(14,16,24,0.56);
   box-shadow: 0 24px 70px rgba(0,0,0,0.5);
   backdrop-filter: blur(18px);
 }
@@ -328,7 +313,6 @@ body {
     flex-wrap: wrap;
     border-radius: 18px;
   }
-  .search-box,
   .filter-select {
     width: 100%;
     max-width: none;
@@ -343,23 +327,16 @@ body {
 </head>
 <body>
 <div class="top-tools">
-  <div class="search-box">
-    <input type="text" id="searchInput" aria-label="搜索空间、活动、学校类型" placeholder="搜索空间、活动、学校类型..." />
-  </div>
-  <select class="filter-select" id="activityFilter"><option value="">活动内容</option></select>
-  <select class="filter-select" id="roomFilter"><option value="">房间类型</option></select>
-  <select class="filter-select" id="schoolFilter"><option value="">学校类型</option></select>
-  <button class="filter-apply" id="applyFilters" aria-label="应用筛选" title="应用筛选">&#10003;</button>
-  <button class="filter-clear" id="clearFilters" aria-label="清除筛选" title="清除筛选">&#128465;</button>
+  <select class="filter-select" id="schoolNameFilter"><option value="">School Name</option></select>
+  <select class="filter-select" id="schoolFilter"><option value="">School Type</option></select>
   <button class="filter-clear" id="resetView" aria-label="重置视图" title="重置视图">&#8634;</button>
 </div>
 <div class="active-filters" id="activeFilters" aria-live="polite"></div>
-<div class="theme-palette" id="themePalette" aria-label="视觉调色板">
-  <h3>视觉调色板</h3>
-  <label class="theme-control">项目 <input type="color" data-theme-key="project" value="#ff7f0e"></label>
-  <label class="theme-control">空间产品 <input type="color" data-theme-key="space" value="#1f77b4"></label>
-  <label class="theme-control">关键词 <input type="color" data-theme-key="category" value="#2ca02c"></label>
-  <label class="theme-control">高亮 <input type="color" data-theme-key="highlight" value="#fff4a8"></label>
+<div class="theme-palette" id="themePalette" aria-label="Color Scheme">
+  <h3>Color Scheme</h3>
+  <label class="theme-control">School Project <input type="color" data-theme-key="project" value="#ff7f0e"></label>
+  <label class="theme-control">Space Name <input type="color" data-theme-key="space" value="#1f77b4"></label>
+  <label class="theme-control">School Type <input type="color" data-theme-key="category" value="#2ca02c"></label>
 </div>
 
 <div id="graph-container"></div>
@@ -381,6 +358,8 @@ let hoverFocus = { nodeId: null, nodeIds: new Set(), linkKeys: new Set() };
 let selectedDetailNode = null;
 let hoverSuppressUntil = 0;
 let hoverDisabledUntilPointerMove = false;
+let draggingNode = null;
+let dragRecoveryTimer = 0;
 const nodeObjectsById = new Map();
 const SPACE_NODE_RADIUS_SCALE = 1;
 const OTHER_NODE_RADIUS_SCALE = 0.75;
@@ -464,8 +443,7 @@ function initGraph(data) {
   }, {});
   activeGraph = graphData;
 
-  fillFilter('activityFilter', '活动内容');
-  fillFilter('roomFilter', '房间类型');
+  fillFilter('schoolNameFilter', '学校项目');
   fillFilter('schoolFilter', '学校类型');
   updateStats(graphData);
 
@@ -767,24 +745,40 @@ function setCameraControlsEnabled(enabled) {
   controls.update();
 }
 
+function releaseDraggedNode() {
+  if (!draggingNode) return;
+  draggingNode.fx = undefined;
+  draggingNode.fy = undefined;
+  draggingNode.fz = undefined;
+  draggingNode = null;
+  if (Graph) Graph.d3ReheatSimulation();
+}
+
+function recoverNodeDrag() {
+  window.clearTimeout(dragRecoveryTimer);
+  releaseDraggedNode();
+  setCameraControlsEnabled(true);
+}
+
+function scheduleDragRecovery() {
+  window.clearTimeout(dragRecoveryTimer);
+  dragRecoveryTimer = window.setTimeout(recoverNodeDrag, 700);
+}
+
 function handleNodeDrag(node) {
   if (!node) return;
+  draggingNode = node;
   setCameraControlsEnabled(false);
   node.fx = node.x;
   node.fy = node.y;
   node.fz = node.z;
+  scheduleDragRecovery();
   if (Graph) Graph.d3ReheatSimulation();
 }
 
 function handleNodeDragEnd(node) {
-  if (node) {
-    window.setTimeout(() => {
-      node.fx = undefined;
-      node.fy = undefined;
-      node.fz = undefined;
-      if (Graph) Graph.d3ReheatSimulation();
-    }, 120);
-  }
+  draggingNode = node || draggingNode;
+  window.setTimeout(recoverNodeDrag, 120);
   window.setTimeout(() => setCameraControlsEnabled(true), 80);
 }
 
@@ -804,14 +798,13 @@ function linkDistance(link) {
 }
 
 function selectedFilterId() {
-  return document.getElementById('activityFilter').value ||
-    document.getElementById('roomFilter').value ||
+  return document.getElementById('schoolNameFilter').value ||
     document.getElementById('schoolFilter').value ||
     '';
 }
 
 function selectedFilterEntries() {
-  return ['activityFilter', 'roomFilter', 'schoolFilter']
+  return ['schoolNameFilter', 'schoolFilter']
     .map(selectId => {
       const select = document.getElementById(selectId);
       if (!select || !select.value) return null;
@@ -861,20 +854,12 @@ function applyFilters() {
   updateActiveFilterChips();
 }
 
-function clearFilters() {
-  document.getElementById('activityFilter').value = '';
-  document.getElementById('roomFilter').value = '';
-  document.getElementById('schoolFilter').value = '';
-  document.getElementById('searchInput').value = '';
-  activeGraph = graphData;
-  searchMatches.clear();
-  if (Graph) {
-    Graph.graphData(cloneGraph(graphData));
-    refreshNodeAppearance();
-    focusInitialGraph(1000);
-  }
-  updateStats(graphData);
-  updateActiveFilterChips();
+function handleFilterChange(event) {
+  const changedId = event.target.id;
+  ['schoolNameFilter', 'schoolFilter'].forEach(selectId => {
+    if (selectId !== changedId) document.getElementById(selectId).value = '';
+  });
+  applyFilters();
 }
 
 function resetGraphView() {
@@ -885,10 +870,8 @@ function resetGraphView() {
   hoverSuppressUntil = Date.now() + 400;
   hoverDisabledUntilPointerMove = false;
   clearHoverFocus();
-  document.getElementById('activityFilter').value = '';
-  document.getElementById('roomFilter').value = '';
+  document.getElementById('schoolNameFilter').value = '';
   document.getElementById('schoolFilter').value = '';
-  document.getElementById('searchInput').value = '';
   activeGraph = graphData;
   searchMatches.clear();
   if (Graph) {
@@ -1194,10 +1177,9 @@ function handleNodeClick(node) {
   overlay.classList.add('active');
 }
 
-document.getElementById('applyFilters').onclick = applyFilters;
-document.getElementById('clearFilters').onclick = clearFilters;
 document.getElementById('resetView').onclick = resetGraphView;
-document.getElementById('searchInput').addEventListener('input', applySearchHighlight);
+document.getElementById('schoolNameFilter').addEventListener('change', handleFilterChange);
+document.getElementById('schoolFilter').addEventListener('change', handleFilterChange);
 document.querySelectorAll('#themePalette input[type="color"]').forEach(input => {
   input.addEventListener('input', applyThemeControl);
 });
@@ -1218,6 +1200,10 @@ document.getElementById('lightbox').addEventListener('click', event => {
   event.currentTarget.classList.remove('active');
   event.currentTarget.innerHTML = '';
 });
+window.addEventListener('pointerup', recoverNodeDrag);
+window.addEventListener('mouseup', recoverNodeDrag);
+window.addEventListener('touchend', recoverNodeDrag);
+window.addEventListener('blur', recoverNodeDrag);
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
     closeDetail();

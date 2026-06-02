@@ -31,15 +31,20 @@ test('3d cloud page loads 3d-force-graph and keeps the local data parameter guar
   assert.match(html3d, /space-library-graph\.json/);
 });
 
-test('3d cloud page keeps explicit filter apply and clear controls', () => {
-  assert.match(html3d, /id="applyFilters"/);
-  assert.match(html3d, /id="clearFilters"/);
+test('3d cloud page keeps school name and school type filtering with reset controls', () => {
+  assert.doesNotMatch(html3d, /id="searchInput"/);
+  assert.doesNotMatch(html3d, /id="activityFilter"/);
+  assert.doesNotMatch(html3d, /id="roomFilter"/);
+  assert.doesNotMatch(html3d, /id="applyFilters"/);
+  assert.doesNotMatch(html3d, /id="clearFilters"/);
+  assert.match(html3d, /id="schoolNameFilter"/);
+  assert.match(html3d, /School Name/);
+  assert.match(html3d, /id="schoolFilter"/);
+  assert.match(html3d, /School Type/);
   assert.match(html3d, /id="resetView"/);
-  assert.match(html3d, /aria-label="应用筛选"/);
-  assert.match(html3d, /aria-label="清除筛选"/);
   assert.match(html3d, /aria-label="重置视图"/);
   assert.match(html3d, /function applyFilters\(/);
-  assert.match(html3d, /function clearFilters\(/);
+  assert.match(html3d, /function handleFilterChange\(/);
   assert.match(html3d, /function resetGraphView\(/);
 });
 
@@ -54,8 +59,15 @@ test('3d cloud page includes detail gallery and project metadata rendering', () 
 
 test('3d detail panel is translucent over the graph', () => {
   assert.match(html3d, /\.detail-panel \{/);
-  assert.match(html3d, /background: rgba\(14,16,24,0\.76\)/);
+  assert.match(html3d, /background: rgba\(14,16,24,0\.56\)/);
   assert.match(html3d, /backdrop-filter: blur\(18px\)/);
+});
+
+test('3d filter dropdowns use translucent glass styling', () => {
+  assert.match(html3d, /\.filter-select \{/);
+  assert.match(html3d, /background: rgba\(14,16,24,0\.58\)/);
+  assert.match(html3d, /backdrop-filter: blur\(14px\)/);
+  assert.match(html3d, /color: rgba\(255,255,255,0\.86\)/);
 });
 
 test('3d cloud page renders nodes as bright custom spheres', () => {
@@ -111,6 +123,11 @@ test('3d cloud page uses a large graph inspired visual scale', () => {
 
 test('3d cloud page supports hover focus and live color controls', () => {
   assert.match(html3d, /id="themePalette"/);
+  assert.match(html3d, /Color Scheme/);
+  assert.match(html3d, /School Project/);
+  assert.match(html3d, /Space Name/);
+  assert.match(html3d, /School Type/);
+  assert.doesNotMatch(html3d, /data-theme-key="highlight"/);
   assert.match(html3d, /function handleNodeHover\(/);
   assert.match(html3d, /function clearHoverFocus\(/);
   assert.match(html3d, /hoverSuppressUntil/);
@@ -132,8 +149,11 @@ test('3d cloud page temporarily disables camera controls while dragging nodes', 
   assert.match(html3d, /function setCameraControlsEnabled\(/);
   assert.match(html3d, /function handleNodeDrag\(/);
   assert.match(html3d, /function handleNodeDragEnd\(/);
+  assert.match(html3d, /function recoverNodeDrag\(/);
+  assert.match(html3d, /function scheduleDragRecovery\(/);
   assert.match(html3d, /setCameraControlsEnabled\(false\)/);
   assert.match(html3d, /setCameraControlsEnabled\(true\)/);
+  assert.match(html3d, /window\.addEventListener\('pointerup', recoverNodeDrag\)/);
   assert.match(html3d, /Graph\.d3ReheatSimulation\(\)/);
 });
 
