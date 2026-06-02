@@ -22,7 +22,7 @@ function loadEnvFile(filePath) {
 const env = { ...process.env, ...loadEnvFile(envPath) };
 const token = env.NOTION_TOKEN;
 const dataSourceId = env.NOTION_DATA_SOURCE_ID;
-const projectRelationProperty = env.NOTION_PROJECT_RELATION_PROPERTY || 'Related to 1.PROJECT 工作项目 (🖼Space 空间产品)';
+const projectRelationProperty = env.NOTION_PROJECT_RELATION_PROPERTY || '学校项目 School Project';
 const notionVersion = env.NOTION_VERSION || '2026-03-11';
 
 if (!token) {
@@ -126,14 +126,13 @@ function relationIds(page, name) {
 function projectFromPage(page) {
   return {
     id: page.id,
-    name: firstTitle(page) || page.id,
-    type: selectProp(page, '项目类型'),
+    name: titleProp(page, 'Project name') || firstTitle(page) || page.id,
     status: selectProp(page, '项目状态'),
-    priority: selectProp(page, '项目优先级'),
     period: dateProp(page, '项目周期'),
-    description: richTextProp(page, '项目描述'),
     managers: peopleProp(page, '项目经理'),
-    evaPath: richTextProp(page, 'EVA 服务器目录'),
+    schoolType: selectProp(page, '学校类型'),
+    type: selectProp(page, '项目类型'),
+    description: richTextProp(page, '项目描述'),
   };
 }
 
@@ -167,10 +166,6 @@ async function getProject(id) {
   return projectCache.get(id);
 }
 
-function unique(values) {
-  return [...new Set(values.map((value) => String(value || '').trim()).filter(Boolean))];
-}
-
 const pages = await queryAllDataSource(dataSourceId);
 const spaces = [];
 
@@ -184,25 +179,22 @@ for (const page of pages) {
     projects.push(await getProject(id));
   }
 
+  const activities = multiSelectProp(page, 'ACTIVITIES');
+  const equipment = multiSelectProp(page, 'EQUIPMENT');
+  const unitPrice = selectProp(page, 'UNIT PRICE');
+
   spaces.push({
     id: page.id,
     name,
-    roomType: selectProp(page, '房间类型'),
-    schoolType: selectProp(page, '学校类型'),
-    activities: multiSelectProp(page, '活动内容'),
-    styles: multiSelectProp(page, '设计风格'),
-    cost: selectProp(page, '单方造价'),
-    materials: unique([
-      ...multiSelectProp(page, '地面材料'),
-      ...multiSelectProp(page, '天花材料'),
-    ]),
-    equipment: multiSelectProp(page, '配套设备'),
+    activities,
+    equipment,
+    unitPrice,
     images: filesProp(page, '缩略图预览'),
     projects,
     description: [
-      selectProp(page, '学校类型'),
-      selectProp(page, '房间类型'),
-      multiSelectProp(page, '活动内容').join(', '),
+      activities.join(', '),
+      equipment.join(', '),
+      unitPrice,
     ].filter(Boolean).join(' · '),
   });
 }
@@ -217,4 +209,3 @@ console.log(`Resolved projects: ${projectCache.size}`);
 console.log(`Graph nodes: ${graph.nodes.length}`);
 console.log(`Graph links: ${graph.links.length}`);
 console.log(`Wrote ${path.relative(root, outputPath)}`);
-

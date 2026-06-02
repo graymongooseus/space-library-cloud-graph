@@ -82,8 +82,11 @@ body {
 }
 .filter-apply,
 .filter-clear {
-  padding: 0 15px;
+  width: 44px;
+  padding: 0;
   cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
 }
 .filter-apply {
   background: #fff;
@@ -165,8 +168,9 @@ body {
   overflow-y: auto;
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 14px;
-  background: rgba(14,16,24,0.96);
+  background: rgba(14,16,24,0.76);
   box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+  backdrop-filter: blur(18px);
 }
 .detail-header {
   display: flex;
@@ -278,6 +282,44 @@ body {
   border-radius: 8px;
 }
 
+.theme-palette {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 120;
+  width: 172px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  background: rgba(10,12,18,0.68);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.34);
+  backdrop-filter: blur(14px);
+}
+.theme-palette h3 {
+  margin: 0 0 9px;
+  color: rgba(255,255,255,0.72);
+  font-size: 12px;
+  font-weight: 700;
+}
+.theme-control {
+  display: grid;
+  grid-template-columns: 1fr 34px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: rgba(255,255,255,0.68);
+  font-size: 12px;
+}
+.theme-control input {
+  width: 34px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+
 @media (max-width: 760px) {
   .top-tools {
     left: 12px;
@@ -291,6 +333,11 @@ body {
     width: 100%;
     max-width: none;
   }
+  .theme-palette {
+    width: 156px;
+    left: 12px;
+    bottom: 12px;
+  }
 }
 </style>
 </head>
@@ -302,10 +349,18 @@ body {
   <select class="filter-select" id="activityFilter"><option value="">活动内容</option></select>
   <select class="filter-select" id="roomFilter"><option value="">房间类型</option></select>
   <select class="filter-select" id="schoolFilter"><option value="">学校类型</option></select>
-  <button class="filter-apply" id="applyFilters">确定</button>
-  <button class="filter-clear" id="clearFilters">清除</button>
+  <button class="filter-apply" id="applyFilters" aria-label="应用筛选" title="应用筛选">&#10003;</button>
+  <button class="filter-clear" id="clearFilters" aria-label="清除筛选" title="清除筛选">&#128465;</button>
+  <button class="filter-clear" id="resetView" aria-label="重置视图" title="重置视图">&#8634;</button>
 </div>
 <div class="active-filters" id="activeFilters" aria-live="polite"></div>
+<div class="theme-palette" id="themePalette" aria-label="视觉调色板">
+  <h3>视觉调色板</h3>
+  <label class="theme-control">项目 <input type="color" data-theme-key="project" value="#ff7f0e"></label>
+  <label class="theme-control">空间产品 <input type="color" data-theme-key="space" value="#1f77b4"></label>
+  <label class="theme-control">关键词 <input type="color" data-theme-key="category" value="#2ca02c"></label>
+  <label class="theme-control">高亮 <input type="color" data-theme-key="highlight" value="#fff4a8"></label>
+</div>
 
 <div id="graph-container"></div>
 <div id="tooltip"></div>
@@ -321,13 +376,23 @@ let colorMap = {};
 let activeGraph = graphData;
 let searchMatches = new Set();
 let autoRotateFrame = 0;
+let ambientDriftFrame = 0;
+let hoverFocus = { nodeId: null, nodeIds: new Set(), linkKeys: new Set() };
+let selectedDetailNode = null;
+let hoverSuppressUntil = 0;
+let hoverDisabledUntilPointerMove = false;
+const nodeObjectsById = new Map();
+const SPACE_NODE_RADIUS_SCALE = 1;
+const OTHER_NODE_RADIUS_SCALE = 0.75;
 
 const VISUAL_THEME = {
-  project: { color: '#ffe3ee', halo: '#ff8fbd', minRadius: 10, maxRadius: 22, opacity: 1, haloOpacity: 0.34 },
-  category: { color: '#78d7ff', halo: '#5ea8ff', minRadius: 7, maxRadius: 14, opacity: 0.92, haloOpacity: 0.2 },
-  space: { color: '#a8b8ff', halo: '#6d82ff', minRadius: 2.2, maxRadius: 5.4, opacity: 0.58, haloOpacity: 0.12 },
+  project: { color: '#ff7f0e', halo: '#ff7f0e', minRadius: 8, maxRadius: 18, opacity: 0.9, haloOpacity: 0.035 },
+  category: { color: '#2ca02c', halo: '#2ca02c', minRadius: 5.5, maxRadius: 11, opacity: 0.86, haloOpacity: 0.025 },
+  space: { color: '#1f77b4', halo: '#1f77b4', minRadius: 1.8, maxRadius: 4.4, opacity: 0.9, haloOpacity: 0.03 },
+  center: { color: '#c7d2fe', halo: '#c7d2fe', minRadius: 12, maxRadius: 20, opacity: 0.38, haloOpacity: 0.02 },
   dim: '#243049',
-  search: '#fff4a8'
+  search: '#fff4a8',
+  highlight: '#fff4a8'
 };
 
 function getGraphDataUrl() {
@@ -407,28 +472,31 @@ function initGraph(data) {
   Graph = ForceGraph3D()(document.getElementById('graph-container'))
     .backgroundColor('#000106')
     .graphData(cloneGraph(graphData))
-    .nodeLabel(node => `${node.category} · ${node.label}`)
+    .nodeLabel(() => '')
     .nodeColor(nodeColor)
     .nodeOpacity(nodeOpacity)
-    .nodeRelSize(6)
+    .nodeRelSize(4)
     .nodeVal(nodeSize)
     .nodeThreeObject(makeNodeObject)
     .nodeThreeObjectExtend(false)
-    .linkColor(() => 'rgba(128,156,210,0.34)')
-    .linkOpacity(0.28)
-    .linkWidth(0.34)
-    .enableNodeDrag(false)
-    .onNodeHover(showTooltip)
+    .linkColor(linkColor)
+    .linkOpacity(linkOpacity)
+    .linkWidth(linkWidth)
+    .enableNodeDrag(true)
+    .onNodeDrag(handleNodeDrag)
+    .onNodeDragEnd(handleNodeDragEnd)
+    .onNodeHover(handleNodeHover)
     .onNodeClick(handleNodeClick);
 
   Graph.width(window.innerWidth);
   Graph.height(window.innerHeight);
-  Graph.d3Force('charge').strength(-95);
+  Graph.d3Force('charge').strength(-52);
   Graph.d3Force('link').distance(linkDistance);
+  Graph.d3VelocityDecay(0.42);
   addSceneLights();
-  Graph.cameraPosition({ x: 0, y: 0, z: 390 }, { x: 0, y: 0, z: 0 }, 0);
-  setTimeout(() => focusGraph(graphData, 900), 1200);
-  startAutoRotate();
+  Graph.cameraPosition({ x: 0, y: 0, z: 1250 }, { x: 0, y: 0, z: 0 }, 0);
+  resetCameraControls();
+  setTimeout(() => focusInitialGraph(900), 1200);
   updateActiveFilterChips();
 }
 
@@ -464,8 +532,9 @@ function cloneGraph(sourceGraph) {
 }
 
 function visualRole(node) {
-  if (node.category === '项目') return VISUAL_THEME.project;
-  if (node.category === '空间产品') return VISUAL_THEME.space;
+  if (node.category === 'Education Project') return VISUAL_THEME.center;
+  if (node.category === '项目' || node.category === '学校项目') return VISUAL_THEME.project;
+  if (node.category === '空间产品' || node.category === '空间名称') return VISUAL_THEME.space;
   return VISUAL_THEME.category;
 }
 
@@ -478,6 +547,17 @@ function interpolateColor(from, to, ratio) {
   return `#${mixed.map(value => value.toString(16).padStart(2, '0')).join('')}`;
 }
 
+function colorWithAlpha(color, alpha) {
+  const normalized = safeColor(color);
+  const value = normalized.length === 4
+    ? `#${normalized[1]}${normalized[1]}${normalized[2]}${normalized[2]}${normalized[3]}${normalized[3]}`
+    : normalized;
+  const red = parseInt(value.slice(1, 3), 16);
+  const green = parseInt(value.slice(3, 5), 16);
+  const blue = parseInt(value.slice(5, 7), 16);
+  return `rgba(${red},${green},${blue},${alpha})`;
+}
+
 function projectConnectionStrength(node) {
   const spaceCount = node.meta && node.meta.project && Number(node.meta.project.spaceCount);
   const count = Number.isFinite(spaceCount) ? spaceCount : (node.size || 0);
@@ -485,13 +565,14 @@ function projectConnectionStrength(node) {
 }
 
 function projectColor(node) {
-  return interpolateColor(VISUAL_THEME.project.color, '#ff6fa8', projectConnectionStrength(node));
+  return interpolateColor(VISUAL_THEME.project.color, '#d62728', projectConnectionStrength(node));
 }
 
 function nodeSize(node) {
   const role = visualRole(node);
-  const base = node.category === '项目' ? (node.size || 22) * 0.765 : (node.size || 10) * 0.48;
-  return Math.max(role.minRadius, Math.min(role.maxRadius, base));
+  const isSpaceNode = node.category === '空间产品' || node.category === '空间名称';
+  const base = node.category === '项目' || node.category === '学校项目' ? (node.size || 22) * 0.765 : (node.size || 10) * 0.48;
+  return Math.max(role.minRadius, Math.min(role.maxRadius, base)) * (isSpaceNode ? SPACE_NODE_RADIUS_SCALE : OTHER_NODE_RADIUS_SCALE);
 }
 
 function nodeOpacity(node) {
@@ -500,14 +581,89 @@ function nodeOpacity(node) {
 }
 
 function nodeColor(node) {
+  if (hoverFocus.nodeId && node.id === hoverFocus.nodeId) return VISUAL_THEME.highlight;
   if (searchMatches.size && !searchMatches.has(node.id)) return VISUAL_THEME.dim;
   if (searchMatches.has(node.id)) return VISUAL_THEME.search;
-  if (node.category === '项目') return projectColor(node);
+  return nodeBaseColor(node);
+}
+
+function nodeBaseColor(node) {
+  if (node.category === '项目' || node.category === '学校项目') return projectColor(node);
   return visualRole(node).color;
+}
+
+function relationKey(sourceId, targetId) {
+  return [sourceId, targetId].sort().join('::');
+}
+
+function buildHoverState(node) {
+  if (!node) return { nodeId: null, nodeIds: new Set(), linkKeys: new Set() };
+  const nodeIds = new Set([node.id]);
+  const linkKeys = new Set();
+  activeGraph.links.forEach(link => {
+    const sourceId = endpointId(link.source);
+    const targetId = endpointId(link.target);
+    if (sourceId !== node.id && targetId !== node.id) return;
+    nodeIds.add(sourceId);
+    nodeIds.add(targetId);
+    linkKeys.add(relationKey(sourceId, targetId));
+  });
+  return { nodeId: node.id, nodeIds, linkKeys };
+}
+
+function isHoverLink(link) {
+  return hoverFocus.linkKeys.has(relationKey(endpointId(link.source), endpointId(link.target)));
+}
+
+function linkColor(link) {
+  if (!hoverFocus.nodeId) return 'rgba(145,165,190,0.22)';
+  return isHoverLink(link) ? colorWithAlpha(VISUAL_THEME.highlight, 0.82) : 'rgba(88,98,118,0.09)';
+}
+
+function linkOpacity(link) {
+  if (!hoverFocus.nodeId) return 0.2;
+  return isHoverLink(link) ? 0.72 : 0.05;
+}
+
+function linkWidth(link) {
+  if (!hoverFocus.nodeId) return 0;
+  return isHoverLink(link) ? 0.9 : 0;
 }
 
 function nodeSphereRadius(node) {
   return nodeSize(node);
+}
+
+function makeTextSprite(text, color = '#f5f5f5') {
+  if (typeof THREE === 'undefined' || !text) return null;
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  const fontSize = 28;
+  context.font = `700 ${fontSize}px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif`;
+  const metrics = context.measureText(text);
+  const width = Math.ceil(metrics.width + 32);
+  const height = 54;
+  canvas.width = width;
+  canvas.height = height;
+  context.font = `700 ${fontSize}px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif`;
+  context.textBaseline = 'middle';
+  context.fillStyle = 'rgba(0,0,0,0.34)';
+  context.fillRect(0, 0, width, height);
+  context.fillStyle = color;
+  context.fillText(text, 16, height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  const material = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    depthWrite: false,
+    depthTest: false,
+  });
+  const sprite = new THREE.Sprite(material);
+  const scale = 0.22;
+  sprite.scale.set(width * scale, height * scale, 1);
+  return sprite;
 }
 
 function makeNodeObject(node) {
@@ -517,25 +673,28 @@ function makeNodeObject(node) {
   const opacity = nodeOpacity(node);
   const role = visualRole(node);
   const isSearchMatch = searchMatches.has(node.id);
-  const projectGlow = node.category === '项目' ? interpolateColor('#ffd6e7', '#ff5d9c', projectConnectionStrength(node)) : role.halo;
-  const geometry = new THREE.SphereGeometry(radius, 32, 20);
+  const isHoverMatch = hoverFocus.nodeIds.has(node.id);
+  const isProjectNode = node.category === '项目' || node.category === '学校项目';
+  const isSpaceNode = node.category === '空间产品' || node.category === '空间名称';
+  const projectGlow = isProjectNode ? interpolateColor(VISUAL_THEME.project.halo, '#d62728', projectConnectionStrength(node)) : role.halo;
+  const geometry = new THREE.SphereGeometry(radius, 12, 8);
   const material = new THREE.MeshPhongMaterial({
     color,
-    emissive: isSearchMatch ? VISUAL_THEME.search : projectGlow,
-    emissiveIntensity: isSearchMatch ? 0.9 : (node.category === '空间产品' ? 0.24 : 0.48),
-    shininess: node.category === '项目' ? 90 : 42,
+    emissive: isSearchMatch || node.id === hoverFocus.nodeId ? VISUAL_THEME.highlight : projectGlow,
+    emissiveIntensity: isSearchMatch || node.id === hoverFocus.nodeId ? 0.55 : 0.035,
+    shininess: 18,
     transparent: true,
     opacity,
     depthWrite: false
   });
   const sphere = new THREE.Mesh(geometry, material);
 
-  const haloScale = isSearchMatch ? 2.8 : (node.category === '空间产品' ? 2.05 : 1.95);
-  const haloGeometry = new THREE.SphereGeometry(radius * haloScale, 32, 20);
+  const haloScale = isSearchMatch || isHoverMatch ? 1.72 : 1.28;
+  const haloGeometry = new THREE.SphereGeometry(radius * haloScale, 12, 8);
   const haloMaterial = new THREE.MeshBasicMaterial({
-    color: isSearchMatch ? VISUAL_THEME.search : projectGlow,
+    color: isSearchMatch || isHoverMatch ? VISUAL_THEME.highlight : projectGlow,
     transparent: true,
-    opacity: isSearchMatch ? 0.42 : role.haloOpacity,
+    opacity: isSearchMatch || isHoverMatch ? 0.18 : role.haloOpacity,
     depthWrite: false,
     blending: THREE.AdditiveBlending
   });
@@ -544,17 +703,27 @@ function makeNodeObject(node) {
   const group = new THREE.Group();
   group.add(halo);
   group.add(sphere);
-  if (node.category === '项目') {
-    const coreGeometry = new THREE.SphereGeometry(radius * 0.42, 24, 16);
+  if (node.category === '学校项目') {
+    const label = makeTextSprite(node.label || node.id, '#ffe4c2');
+    if (label) {
+      label.position.set(radius + 42, -radius * 0.1, 0);
+      group.add(label);
+    }
+  }
+  if (isProjectNode) {
+    const coreGeometry = new THREE.SphereGeometry(radius * 0.28, 12, 8);
     const coreMaterial = new THREE.MeshBasicMaterial({
-      color: interpolateColor('#ffffff', '#ffd1e2', projectConnectionStrength(node)),
+      color: interpolateColor('#ffe2c4', VISUAL_THEME.project.color, projectConnectionStrength(node)),
       transparent: true,
-      opacity: 0.88,
+      opacity: 0.16,
       depthWrite: false,
       blending: THREE.AdditiveBlending
     });
     group.add(new THREE.Mesh(coreGeometry, coreMaterial));
   }
+  node.__driftPhase = node.__driftPhase || Math.random() * Math.PI * 2;
+  group.scale.setScalar(isHoverMatch ? 1.12 : 1);
+  nodeObjectsById.set(node.id, group);
   return group;
 }
 
@@ -575,6 +744,50 @@ function showTooltip(node) {
   tooltip.style.opacity = 1;
 }
 
+function handleNodeHover(node) {
+  if (node && (hoverDisabledUntilPointerMove || Date.now() < hoverSuppressUntil)) {
+    showTooltip(null);
+    return;
+  }
+  hoverFocus = buildHoverState(node);
+  showTooltip(node);
+  refreshNodeAppearance();
+}
+
+function clearHoverFocus() {
+  hoverFocus = buildHoverState(null);
+  showTooltip(null);
+  refreshNodeAppearance();
+}
+
+function setCameraControlsEnabled(enabled) {
+  const controls = Graph && Graph.controls && Graph.controls();
+  if (!controls) return;
+  controls.enabled = Boolean(enabled);
+  controls.update();
+}
+
+function handleNodeDrag(node) {
+  if (!node) return;
+  setCameraControlsEnabled(false);
+  node.fx = node.x;
+  node.fy = node.y;
+  node.fz = node.z;
+  if (Graph) Graph.d3ReheatSimulation();
+}
+
+function handleNodeDragEnd(node) {
+  if (node) {
+    window.setTimeout(() => {
+      node.fx = undefined;
+      node.fy = undefined;
+      node.fz = undefined;
+      if (Graph) Graph.d3ReheatSimulation();
+    }, 120);
+  }
+  window.setTimeout(() => setCameraControlsEnabled(true), 80);
+}
+
 function endpointId(endpoint) {
   return endpoint && typeof endpoint === 'object' ? endpoint.id : endpoint;
 }
@@ -582,10 +795,12 @@ function endpointId(endpoint) {
 function linkDistance(link) {
   const source = nodesById.get(endpointId(link.source));
   const target = nodesById.get(endpointId(link.target));
-  if (!source || !target) return 62;
-  if (source.category === '项目' || target.category === '项目') return 88;
-  if (source.category === '空间产品' || target.category === '空间产品') return 56;
-  return 72;
+  if (!source || !target) return 46;
+  if (source.category === 'Education Project' || target.category === 'Education Project') return 46;
+  if (source.category === '学校类型' || target.category === '学校类型') return 33;
+  if (source.category === '学校项目' || target.category === '学校项目' || source.category === '项目' || target.category === '项目') return 66;
+  if (source.category === '空间名称' || target.category === '空间名称' || source.category === '空间产品' || target.category === '空间产品') return 42;
+  return 54;
 }
 
 function selectedFilterId() {
@@ -656,7 +871,30 @@ function clearFilters() {
   if (Graph) {
     Graph.graphData(cloneGraph(graphData));
     refreshNodeAppearance();
-    focusGraph(graphData, 1000);
+    focusInitialGraph(1000);
+  }
+  updateStats(graphData);
+  updateActiveFilterChips();
+}
+
+function resetGraphView() {
+  document.getElementById('detailOverlay').classList.remove('active');
+  document.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lightbox').innerHTML = '';
+  selectedDetailNode = null;
+  hoverSuppressUntil = Date.now() + 400;
+  hoverDisabledUntilPointerMove = false;
+  clearHoverFocus();
+  document.getElementById('activityFilter').value = '';
+  document.getElementById('roomFilter').value = '';
+  document.getElementById('schoolFilter').value = '';
+  document.getElementById('searchInput').value = '';
+  activeGraph = graphData;
+  searchMatches.clear();
+  if (Graph) {
+    Graph.graphData(cloneGraph(graphData));
+    refreshNodeAppearance();
+    focusInitialGraph(900);
   }
   updateStats(graphData);
   updateActiveFilterChips();
@@ -664,7 +902,14 @@ function clearFilters() {
 
 function refreshNodeAppearance() {
   if (!Graph) return;
-  Graph.nodeColor(nodeColor).nodeOpacity(nodeOpacity).nodeThreeObject(makeNodeObject);
+  nodeObjectsById.clear();
+  Graph
+    .nodeColor(nodeColor)
+    .nodeOpacity(nodeOpacity)
+    .nodeThreeObject(makeNodeObject)
+    .linkColor(linkColor)
+    .linkOpacity(linkOpacity)
+    .linkWidth(linkWidth);
 }
 
 function applySearchHighlight() {
@@ -693,8 +938,9 @@ function addSceneLights() {
   scene.add(key);
 }
 
-function focusGraph(sourceGraph, duration = 900) {
+function focusGraph(sourceGraph, duration = 900, options = {}) {
   if (!Graph) return;
+  resetCameraControls();
   const nodes = sourceGraph && Array.isArray(sourceGraph.nodes) ? sourceGraph.nodes : [];
   if (!nodes.length) return;
   const centered = nodes.reduce((sum, node) => ({
@@ -713,18 +959,44 @@ function focusGraph(sourceGraph, duration = 900) {
     const dz = (node.z || 0) - center.z;
     return Math.max(maxDistance, Math.sqrt(dx * dx + dy * dy + dz * dz));
   }, 0);
-  const distance = Math.max(180, Math.min(520, spread * 1.55 + 150));
+  const minDistance = options.minDistance || 180;
+  const maxDistance = options.maxDistance || 620;
+  const distanceScale = options.distanceScale || 1.55;
+  const padding = options.padding || 150;
+  const distance = Math.max(minDistance, Math.min(maxDistance, spread * distanceScale + padding));
   Graph.cameraPosition({ x: center.x, y: center.y, z: center.z + distance }, center, duration);
+}
+
+function resetCameraControls() {
+  const controls = Graph && Graph.controls && Graph.controls();
+  if (!controls) return;
+  controls.enabled = true;
+  controls.enableRotate = true;
+  controls.enablePan = true;
+  controls.enableZoom = true;
+  controls.autoRotate = false;
+  controls.update();
+}
+
+function focusInitialGraph(duration = 900) {
+  focusGraph(graphData, duration, { maxDistance: 1680, distanceScale: 2.5, padding: 520 });
+}
+
+function focusRelatedGraph(node, duration = 1000) {
+  if (!node) {
+    focusGraph(activeGraph, duration, { maxDistance: 1180, distanceScale: 2.05, padding: 360 });
+    return;
+  }
+  focusGraph(subgraphForNode(node.id), duration, { minDistance: 260, maxDistance: 760, distanceScale: 2, padding: 260 });
 }
 
 function focusNode(node) {
   if (!Graph || !node) return;
-  const distance = node.category === '项目' ? 120 : node.category === '空间产品' ? 74 : 96;
-  const ratio = 1 + distance / Math.hypot(node.x || 1, node.y || 1, node.z || 1);
+  const distance = node.category === '项目' || node.category === '学校项目' ? 120 : node.category === '空间产品' || node.category === '空间名称' ? 74 : 96;
   Graph.cameraPosition({
-    x: (node.x || 0) * ratio,
-    y: (node.y || 0) * ratio,
-    z: (node.z || 0) * ratio
+    x: node.x || 0,
+    y: node.y || 0,
+    z: (node.z || 0) + distance
   }, node, 1800);
 }
 
@@ -733,14 +1005,41 @@ function startAutoRotate() {
   const rotate = () => {
     autoRotateFrame = requestAnimationFrame(rotate);
     if (!Graph || document.getElementById('detailOverlay').classList.contains('active')) return;
-    const controls = Graph.controls && Graph.controls();
-    if (controls) {
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = 0.32;
-      controls.update();
-    }
+    setAutoRotateEnabled(!hoverFocus.nodeId);
   };
   rotate();
+}
+
+function setAutoRotateEnabled(enabled) {
+  const controls = Graph && Graph.controls && Graph.controls();
+  if (!controls) return;
+  controls.autoRotate = Boolean(enabled);
+  controls.autoRotateSpeed = 0.32;
+  controls.update();
+}
+
+function startAmbientDrift() {
+  if (ambientDriftFrame) cancelAnimationFrame(ambientDriftFrame);
+  const drift = time => {
+    ambientDriftFrame = requestAnimationFrame(drift);
+    const paused = hoverFocus.nodeId || document.getElementById('detailOverlay').classList.contains('active');
+    nodeObjectsById.forEach((object, nodeId) => {
+      const node = nodesById.get(nodeId);
+      if (!object || !node) return;
+      if (paused) {
+        object.position.set(0, 0, 0);
+        return;
+      }
+      const phase = node.__driftPhase || 0;
+      const amplitude = node.category === '项目' || node.category === '学校项目' ? 1.35 : node.category === '空间产品' || node.category === '空间名称' ? 0.72 : 1;
+      object.position.set(
+        Math.cos(time * 0.00045 + phase) * amplitude * 0.34,
+        Math.sin(time * 0.00062 + phase) * amplitude,
+        Math.sin(time * 0.00038 + phase) * amplitude * 0.26
+      );
+    });
+  };
+  ambientDriftFrame = requestAnimationFrame(drift);
 }
 
 function relatedNodes(node) {
@@ -771,7 +1070,7 @@ function getDetailImages(node, relations) {
   };
   addImages(node);
   relations.forEach(relation => addImages(relation.node));
-  return images.slice(0, 12);
+  return images.slice(0, 36);
 }
 
 function escapeHtml(value) {
@@ -791,16 +1090,38 @@ function safeColor(value) {
   return '#8ea2ff';
 }
 
+function applyThemeControl(event) {
+  const input = event.target;
+  const color = safeColor(input.value);
+  if (input.dataset.themeKey === 'project') {
+    VISUAL_THEME.project.color = color;
+    VISUAL_THEME.project.halo = color;
+  }
+  if (input.dataset.themeKey === 'space') {
+    VISUAL_THEME.space.color = color;
+    VISUAL_THEME.space.halo = color;
+  }
+  if (input.dataset.themeKey === 'category') {
+    VISUAL_THEME.category.color = color;
+    VISUAL_THEME.category.halo = color;
+  }
+  if (input.dataset.themeKey === 'highlight') {
+    VISUAL_THEME.search = color;
+    VISUAL_THEME.highlight = color;
+  }
+  refreshNodeAppearance();
+}
+
 function renderProjectMeta(node) {
   const project = node.meta && node.meta.project;
   if (!project) return '';
   const rows = [
     ['项目状态', project.status],
-    ['学校类型', Array.isArray(project.schoolTypes) ? project.schoolTypes.join(', ') : (project.schoolType || project.school)],
     ['项目周期', project.period],
-    ['空间数量', project.spaceCount !== undefined ? `${project.spaceCount} 个空间产品` : ''],
-    ['EVA 目录', project.evaPath],
-    ['项目描述', project.description]
+    ['项目经理', Array.isArray(project.managers) ? project.managers.join(', ') : project.managers],
+    ['学校类型', Array.isArray(project.schoolTypes) ? project.schoolTypes.join(', ') : (project.schoolType || project.school)],
+    ['空间数量', project.spaceCount !== undefined ? `${project.spaceCount} 个空间名称` : ''],
+    ['项目描述', project.description],
   ].filter(([, value]) => value);
   if (!rows.length) return '';
   return `<div class="project-meta">${rows.map(([label, value]) => `
@@ -810,19 +1131,17 @@ function renderProjectMeta(node) {
 }
 
 function renderSpaceMeta(node) {
-  const attrs = node.meta && node.meta.designAttributes;
+  const attrs = (node.meta && node.meta.space) || (node.meta && node.meta.designAttributes);
   if (!attrs) return '';
   const rows = [
-    ['设计风格', attrs.styles],
-    ['色系', attrs.colors],
-    ['单方造价', attrs.cost],
-    ['材料', attrs.materials],
-    ['配套设备', attrs.equipment],
+    ['ACTIVITIES', attrs.activities || attrs.styles],
+    ['EQUIPMENT', attrs.equipment],
+    ['UNIT PRICE', attrs.unitPrice || attrs.cost],
   ]
     .map(([label, value]) => [label, Array.isArray(value) ? value.join(', ') : value])
     .filter(([, value]) => value);
   if (!rows.length) return '';
-  return `<div class="detail-section-title">设计属性</div>
+  return `<div class="detail-section-title">空间属性</div>
     <div class="project-meta">${rows.map(([label, value]) => `
       <div class="meta-label">${escapeHtml(label)}</div>
       <div class="meta-value">${escapeHtml(value)}</div>
@@ -831,6 +1150,11 @@ function renderSpaceMeta(node) {
 
 function closeDetail() {
   document.getElementById('detailOverlay').classList.remove('active');
+  selectedDetailNode = null;
+  hoverSuppressUntil = Date.now() + 1200;
+  hoverDisabledUntilPointerMove = true;
+  clearHoverFocus();
+  focusRelatedGraph(null, 1100);
 }
 
 function openLightbox(imageUrl) {
@@ -840,6 +1164,8 @@ function openLightbox(imageUrl) {
 }
 
 function handleNodeClick(node) {
+  selectedDetailNode = node;
+  clearHoverFocus();
   focusNode(node);
   const overlay = document.getElementById('detailOverlay');
   const relations = relatedNodes(node);
@@ -870,7 +1196,11 @@ function handleNodeClick(node) {
 
 document.getElementById('applyFilters').onclick = applyFilters;
 document.getElementById('clearFilters').onclick = clearFilters;
+document.getElementById('resetView').onclick = resetGraphView;
 document.getElementById('searchInput').addEventListener('input', applySearchHighlight);
+document.querySelectorAll('#themePalette input[type="color"]').forEach(input => {
+  input.addEventListener('input', applyThemeControl);
+});
 document.getElementById('detailOverlay').addEventListener('click', event => {
   if (event.target.id === 'detailOverlay' || event.target.hasAttribute('data-close-detail')) {
     closeDetail();
@@ -896,6 +1226,10 @@ document.addEventListener('keydown', event => {
 });
 
 window.addEventListener('mousemove', event => {
+  if (hoverDisabledUntilPointerMove) {
+    hoverDisabledUntilPointerMove = false;
+    hoverSuppressUntil = Date.now() + 250;
+  }
   const tooltip = document.getElementById('tooltip');
   tooltip.style.left = `${event.clientX + 14}px`;
   tooltip.style.top = `${event.clientY + 12}px`;
