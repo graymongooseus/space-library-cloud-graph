@@ -346,16 +346,23 @@ function initGraph(data) {
     .nodeLabel(node => `${node.category} · ${node.label}`)
     .nodeColor(nodeColor)
     .nodeOpacity(nodeOpacity)
-    .nodeRelSize(4)
+    .nodeRelSize(7)
     .nodeVal(nodeSize)
-    .linkColor(() => 'rgba(150,170,255,0.18)')
-    .linkOpacity(0.18)
-    .linkWidth(0.35)
+    .linkColor(() => 'rgba(170,195,255,0.55)')
+    .linkOpacity(0.46)
+    .linkWidth(0.85)
     .onNodeHover(showTooltip)
     .onNodeClick(handleNodeClick);
 
   Graph.width(window.innerWidth);
   Graph.height(window.innerHeight);
+  Graph.d3Force('charge').strength(-120);
+  Graph.cameraPosition({ x: 0, y: 0, z: 520 }, { x: 0, y: 0, z: 0 }, 0);
+  setTimeout(() => {
+    if (Graph && typeof Graph.zoomToFit === 'function') {
+      Graph.zoomToFit(900, 80);
+    }
+  }, 1200);
 }
 
 function fillFilter(selectId, categoryName) {
@@ -390,15 +397,15 @@ function cloneGraph(sourceGraph) {
 }
 
 function nodeSize(node) {
-  if (node.category === '项目') return Math.max(7, (node.size || 16) * 0.42);
-  if (node.category === '空间产品') return Math.max(2.2, (node.size || 8) * 0.2);
-  return Math.max(4, (node.size || 12) * 0.32);
+  if (node.category === '项目') return Math.max(14, (node.size || 16) * 0.72);
+  if (node.category === '空间产品') return Math.max(5, (node.size || 8) * 0.42);
+  return Math.max(9, (node.size || 12) * 0.56);
 }
 
 function nodeOpacity(node) {
-  if (node.category === '空间产品') return 0.42;
+  if (node.category === '空间产品') return 0.68;
   if (node.category === '项目') return 0.95;
-  return 0.78;
+  return 0.9;
 }
 
 function nodeColor(node) {
