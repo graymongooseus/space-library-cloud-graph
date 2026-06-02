@@ -61,6 +61,11 @@ test('3d cloud page vendors graph libraries locally', () => {
   assert.doesNotMatch(html3d, /https:\/\/cdn\.jsdelivr\.net\/npm\/(?:three|3d-force-graph)/);
 });
 
+test('3d cloud page bridges CommonJS globals from vendored libraries', () => {
+  assert.match(html3d, /window\.THREE = module\.exports/);
+  assert.match(html3d, /window\.ForceGraph3D = module\.exports\.default \|\| module\.exports/);
+});
+
 test('3d cloud page inline script is syntactically valid', () => {
   const scripts = Array.from(html3d.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi));
   assert.ok(scripts.length > 0);

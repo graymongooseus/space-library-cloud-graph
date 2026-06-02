@@ -5,7 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPACE LIBRARY 空间产品库 · 3D 知识关系云图</title>
 <script src="vendor/three.min.js?v=e4f6100"></script>
+<script>
+if (typeof THREE === 'undefined' && typeof module !== 'undefined' && module.exports && module.exports.REVISION) {
+  window.THREE = module.exports;
+}
+</script>
 <script src="vendor/3d-force-graph.min.js?v=e4f6100"></script>
+<script>
+if (typeof ForceGraph3D === 'undefined' && typeof module !== 'undefined' && module.exports) {
+  window.ForceGraph3D = module.exports.default || module.exports;
+}
+</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; height: 100%; }
