@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const html = readFileSync('space-library-cloud.html', 'utf8');
+const html3d = readFileSync('space-library-cloud-3d.html', 'utf8');
 
 test('filter controls require an explicit apply action', () => {
   assert.match(html, /id="applyFilters"/);
@@ -21,5 +22,34 @@ test('space product nodes use smaller text and lower visual opacity', () => {
   assert.match(html, /nodeRadius\(d\)/);
   assert.match(html, /nodeOpacity\(d\)/);
   assert.match(html, /nodeFontSize\(d\)/);
+});
+
+test('3d cloud page loads 3d-force-graph and keeps the local data parameter guard', () => {
+  assert.match(html3d, /3d-force-graph/);
+  assert.match(html3d, /function getGraphDataUrl\(/);
+  assert.match(html3d, /requested\.includes\('\.\.'\)/);
+  assert.match(html3d, /space-library-graph\.json/);
+});
+
+test('3d cloud page keeps explicit filter apply and clear controls', () => {
+  assert.match(html3d, /id="applyFilters"/);
+  assert.match(html3d, /id="clearFilters"/);
+  assert.match(html3d, /function applyFilters\(/);
+  assert.match(html3d, /function clearFilters\(/);
+});
+
+test('3d cloud page includes detail gallery and project metadata rendering', () => {
+  assert.match(html3d, /function getDetailImages\(/);
+  assert.match(html3d, /function renderProjectMeta\(/);
+  assert.match(html3d, /detailImages\.map/);
+  assert.match(html3d, /project-meta/);
+});
+
+test('3d cloud page inline script is syntactically valid', () => {
+  const scripts = Array.from(html3d.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi));
+  assert.ok(scripts.length > 0);
+  for (const [, script] of scripts) {
+    assert.doesNotThrow(() => new Function(script));
+  }
 });
 
