@@ -93,6 +93,30 @@ body {
   background: rgba(255,255,255,0.08);
   color: #fff;
 }
+.active-filters {
+  position: fixed;
+  top: 78px;
+  left: 50%;
+  z-index: 95;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  width: min(720px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.active-filters.visible { display: flex; }
+.filter-chip {
+  padding: 5px 10px;
+  border: 1px solid rgba(155,190,255,0.28);
+  border-radius: 999px;
+  background: rgba(16,22,36,0.74);
+  color: rgba(225,235,255,0.9);
+  font-size: 12px;
+  box-shadow: 0 0 18px rgba(96,160,255,0.12);
+  backdrop-filter: blur(12px);
+}
 
 #tooltip {
   position: fixed;
@@ -281,6 +305,7 @@ body {
   <button class="filter-apply" id="applyFilters">确定</button>
   <button class="filter-clear" id="clearFilters">清除</button>
 </div>
+<div class="active-filters" id="activeFilters" aria-live="polite"></div>
 
 <div id="graph-container"></div>
 <div id="tooltip"></div>
@@ -295,6 +320,15 @@ let nodesById = new Map();
 let colorMap = {};
 let activeGraph = graphData;
 let searchMatches = new Set();
+let autoRotateFrame = 0;
+
+const VISUAL_THEME = {
+  project: { color: '#f5f8ff', halo: '#78a7ff', minRadius: 11, maxRadius: 24, opacity: 1, haloOpacity: 0.34 },
+  category: { color: '#78d7ff', halo: '#5ea8ff', minRadius: 7, maxRadius: 14, opacity: 0.92, haloOpacity: 0.2 },
+  space: { color: '#a8b8ff', halo: '#6d82ff', minRadius: 2.2, maxRadius: 5.4, opacity: 0.58, haloOpacity: 0.12 },
+  dim: '#243049',
+  search: '#fff4a8'
+};
 
 function getGraphDataUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -371,30 +405,31 @@ function initGraph(data) {
   updateStats(graphData);
 
   Graph = ForceGraph3D()(document.getElementById('graph-container'))
-    .backgroundColor('#020308')
+    .backgroundColor('#000106')
     .graphData(cloneGraph(graphData))
     .nodeLabel(node => `${node.category} · ${node.label}`)
     .nodeColor(nodeColor)
     .nodeOpacity(nodeOpacity)
-    .nodeRelSize(7)
+    .nodeRelSize(6)
     .nodeVal(nodeSize)
     .nodeThreeObject(makeNodeObject)
     .nodeThreeObjectExtend(false)
-    .linkColor(() => 'rgba(170,195,255,0.55)')
-    .linkOpacity(0.46)
-    .linkWidth(0.85)
+    .linkColor(() => 'rgba(128,156,210,0.34)')
+    .linkOpacity(0.28)
+    .linkWidth(0.34)
+    .enableNodeDrag(false)
     .onNodeHover(showTooltip)
     .onNodeClick(handleNodeClick);
 
   Graph.width(window.innerWidth);
   Graph.height(window.innerHeight);
-  Graph.d3Force('charge').strength(-120);
-  Graph.cameraPosition({ x: 0, y: 0, z: 520 }, { x: 0, y: 0, z: 0 }, 0);
-  setTimeout(() => {
-    if (Graph && typeof Graph.zoomToFit === 'function') {
-      Graph.zoomToFit(900, 80);
-    }
-  }, 1200);
+  Graph.d3Force('charge').strength(-95);
+  Graph.d3Force('link').distance(linkDistance);
+  addSceneLights();
+  Graph.cameraPosition({ x: 0, y: 0, z: 390 }, { x: 0, y: 0, z: 0 }, 0);
+  setTimeout(() => focusGraph(graphData, 900), 1200);
+  startAutoRotate();
+  updateActiveFilterChips();
 }
 
 function fillFilter(selectId, categoryName) {
@@ -428,27 +463,31 @@ function cloneGraph(sourceGraph) {
   };
 }
 
+function visualRole(node) {
+  if (node.category === '项目') return VISUAL_THEME.project;
+  if (node.category === '空间产品') return VISUAL_THEME.space;
+  return VISUAL_THEME.category;
+}
+
 function nodeSize(node) {
-  if (node.category === '项目') return Math.max(14, (node.size || 16) * 0.72);
-  if (node.category === '空间产品') return Math.max(5, (node.size || 8) * 0.42);
-  return Math.max(9, (node.size || 12) * 0.56);
+  const role = visualRole(node);
+  const base = node.category === '项目' ? (node.size || 22) * 0.85 : (node.size || 10) * 0.48;
+  return Math.max(role.minRadius, Math.min(role.maxRadius, base));
 }
 
 function nodeOpacity(node) {
-  if (node.category === '空间产品') return 0.68;
-  if (node.category === '项目') return 0.95;
-  return 0.9;
+  if (searchMatches.size && !searchMatches.has(node.id)) return 0.18;
+  return visualRole(node).opacity;
 }
 
 function nodeColor(node) {
-  if (searchMatches.size && !searchMatches.has(node.id)) return '#3e4968';
-  return safeColor(colorMap[node.category] || '#8ea2ff');
+  if (searchMatches.size && !searchMatches.has(node.id)) return VISUAL_THEME.dim;
+  if (searchMatches.has(node.id)) return VISUAL_THEME.search;
+  return visualRole(node).color;
 }
 
 function nodeSphereRadius(node) {
-  if (node.category === '项目') return Math.max(8, Math.min(18, (node.size || 18) * 0.42));
-  if (node.category === '空间产品') return Math.max(4, Math.min(8, (node.size || 8) * 0.38));
-  return Math.max(6, Math.min(12, (node.size || 12) * 0.42));
+  return nodeSize(node);
 }
 
 function makeNodeObject(node) {
@@ -456,20 +495,26 @@ function makeNodeObject(node) {
   const color = nodeColor(node);
   const radius = nodeSphereRadius(node);
   const opacity = nodeOpacity(node);
+  const role = visualRole(node);
+  const isSearchMatch = searchMatches.has(node.id);
   const geometry = new THREE.SphereGeometry(radius, 32, 20);
-  const material = new THREE.MeshBasicMaterial({
+  const material = new THREE.MeshPhongMaterial({
     color,
+    emissive: isSearchMatch ? VISUAL_THEME.search : role.halo,
+    emissiveIntensity: isSearchMatch ? 0.9 : (node.category === '空间产品' ? 0.24 : 0.42),
+    shininess: node.category === '项目' ? 90 : 42,
     transparent: true,
     opacity,
     depthWrite: false
   });
   const sphere = new THREE.Mesh(geometry, material);
 
-  const haloGeometry = new THREE.SphereGeometry(radius * 1.75, 32, 20);
+  const haloScale = isSearchMatch ? 2.8 : (node.category === '空间产品' ? 2.05 : 1.95);
+  const haloGeometry = new THREE.SphereGeometry(radius * haloScale, 32, 20);
   const haloMaterial = new THREE.MeshBasicMaterial({
-    color,
+    color: isSearchMatch ? VISUAL_THEME.search : role.halo,
     transparent: true,
-    opacity: node.category === '空间产品' ? 0.16 : 0.24,
+    opacity: isSearchMatch ? 0.42 : role.haloOpacity,
     depthWrite: false,
     blending: THREE.AdditiveBlending
   });
@@ -478,6 +523,17 @@ function makeNodeObject(node) {
   const group = new THREE.Group();
   group.add(halo);
   group.add(sphere);
+  if (node.category === '项目') {
+    const coreGeometry = new THREE.SphereGeometry(radius * 0.42, 24, 16);
+    const coreMaterial = new THREE.MeshBasicMaterial({
+      color: '#ffffff',
+      transparent: true,
+      opacity: 0.88,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+    group.add(new THREE.Mesh(coreGeometry, coreMaterial));
+  }
   return group;
 }
 
@@ -502,11 +558,41 @@ function endpointId(endpoint) {
   return endpoint && typeof endpoint === 'object' ? endpoint.id : endpoint;
 }
 
+function linkDistance(link) {
+  const source = nodesById.get(endpointId(link.source));
+  const target = nodesById.get(endpointId(link.target));
+  if (!source || !target) return 62;
+  if (source.category === '项目' || target.category === '项目') return 88;
+  if (source.category === '空间产品' || target.category === '空间产品') return 56;
+  return 72;
+}
+
 function selectedFilterId() {
   return document.getElementById('activityFilter').value ||
     document.getElementById('roomFilter').value ||
     document.getElementById('schoolFilter').value ||
     '';
+}
+
+function selectedFilterEntries() {
+  return ['activityFilter', 'roomFilter', 'schoolFilter']
+    .map(selectId => {
+      const select = document.getElementById(selectId);
+      if (!select || !select.value) return null;
+      const option = select.options[select.selectedIndex];
+      return { id: select.value, label: option ? option.textContent : select.value };
+    })
+    .filter(Boolean);
+}
+
+function updateActiveFilterChips() {
+  const chipContainer = document.getElementById('activeFilters');
+  if (!chipContainer) return;
+  const entries = selectedFilterEntries();
+  chipContainer.classList.toggle('visible', entries.length > 0);
+  chipContainer.innerHTML = entries
+    .map(entry => `<span class="filter-chip">${escapeHtml(entry.label)}</span>`)
+    .join('');
 }
 
 function subgraphForNode(nodeId) {
@@ -533,8 +619,10 @@ function applyFilters() {
   if (Graph) {
     Graph.graphData(cloneGraph(nextGraph));
     refreshNodeAppearance();
+    focusGraph(nextGraph, 900);
   }
   updateStats(nextGraph);
+  updateActiveFilterChips();
 }
 
 function clearFilters() {
@@ -547,13 +635,15 @@ function clearFilters() {
   if (Graph) {
     Graph.graphData(cloneGraph(graphData));
     refreshNodeAppearance();
+    focusGraph(graphData, 1000);
   }
   updateStats(graphData);
+  updateActiveFilterChips();
 }
 
 function refreshNodeAppearance() {
   if (!Graph) return;
-  Graph.nodeColor(nodeColor).nodeOpacity(nodeOpacity);
+  Graph.nodeColor(nodeColor).nodeOpacity(nodeOpacity).nodeThreeObject(makeNodeObject);
 }
 
 function applySearchHighlight() {
@@ -566,6 +656,70 @@ function applySearchHighlight() {
     });
   }
   refreshNodeAppearance();
+  if (searchMatches.size) {
+    const focusedNodes = activeGraph.nodes.filter(node => searchMatches.has(node.id));
+    focusGraph({ nodes: focusedNodes, links: [] }, 900);
+  }
+}
+
+function addSceneLights() {
+  if (!Graph || typeof THREE === 'undefined' || !Graph.scene) return;
+  const scene = Graph.scene();
+  const ambient = new THREE.AmbientLight(0x9bb6ff, 0.72);
+  const key = new THREE.DirectionalLight(0xffffff, 1.25);
+  key.position.set(120, 180, 260);
+  scene.add(ambient);
+  scene.add(key);
+}
+
+function focusGraph(sourceGraph, duration = 900) {
+  if (!Graph) return;
+  const nodes = sourceGraph && Array.isArray(sourceGraph.nodes) ? sourceGraph.nodes : [];
+  if (!nodes.length) return;
+  const centered = nodes.reduce((sum, node) => ({
+    x: sum.x + (node.x || 0),
+    y: sum.y + (node.y || 0),
+    z: sum.z + (node.z || 0)
+  }), { x: 0, y: 0, z: 0 });
+  const center = {
+    x: centered.x / nodes.length,
+    y: centered.y / nodes.length,
+    z: centered.z / nodes.length
+  };
+  const spread = nodes.reduce((maxDistance, node) => {
+    const dx = (node.x || 0) - center.x;
+    const dy = (node.y || 0) - center.y;
+    const dz = (node.z || 0) - center.z;
+    return Math.max(maxDistance, Math.sqrt(dx * dx + dy * dy + dz * dz));
+  }, 0);
+  const distance = Math.max(180, Math.min(520, spread * 1.55 + 150));
+  Graph.cameraPosition({ x: center.x, y: center.y, z: center.z + distance }, center, duration);
+}
+
+function focusNode(node) {
+  if (!Graph || !node) return;
+  const distance = node.category === '项目' ? 120 : node.category === '空间产品' ? 74 : 96;
+  const ratio = 1 + distance / Math.hypot(node.x || 1, node.y || 1, node.z || 1);
+  Graph.cameraPosition({
+    x: (node.x || 0) * ratio,
+    y: (node.y || 0) * ratio,
+    z: (node.z || 0) * ratio
+  }, node, 1800);
+}
+
+function startAutoRotate() {
+  if (autoRotateFrame) cancelAnimationFrame(autoRotateFrame);
+  const rotate = () => {
+    autoRotateFrame = requestAnimationFrame(rotate);
+    if (!Graph || document.getElementById('detailOverlay').classList.contains('active')) return;
+    const controls = Graph.controls && Graph.controls();
+    if (controls) {
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.32;
+      controls.update();
+    }
+  };
+  rotate();
 }
 
 function relatedNodes(node) {
@@ -665,6 +819,7 @@ function openLightbox(imageUrl) {
 }
 
 function handleNodeClick(node) {
+  focusNode(node);
   const overlay = document.getElementById('detailOverlay');
   const relations = relatedNodes(node);
   const detailImages = getDetailImages(node, relations);

@@ -56,6 +56,23 @@ test('3d cloud page renders nodes as bright custom spheres', () => {
   assert.match(html3d, /\.nodeThreeObject\(makeNodeObject\)/);
 });
 
+test('3d cloud page exposes visual hierarchy and focus interactions', () => {
+  assert.match(html3d, /const VISUAL_THEME =/);
+  assert.match(html3d, /function visualRole\(/);
+  assert.match(html3d, /function focusGraph\(/);
+  assert.match(html3d, /function focusNode\(/);
+  assert.match(html3d, /\.enableNodeDrag\(false\)/);
+  assert.match(html3d, /Graph\.cameraPosition\([^;]+node[^;]+1800\)/s);
+});
+
+test('3d cloud page shows active filter chips and search glow', () => {
+  assert.match(html3d, /id="activeFilters"/);
+  assert.match(html3d, /function updateActiveFilterChips\(/);
+  assert.match(html3d, /function selectedFilterEntries\(/);
+  assert.match(html3d, /searchMatches\.has\(node\.id\)/);
+  assert.match(html3d, /emissive/);
+});
+
 test('3d cloud page vendors graph libraries locally', () => {
   assert.ok(existsSync('vendor/three.min.js'));
   assert.ok(existsSync('vendor/3d-force-graph.min.js'));
