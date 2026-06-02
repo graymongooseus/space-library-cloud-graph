@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const html = readFileSync('space-library-cloud.html', 'utf8');
 const html3d = readFileSync('space-library-cloud-3d.html', 'utf8');
@@ -46,11 +46,19 @@ test('3d cloud page includes detail gallery and project metadata rendering', () 
 });
 
 test('3d cloud page renders nodes as bright custom spheres', () => {
-  assert.match(html3d, /three(?:@|\.min\.js)/);
+  assert.match(html3d, /vendor\/three\.min\.js/);
+  assert.match(html3d, /vendor\/3d-force-graph\.min\.js/);
   assert.match(html3d, /function makeNodeObject\(/);
   assert.match(html3d, /new THREE\.SphereGeometry/);
   assert.match(html3d, /new THREE\.MeshBasicMaterial/);
   assert.match(html3d, /\.nodeThreeObject\(makeNodeObject\)/);
+});
+
+test('3d cloud page vendors graph libraries locally', () => {
+  assert.ok(existsSync('vendor/three.min.js'));
+  assert.ok(existsSync('vendor/3d-force-graph.min.js'));
+  assert.doesNotMatch(html3d, /https:\/\/unpkg\.com\/(?:three|3d-force-graph)/);
+  assert.doesNotMatch(html3d, /https:\/\/cdn\.jsdelivr\.net\/npm\/(?:three|3d-force-graph)/);
 });
 
 test('3d cloud page inline script is syntactically valid', () => {
