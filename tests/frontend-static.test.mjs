@@ -202,3 +202,25 @@ test('display override admin page exposes local-only editing controls', () => {
   assert.doesNotMatch(adminDisplayHtml, /api\.notion\.com/);
 });
 
+test('display override admin page documents last-generated preview behavior', () => {
+  assert.match(adminDisplayHtml, /last generated merged graph/);
+  assert.match(adminDisplayHtml, /scripts\/generate-notion-graph\.mjs/);
+});
+
+test('display override admin page keeps validator-aligned numeric ranges', () => {
+  assert.match(adminDisplayHtml, /data-theme-field="sizeScale" type="number" min="0\.2" max="4"/);
+  assert.match(adminDisplayHtml, /data-theme-field="opacity" type="number" min="0" max="1"/);
+  assert.match(adminDisplayHtml, /id="linkOpacity" type="range" min="0" max="1"/);
+  assert.match(adminDisplayHtml, /id="linkWidth" type="number" min="0\.1" max="8"/);
+  assert.match(adminDisplayHtml, /id="glowStrength" type="range" min="0" max="4"/);
+  assert.match(adminDisplayHtml, /function clampNumber/);
+});
+
+test('display override admin page inline script is syntactically valid', () => {
+  const scripts = Array.from(adminDisplayHtml.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi));
+  assert.ok(scripts.length > 0);
+  for (const [, script] of scripts) {
+    assert.doesNotThrow(() => new Function(script));
+  }
+});
+
