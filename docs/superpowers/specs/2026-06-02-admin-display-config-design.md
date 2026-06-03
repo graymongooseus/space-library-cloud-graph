@@ -4,7 +4,7 @@
 
 Build a lightweight admin surface for the Space Library graph that lets one maintainer tune display behavior without turning the project into a full CMS.
 
-Notion remains the source of truth for core data: spaces, projects, images, relations, and database properties. The local admin manages only presentation-specific overrides: hover text, detail-panel supplemental notes, and visual style settings.
+Notion remains the source of truth for core data: spaces, projects, relations, and database properties. Images are treated as already-hosted display assets outside this admin flow. The local admin manages only presentation-specific overrides: hover text, detail-panel supplemental notes, and visual style settings.
 
 ## Assumptions
 
@@ -13,6 +13,7 @@ Notion remains the source of truth for core data: spaces, projects, images, rela
 - The admin is for one trusted maintainer running the project locally.
 - The existing static graph pages should keep working with generated JSON data.
 - The project should avoid a large framework unless the implementation plan proves it is necessary.
+- Image upload, image hosting, and Notion image syncing are out of scope. Existing VPS-hosted image URLs should continue to render as display data.
 
 ## Recommended Approach
 
@@ -100,7 +101,7 @@ Hover tooltip:
 
 Detail panel:
 
-- Continue showing Notion-derived metadata, images, description, and relations.
+- Continue showing generated metadata, existing hosted images, description, and relations.
 - Add the override `detailNote` as a supplemental section when present.
 - Escape all user-authored text before rendering.
 
