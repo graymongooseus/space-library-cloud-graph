@@ -444,6 +444,7 @@ function initGraph(data) {
     return colors;
   }, {});
   activeGraph = graphData;
+  seedDisplayThemeColors();
 
   fillFilter('schoolNameFilter', '学校项目');
   fillFilter('schoolFilter', '学校类型');
@@ -520,6 +521,15 @@ function numberInRange(value, min, max) {
   return Number.isFinite(number) && number >= min && number <= max ? number : null;
 }
 
+function sceneGlowStrength() {
+  const strength = numberInRange(displayTheme.scene3d?.glowStrength, 0, 4);
+  return strength ?? 1;
+}
+
+function scaledGlowIntensity(value, max) {
+  return Math.max(0, Math.min(max, value * sceneGlowStrength()));
+}
+
 function nodeHoverTag(node) {
   return node.display?.hoverTag || '';
 }
@@ -534,6 +544,21 @@ function visualRole(node) {
   if (node.category === '项目' || node.category === '学校项目') return VISUAL_THEME.project;
   if (node.category === '空间产品' || node.category === '空间名称') return VISUAL_THEME.space;
   return VISUAL_THEME.category;
+}
+
+function visualThemeKey(categoryName) {
+  const role = visualRole({ category: categoryName });
+  return Object.keys(VISUAL_THEME).find(key => VISUAL_THEME[key] === role);
+}
+
+function seedDisplayThemeColors() {
+  graphData.categories.forEach(category => {
+    const color = safeColor(categoryTheme(category.name).color, null);
+    const themeKey = visualThemeKey(category.name);
+    if (!color || !themeKey) return;
+    VISUAL_THEME[themeKey].color = color;
+    VISUAL_THEME[themeKey].halo = color;
+  });
 }
 
 function interpolateColor(from, to, ratio) {
@@ -589,8 +614,6 @@ function nodeColor(node) {
 }
 
 function nodeBaseColor(node) {
-  const overrideColor = safeColor(categoryTheme(node.category).color, null);
-  if (overrideColor) return overrideColor;
   if (node.category === '项目' || node.category === '学校项目') return projectColor(node);
   return visualRole(node).color;
 }
@@ -625,14 +648,14 @@ function linkColor(link) {
 
 function linkOpacity(link) {
   const opacity = numberInRange(displayTheme.links?.opacity, 0, 1);
-  if (!hoverFocus.nodeId) return opacity ?? 0.28;
+  if (!hoverFocus.nodeId) return opacity ?? 0.2;
   return isHoverLink(link) ? 0.72 : 0.05;
 }
 
 function linkWidth(link) {
   const width = numberInRange(displayTheme.links?.width, 0.1, 8);
-  if (!hoverFocus.nodeId) return width ?? 0.34;
-  return isHoverLink(link) ? Math.max(0.9, width ?? 0.34) : 0;
+  if (!hoverFocus.nodeId) return width ?? 0;
+  return isHoverLink(link) ? (width ?? 0.9) : 0;
 }
 
 function nodeSphereRadius(node) {
@@ -686,7 +709,7 @@ function makeNodeObject(node) {
   const material = new THREE.MeshPhongMaterial({
     color,
     emissive: isSearchMatch || node.id === hoverFocus.nodeId ? VISUAL_THEME.highlight : projectGlow,
-    emissiveIntensity: isSearchMatch || node.id === hoverFocus.nodeId ? 0.55 : 0.035,
+    emissiveIntensity: isSearchMatch || node.id === hoverFocus.nodeId ? 0.55 : scaledGlowIntensity(0.035, 0.25),
     shininess: 18,
     transparent: true,
     opacity,
@@ -699,7 +722,7 @@ function makeNodeObject(node) {
   const haloMaterial = new THREE.MeshBasicMaterial({
     color: isSearchMatch || isHoverMatch ? VISUAL_THEME.highlight : projectGlow,
     transparent: true,
-    opacity: isSearchMatch || isHoverMatch ? 0.18 : role.haloOpacity,
+    opacity: isSearchMatch || isHoverMatch ? 0.18 : scaledGlowIntensity(role.haloOpacity, 0.28),
     depthWrite: false,
     blending: THREE.AdditiveBlending
   });
@@ -720,7 +743,7 @@ function makeNodeObject(node) {
     const coreMaterial = new THREE.MeshBasicMaterial({
       color: interpolateColor('#ffe2c4', VISUAL_THEME.project.color, projectConnectionStrength(node)),
       transparent: true,
-      opacity: 0.16,
+      opacity: scaledGlowIntensity(0.16, 0.64),
       depthWrite: false,
       blending: THREE.AdditiveBlending
     });

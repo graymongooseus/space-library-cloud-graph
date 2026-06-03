@@ -62,11 +62,19 @@ test('3d cloud page validates display override values before rendering', () => {
   assert.match(html3d, /const colorPattern = \/\^#\(\?:\[0-9a-fA-F\]\{3\}\|\[0-9a-fA-F\]\{6\}\)\$\/;/);
   assert.match(html3d, /function numberInRange\(value, min, max\)/);
   assert.match(html3d, /safeColor\(displayTheme\.scene3d\?\.backgroundColor, '#000106'\)/);
+  assert.match(html3d, /numberInRange\(displayTheme\.scene3d\?\.glowStrength, 0, 4\)/);
   assert.match(html3d, /numberInRange\(displayTheme\.links\?\.opacity, 0, 1\)/);
   assert.match(html3d, /numberInRange\(displayTheme\.links\?\.width, 0\.1, 8\)/);
   assert.match(html3d, /numberInRange\(categoryTheme\(node\.category\)\.sizeScale, 0\.2, 4\)/);
   assert.match(html3d, /numberInRange\(categoryTheme\(node\.category\)\.opacity, 0, 1\)/);
-  assert.match(html3d, /safeColor\(categoryTheme\(node\.category\)\.color, null\)/);
+  assert.match(html3d, /safeColor\(categoryTheme\(category\.name\)\.color, null\)/);
+  assert.match(html3d, /function sceneGlowStrength\(\)/);
+  assert.match(html3d, /function scaledGlowIntensity\(value, max\)/);
+});
+
+test('3d cloud page preserves no-override link rendering defaults', () => {
+  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return opacity \?\? 0\.2;/);
+  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return width \?\? 0;/);
 });
 
 test('3d cloud page loads 3d-force-graph and keeps the local data parameter guard', () => {
@@ -160,8 +168,8 @@ test('3d cloud page renders project nodes as scaled categorical spheres', () => 
 test('3d cloud page uses a large graph inspired visual scale', () => {
   assert.match(html3d, /\.nodeRelSize\(4\)/);
   assert.match(html3d, /Graph\.d3Force\('charge'\)\.strength\(-52\)/);
-  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return opacity \?\? 0\.28/);
-  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return width \?\? 0\.34/);
+  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return opacity \?\? 0\.2;/);
+  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return width \?\? 0;/);
   assert.match(html3d, /return 33/);
   assert.match(html3d, /return 66/);
 });
@@ -179,6 +187,9 @@ test('3d cloud page supports hover focus and live color controls', () => {
   assert.match(html3d, /hoverDisabledUntilPointerMove/);
   assert.match(html3d, /function buildHoverState\(/);
   assert.match(html3d, /function linkWidth\(/);
+  assert.match(html3d, /function seedDisplayThemeColors\(/);
+  assert.match(html3d, /VISUAL_THEME\[themeKey\]\.color = color/);
+  assert.doesNotMatch(html3d, /function nodeBaseColor\(node\) \{[\s\S]*?categoryTheme\(node\.category\)\.color[\s\S]*?\}/);
   assert.match(html3d, /function applyThemeControl\(/);
 });
 
