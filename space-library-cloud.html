@@ -201,13 +201,36 @@ function initGraph(data) {
     return displayTheme.categories?.[categoryName] || {};
   }
 
+  function safeColor(value, fallback) {
+    const colorPattern = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+    const normalizeColor = color => {
+      if (!colorPattern.test(color)) return null;
+      if (color.length === 4) {
+        return `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`;
+      }
+      return color;
+    };
+    const safeFallback = normalizeColor(String(fallback || '')) || '#999999';
+    const color = String(value || '');
+    return normalizeColor(color) || safeFallback;
+  }
+
+  function numberInRange(value, min, max) {
+    const number = Number(value);
+    return Number.isFinite(number) && number >= min && number <= max ? number : null;
+  }
+
+  function categoryColor(categoryName) {
+    return safeColor(categoryTheme(categoryName).color, safeColor(colorMap[categoryName], '#999'));
+  }
+
   function nodeColorValue(d) {
-    return categoryTheme(d.category).color || colorMap[d.category] || '#999';
+    return categoryColor(d.category);
   }
 
   function nodeSizeScale(d) {
-    const scale = Number(categoryTheme(d.category).sizeScale);
-    return Number.isFinite(scale) && scale > 0 ? scale : 1;
+    const scale = numberInRange(categoryTheme(d.category).sizeScale, 0.2, 4);
+    return scale ?? 1;
   }
 
   function nodeHoverTag(d) {
@@ -220,20 +243,20 @@ function initGraph(data) {
   }
 
   function defaultLinkOpacity() {
-    const opacity = Number(displayTheme.links?.opacity);
-    return Number.isFinite(opacity) ? opacity : 0.25;
+    const opacity = numberInRange(displayTheme.links?.opacity, 0, 1);
+    return opacity ?? 0.25;
   }
 
   function linkWidth() {
-    const width = Number(displayTheme.links?.width);
-    return Number.isFinite(width) && width > 0 ? width : 1.2;
+    const width = numberInRange(displayTheme.links?.width, 0.1, 8);
+    return width ?? 1.2;
   }
 
   graphData.categories.forEach(c => {
     const count = graphData.nodes.filter(n => n.category === c.name).length;
     const item = document.createElement('div');
     item.className = 'legend-item';
-    const color = categoryTheme(c.name).color || c.color;
+    const color = categoryColor(c.name);
     item.innerHTML = `<div class="legend-dot" style="background:${color}"></div>${c.name} (${count})`;
     item.onclick = () => {
       if (activeCategories.has(c.name)) { activeCategories.delete(c.name); item.classList.add('dimmed'); }
@@ -270,8 +293,8 @@ function initGraph(data) {
   }
 
   function nodeOpacity(d) {
-    const opacity = Number(categoryTheme(d.category).opacity);
-    if (Number.isFinite(opacity)) return opacity;
+    const opacity = numberInRange(categoryTheme(d.category).opacity, 0, 1);
+    if (opacity !== null) return opacity;
     if (d.category === '空间产品') return 0.42;
     return 0.85;
   }
@@ -420,7 +443,7 @@ function initGraph(data) {
         <div class="detail-color-dot" style="background:${color}"></div>
         <div style="flex:1">
           <h2>${escapeHtml(d.label)}</h2>
-          <span class="detail-category" style="background:${color}20;color:${color}">${escapeHtml(d.category)}</span>
+          <span class="detail-category" style="background:#f0f4ff;color:${color}">${escapeHtml(d.category)}</span>
         </div>
         <button class="detail-close" onclick="closeDetail()">✕</button>
       </div>
@@ -514,7 +537,7 @@ function initGraph(data) {
   function updateVisibility() {
     if (activeNodeFilter.id) {
       const visibleIds = relatedSpaceIds(activeNodeFilter.id);
-      node.select('circle').attr('opacity', d => visibleIds.has(d.id) ? (d.category === '空间产品' ? 0.58 : 0.9) : 0.03);
+      node.select('circle').attr('opacity', d => visibleIds.has(d.id) ? nodeOpacity(d) : 0.03);
       node.select('text').attr('opacity', d => visibleIds.has(d.id) ? 1 : 0.02);
       link.attr('stroke-opacity', l => {
         const sourceId = l.source.id || l.source;

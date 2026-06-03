@@ -34,6 +34,18 @@ test('2d cloud page renders display override hooks', () => {
   assert.match(html, /detailNote/);
 });
 
+test('2d cloud page validates display override values before rendering', () => {
+  assert.match(html, /function safeColor\(value, fallback\)/);
+  assert.match(html, /const colorPattern = \/\^#\(\?:\[0-9a-fA-F\]\{3\}\|\[0-9a-fA-F\]\{6\}\)\$\/;/);
+  assert.match(html, /function numberInRange\(value, min, max\)/);
+  assert.match(html, /numberInRange\(categoryTheme\(d\.category\)\.sizeScale, 0\.2, 4\)/);
+  assert.match(html, /numberInRange\(categoryTheme\(d\.category\)\.opacity, 0, 1\)/);
+  assert.match(html, /numberInRange\(displayTheme\.links\?\.opacity, 0, 1\)/);
+  assert.match(html, /numberInRange\(displayTheme\.links\?\.width, 0\.1, 8\)/);
+  assert.match(html, /visibleIds\.has\(d\.id\) \? nodeOpacity\(d\) : 0\.03/);
+  assert.doesNotMatch(html, /\$\{color\}20/);
+});
+
 test('3d cloud page loads 3d-force-graph and keeps the local data parameter guard', () => {
   assert.match(html3d, /3d-force-graph/);
   assert.match(html3d, /function getGraphDataUrl\(/);
