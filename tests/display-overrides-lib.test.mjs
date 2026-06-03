@@ -6,8 +6,21 @@ import {
   normalizeDisplayOverrides,
 } from '../scripts/display-overrides-lib.mjs';
 
+function plainOverrides(overrides) {
+  return {
+    nodes: { ...overrides.nodes },
+    theme: {
+      categories: { ...overrides.theme.categories },
+      links: { ...overrides.theme.links },
+      scene3d: { ...overrides.theme.scene3d },
+    },
+  };
+}
+
 test('creates an empty display override document', () => {
-  assert.deepEqual(emptyDisplayOverrides(), {
+  const overrides = emptyDisplayOverrides();
+
+  assert.deepEqual(plainOverrides(overrides), {
     nodes: {},
     theme: {
       categories: {},
@@ -15,6 +28,9 @@ test('creates an empty display override document', () => {
       scene3d: {},
     },
   });
+  assert.equal(Object.getPrototypeOf(overrides.nodes), null);
+  assert.equal(Object.getPrototypeOf(overrides.theme.categories), null);
+  assert.equal(Object.getPrototypeOf(overrides.theme.links), null);
 });
 
 test('adds node display overrides without replacing node text fields', () => {
@@ -84,7 +100,7 @@ test('applies valid category, link, and scene3d theme overrides', () => {
     { name: 'Spaces', color: '#fff' },
     { name: 'Projects', color: '#abcdef' },
   ]);
-  assert.deepEqual(merged.displayTheme, {
+  assert.deepEqual(plainOverrides({ nodes: {}, theme: merged.displayTheme }).theme, {
     categories: {
       Spaces: {
         color: '#fff',
@@ -108,7 +124,7 @@ test('applies valid category, link, and scene3d theme overrides', () => {
 
 test('ignores invalid theme override values', () => {
   assert.deepEqual(
-    normalizeDisplayOverrides({
+    plainOverrides(normalizeDisplayOverrides({
       theme: {
         categories: {
           Spaces: {
@@ -133,8 +149,8 @@ test('ignores invalid theme override values', () => {
           glowStrength: 4.1,
         },
       },
-    }),
-    emptyDisplayOverrides(),
+    })),
+    plainOverrides(emptyDisplayOverrides()),
   );
 });
 
@@ -158,16 +174,64 @@ test('records orphaned node overrides in sorted order', () => {
 });
 
 test('normalizes missing and null override sections', () => {
-  assert.deepEqual(normalizeDisplayOverrides(), emptyDisplayOverrides());
+  assert.deepEqual(plainOverrides(normalizeDisplayOverrides()), plainOverrides(emptyDisplayOverrides()));
   assert.deepEqual(
-    normalizeDisplayOverrides({
+    plainOverrides(normalizeDisplayOverrides({
       nodes: null,
       theme: {
         categories: null,
         links: null,
         scene3d: null,
       },
-    }),
-    emptyDisplayOverrides(),
+    })),
+    plainOverrides(emptyDisplayOverrides()),
   );
+});
+
+test('ignores parsed prototype keys in user-keyed override maps', () => {
+  const rawOverrides = JSON.parse(`{
+    "nodes": {
+      "__proto__": { "hoverTag": "Prototype node" },
+      "safe_node": { "hoverTag": " Safe node " }
+    },
+    "theme": {
+      "categories": {
+        "__proto__": { "color": "#fff" },
+        "Spaces": { "color": "#000" }
+      },
+      "links": {
+        "__proto__": { "opacity": 0.5 },
+        "Project": { "width": 2 }
+      }
+    }
+  }`);
+
+  const normalized = normalizeDisplayOverrides(rawOverrides);
+  assert.equal(Object.hasOwn(normalized.nodes, '__proto__'), false);
+  assert.equal(Object.hasOwn(normalized.theme.categories, '__proto__'), false);
+  assert.equal(Object.hasOwn(normalized.theme.links, '__proto__'), false);
+  assert.equal(Object.getPrototypeOf(normalized.nodes), null);
+  assert.equal(Object.getPrototypeOf(normalized.theme.categories), null);
+  assert.equal(Object.getPrototypeOf(normalized.theme.links), null);
+
+  const merged = mergeGraphWithOverrides(
+    {
+      categories: [
+        { name: '__proto__', color: '#111' },
+        { name: 'Spaces', color: '#222' },
+      ],
+      nodes: [
+        { id: '__proto__', label: 'Prototype-looking node' },
+        { id: 'safe_node', label: 'Safe node' },
+      ],
+      links: [],
+    },
+    rawOverrides,
+  );
+
+  assert.equal(merged.categories[0].color, '#111');
+  assert.equal(merged.categories[1].color, '#000');
+  assert.equal(merged.nodes[0].display, undefined);
+  assert.deepEqual(merged.nodes[1].display, { hoverTag: 'Safe node' });
+  assert.equal(Object.prototype.hoverTag, undefined);
 });

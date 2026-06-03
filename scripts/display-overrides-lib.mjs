@@ -1,11 +1,12 @@
 const COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
+const UNSAFE_KEYED_MAP_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 export function emptyDisplayOverrides() {
   return {
-    nodes: {},
+    nodes: Object.create(null),
     theme: {
-      categories: {},
-      links: {},
+      categories: Object.create(null),
+      links: Object.create(null),
       scene3d: {},
     },
   };
@@ -73,10 +74,11 @@ function normalizeScene3dTheme(rawScene3d) {
 }
 
 function normalizeKeyedObject(rawValues, normalizeValue) {
-  if (!isPlainObject(rawValues)) return {};
-  const values = {};
+  const values = Object.create(null);
+  if (!isPlainObject(rawValues)) return values;
 
   for (const [key, rawValue] of Object.entries(rawValues)) {
+    if (UNSAFE_KEYED_MAP_KEYS.has(key)) continue;
     const normalized = normalizeValue(rawValue);
     if (normalized) values[key] = normalized;
   }
