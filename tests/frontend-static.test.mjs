@@ -46,6 +46,29 @@ test('2d cloud page validates display override values before rendering', () => {
   assert.doesNotMatch(html, /\$\{color\}20/);
 });
 
+test('3d cloud page renders display override hooks', () => {
+  assert.match(html3d, /let displayTheme = \{ categories: \{\}, links: \{\}, scene3d: \{\} \};/);
+  assert.match(html3d, /displayTheme = data\.displayTheme \|\| \{ categories: \{\}, links: \{\}, scene3d: \{\} \};/);
+  assert.match(html3d, /function categoryTheme\(categoryName\)/);
+  assert.match(html3d, /function nodeHoverTag\(node\)/);
+  assert.match(html3d, /function renderDetailNote\(node\)/);
+  assert.match(html3d, /displayTheme/);
+  assert.match(html3d, /hoverTag/);
+  assert.match(html3d, /detailNote/);
+});
+
+test('3d cloud page validates display override values before rendering', () => {
+  assert.match(html3d, /function safeColor\(value, fallback\)/);
+  assert.match(html3d, /const colorPattern = \/\^#\(\?:\[0-9a-fA-F\]\{3\}\|\[0-9a-fA-F\]\{6\}\)\$\/;/);
+  assert.match(html3d, /function numberInRange\(value, min, max\)/);
+  assert.match(html3d, /safeColor\(displayTheme\.scene3d\?\.backgroundColor, '#000106'\)/);
+  assert.match(html3d, /numberInRange\(displayTheme\.links\?\.opacity, 0, 1\)/);
+  assert.match(html3d, /numberInRange\(displayTheme\.links\?\.width, 0\.1, 8\)/);
+  assert.match(html3d, /numberInRange\(categoryTheme\(node\.category\)\.sizeScale, 0\.2, 4\)/);
+  assert.match(html3d, /numberInRange\(categoryTheme\(node\.category\)\.opacity, 0, 1\)/);
+  assert.match(html3d, /safeColor\(categoryTheme\(node\.category\)\.color, null\)/);
+});
+
 test('3d cloud page loads 3d-force-graph and keeps the local data parameter guard', () => {
   assert.match(html3d, /3d-force-graph/);
   assert.match(html3d, /function getGraphDataUrl\(/);
@@ -137,8 +160,8 @@ test('3d cloud page renders project nodes as scaled categorical spheres', () => 
 test('3d cloud page uses a large graph inspired visual scale', () => {
   assert.match(html3d, /\.nodeRelSize\(4\)/);
   assert.match(html3d, /Graph\.d3Force\('charge'\)\.strength\(-52\)/);
-  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return 0\.2/);
-  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return 0;/);
+  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return opacity \?\? 0\.28/);
+  assert.match(html3d, /if \(!hoverFocus\.nodeId\) return width \?\? 0\.34/);
   assert.match(html3d, /return 33/);
   assert.match(html3d, /return 66/);
 });
