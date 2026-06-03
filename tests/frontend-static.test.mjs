@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 const html = readFileSync('space-library-cloud.html', 'utf8');
 const html3d = readFileSync('space-library-cloud-3d.html', 'utf8');
+const adminDisplayHtml = readFileSync('admin/display-admin.html', 'utf8');
 
 test('filter controls require an explicit apply action', () => {
   assert.match(html, /id="applyFilters"/);
@@ -187,5 +188,17 @@ test('3d cloud page inline script is syntactically valid', () => {
   for (const [, script] of scripts) {
     assert.doesNotThrow(() => new Function(script));
   }
+});
+
+test('display override admin page exposes local-only editing controls', () => {
+  assert.match(adminDisplayHtml, /id="nodeSearch"/);
+  assert.match(adminDisplayHtml, /id="categoryFilter"/);
+  assert.match(adminDisplayHtml, /id="hoverTag"/);
+  assert.match(adminDisplayHtml, /id="detailNote"/);
+  assert.match(adminDisplayHtml, /id="themeEditor"/);
+  assert.match(adminDisplayHtml, /function saveOverrides/);
+  assert.match(adminDisplayHtml, /showSaveFilePicker/);
+  assert.doesNotMatch(adminDisplayHtml, /NOTION_TOKEN/);
+  assert.doesNotMatch(adminDisplayHtml, /api\.notion\.com/);
 });
 
