@@ -185,6 +185,7 @@ loadGraphData();
 
 function initGraph(data) {
   const graphData = data;
+  const displayTheme = graphData.displayTheme || { categories: {}, links: {}, scene3d: {} };
   const colorMap = {};
   graphData.categories.forEach(c => colorMap[c.name] = c.color);
   const activeNodeFilter = { id: null };
@@ -196,11 +197,44 @@ function initGraph(data) {
   const legendEl = document.getElementById('legend');
   const activeCategories = new Set(graphData.categories.map(c => c.name));
 
+  function categoryTheme(categoryName) {
+    return displayTheme.categories?.[categoryName] || {};
+  }
+
+  function nodeColorValue(d) {
+    return categoryTheme(d.category).color || colorMap[d.category] || '#999';
+  }
+
+  function nodeSizeScale(d) {
+    const scale = Number(categoryTheme(d.category).sizeScale);
+    return Number.isFinite(scale) && scale > 0 ? scale : 1;
+  }
+
+  function nodeHoverTag(d) {
+    return d.display?.hoverTag || '';
+  }
+
+  function renderDetailNote(d) {
+    if (!d.display?.detailNote) return '';
+    return `<div class="detail-section-title">补充说明</div><p>${escapeHtml(d.display.detailNote)}</p>`;
+  }
+
+  function defaultLinkOpacity() {
+    const opacity = Number(displayTheme.links?.opacity);
+    return Number.isFinite(opacity) ? opacity : 0.25;
+  }
+
+  function linkWidth() {
+    const width = Number(displayTheme.links?.width);
+    return Number.isFinite(width) && width > 0 ? width : 1.2;
+  }
+
   graphData.categories.forEach(c => {
     const count = graphData.nodes.filter(n => n.category === c.name).length;
     const item = document.createElement('div');
     item.className = 'legend-item';
-    item.innerHTML = `<div class="legend-dot" style="background:${c.color}"></div>${c.name} (${count})`;
+    const color = categoryTheme(c.name).color || c.color;
+    item.innerHTML = `<div class="legend-dot" style="background:${color}"></div>${c.name} (${count})`;
     item.onclick = () => {
       if (activeCategories.has(c.name)) { activeCategories.delete(c.name); item.classList.add('dimmed'); }
       else { activeCategories.add(c.name); item.classList.remove('dimmed'); }
@@ -231,11 +265,13 @@ function initGraph(data) {
   const height = container.clientHeight;
 
   function nodeRadius(d) {
-    if (d.category === '空间产品') return d.size || 8;
-    return d.size || 14;
+    const baseRadius = d.category === '空间产品' ? (d.size || 8) : (d.size || 14);
+    return baseRadius * nodeSizeScale(d);
   }
 
   function nodeOpacity(d) {
+    const opacity = Number(categoryTheme(d.category).opacity);
+    if (Number.isFinite(opacity)) return opacity;
     if (d.category === '空间产品') return 0.42;
     return 0.85;
   }
@@ -267,7 +303,7 @@ function initGraph(data) {
     .force('y', d3.forceY(height / 2).strength(0.03));
 
   const link = g.append('g').selectAll('line').data(graphData.links).join('line')
-    .attr('class', 'link').attr('stroke', '#bbb').attr('stroke-width', 1.2);
+    .attr('class', 'link').attr('stroke', '#bbb').attr('stroke-width', linkWidth()).attr('stroke-opacity', defaultLinkOpacity());
 
   const linkLabel = g.append('g').selectAll('text').data(graphData.links).join('text')
     .text(d => d.relation || '').attr('font-size', 9).attr('fill', '#aaa')
@@ -282,7 +318,7 @@ function initGraph(data) {
     );
 
   node.append('circle').attr('r', d => nodeRadius(d))
-    .attr('fill', d => colorMap[d.category] || '#999')
+    .attr('fill', d => nodeColorValue(d))
     .attr('stroke', '#fff').attr('stroke-width', 2).attr('opacity', d => nodeOpacity(d));
 
   node.append('text').text(d => d.label).attr('text-anchor', 'middle')
@@ -293,7 +329,7 @@ function initGraph(data) {
   const tooltip = document.getElementById('tooltip');
   node.on('mouseover', (e, d) => {
     tooltip.querySelector('.tt-title').textContent = d.label;
-    tooltip.querySelector('.tt-cat').textContent = d.category;
+    tooltip.querySelector('.tt-cat').textContent = nodeHoverTag(d) || d.category;
     const ttImg = document.getElementById('ttImg');
     if (d.images && d.images.length > 0) {
       ttImg.src = d.images[0]; ttImg.classList.add('loaded');
@@ -301,8 +337,8 @@ function initGraph(data) {
     } else { ttImg.classList.remove('loaded'); ttImg.src = ''; }
     tooltip.style.opacity = 1;
     link.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.05)
-        .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? colorMap[d.category] : '#bbb')
-        .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 2.5 : 1);
+        .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id) ? nodeColorValue(d) : '#bbb')
+        .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? Math.max(2.5, linkWidth()) : linkWidth());
     linkLabel.style('opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0);
     node.select('circle').attr('opacity', n => {
       if (n.id === d.id) return 1;
@@ -316,7 +352,7 @@ function initGraph(data) {
   .on('mousemove', e => { tooltip.style.left = (e.clientX+14)+'px'; tooltip.style.top = (e.clientY-10)+'px'; })
   .on('mouseout', () => {
     tooltip.style.opacity = 0;
-    link.attr('stroke-opacity', 0.25).attr('stroke', '#bbb').attr('stroke-width', 1.2);
+    link.attr('stroke-opacity', defaultLinkOpacity()).attr('stroke', '#bbb').attr('stroke-width', linkWidth());
     linkLabel.style('opacity', 0);
     node.select('circle').attr('opacity', d => nodeOpacity(d));
     node.select('text').attr('opacity', 1);
@@ -374,7 +410,7 @@ function initGraph(data) {
 
   node.on('click', (e, d) => {
     e.stopPropagation();
-    const color = colorMap[d.category] || '#999';
+    const color = nodeColorValue(d);
     const rels = graphData.links.filter(l => l.source.id===d.id||l.target.id===d.id)
       .map(l => ({ node: l.source.id===d.id ? l.target : l.source, relation: l.relation||'关联' }));
     const detailImages = getDetailImages(d, rels);
@@ -383,15 +419,16 @@ function initGraph(data) {
       <div class="detail-header">
         <div class="detail-color-dot" style="background:${color}"></div>
         <div style="flex:1">
-          <h2>${d.label}</h2>
-          <span class="detail-category" style="background:${color}20;color:${color}">${d.category}</span>
+          <h2>${escapeHtml(d.label)}</h2>
+          <span class="detail-category" style="background:${color}20;color:${color}">${escapeHtml(d.category)}</span>
         </div>
         <button class="detail-close" onclick="closeDetail()">✕</button>
       </div>
       <div class="detail-body">
         ${renderProjectMeta(d)}
         ${detailImages.length ? `<div class="detail-gallery">${detailImages.map(img => `<img src="${img}" onclick="event.stopPropagation();document.getElementById('lightboxImg').src='${img}';document.getElementById('lightbox').classList.add('active')" onerror="this.style.display='none'" />`).join('')}</div>` : ''}
-        <p>${d.description||'暂无描述'}</p>
+        <p>${escapeHtml(d.description || '暂无描述')}</p>
+        ${renderDetailNote(d)}
         ${rels.length ? `<div class="detail-section-title">关联节点 (${rels.length})</div>
         <div class="detail-relations">${rels.map(r => `<span class="detail-rel-chip" onclick="navigateTo('${r.node.id}')" title="${r.relation}">${r.node.label} · ${r.relation}</span>`).join('')}</div>` : ''}
       </div>`;
@@ -488,7 +525,7 @@ function initGraph(data) {
     }
     node.select('circle').attr('opacity', d => activeCategories.has(d.category) ? nodeOpacity(d) : 0.06);
     node.select('text').attr('opacity', d => activeCategories.has(d.category) ? 1 : 0.04);
-    link.attr('stroke-opacity', l => activeCategories.has(l.source.category)&&activeCategories.has(l.target.category) ? 0.25 : 0.03);
+    link.attr('stroke-opacity', l => activeCategories.has(l.source.category)&&activeCategories.has(l.target.category) ? defaultLinkOpacity() : 0.03);
   }
 
   simulation.on('tick', () => {

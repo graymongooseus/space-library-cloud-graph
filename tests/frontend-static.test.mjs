@@ -25,6 +25,15 @@ test('space product nodes use smaller text and lower visual opacity', () => {
   assert.match(html, /nodeFontSize\(d\)/);
 });
 
+test('2d cloud page renders display override hooks', () => {
+  assert.match(html, /function categoryTheme\(categoryName\)/);
+  assert.match(html, /function nodeHoverTag\(d\)/);
+  assert.match(html, /function renderDetailNote\(d\)/);
+  assert.match(html, /const displayTheme = graphData\.displayTheme \|\| \{ categories: \{\}, links: \{\}, scene3d: \{\} \}/);
+  assert.match(html, /hoverTag/);
+  assert.match(html, /detailNote/);
+});
+
 test('3d cloud page loads 3d-force-graph and keeps the local data parameter guard', () => {
   assert.match(html3d, /3d-force-graph/);
   assert.match(html3d, /function getGraphDataUrl\(/);
