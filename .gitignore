@@ -3,3 +3,5 @@ node_modules/
 data/app.sqlite
 public/uploads/
 generated/
+images/
+images.rar

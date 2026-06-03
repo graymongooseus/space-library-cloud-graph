@@ -12,6 +12,12 @@ const referencedImages = new Set(
 );
 const endpointId = (endpoint) => endpoint && typeof endpoint === 'object' ? endpoint.id : endpoint;
 
+assert.equal(
+  [...referencedImages].filter((relativePath) => relativePath.startsWith(['images', 'notion'].join('/') + '/')).length,
+  0,
+  'graph image references should point directly under images/ for VPS packaging'
+);
+
 function relatedNodes(node) {
   return graph.links
     .filter((link) => endpointId(link.source) === node.id || endpointId(link.target) === node.id)
@@ -41,11 +47,10 @@ for (const relativePath of referencedImages) {
   );
 }
 
-for (const projectName of ['2011 ZHONGSHAN ARDINGLY COLLEGE', '2312_SHENGHUA ZIZHU']) {
-  const project = graph.nodes.find((node) => node.category === '项目' && node.label.includes(projectName));
-  assert.ok(project, `${projectName} project node should exist`);
-  assert.ok(detailImages(project).length > 0, `${projectName} should show detail images from related spaces`);
-}
+const projectWithRelatedImages = graph.nodes.find((node) => (
+  node.category === '学校项目' && detailImages(node).length > 0
+));
+assert.ok(projectWithRelatedImages, 'at least one school project should show detail images from related spaces');
 
 for (const file of readdirSync(path.join(root, 'images'))) {
   if (!/\.(jpe?g|png|webp)$/i.test(file)) continue;

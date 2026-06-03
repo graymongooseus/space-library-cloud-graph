@@ -1,10 +1,12 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { buildGraphFromSpaces } from './notion-graph-lib.mjs';
+import { localImagesForPage, readImageManifest } from './notion-image-freeze.mjs';
 
 const root = path.resolve('.');
 const envPath = path.join(root, '.env');
 const outputPath = path.join(root, 'generated', 'notion-graph.json');
+const imageManifestPath = path.join(root, 'generated', 'notion-image-manifest.json');
 
 function loadEnvFile(filePath) {
   if (!existsSync(filePath)) return {};
@@ -23,7 +25,9 @@ const env = { ...process.env, ...loadEnvFile(envPath) };
 const token = env.NOTION_TOKEN;
 const dataSourceId = env.NOTION_DATA_SOURCE_ID;
 const projectRelationProperty = env.NOTION_PROJECT_RELATION_PROPERTY || '学校项目 School Project';
+const imageProperty = env.NOTION_IMAGE_PROPERTY || '缩略图预览';
 const notionVersion = env.NOTION_VERSION || '2026-03-11';
+const imageManifest = readImageManifest(imageManifestPath);
 
 if (!token) {
   console.error('Missing NOTION_TOKEN.');
@@ -182,6 +186,7 @@ for (const page of pages) {
   const activities = multiSelectProp(page, 'ACTIVITIES');
   const equipment = multiSelectProp(page, 'EQUIPMENT');
   const unitPrice = selectProp(page, 'UNIT PRICE');
+  const localImages = localImagesForPage(imageManifest, page.id, imageProperty);
 
   spaces.push({
     id: page.id,
@@ -189,7 +194,7 @@ for (const page of pages) {
     activities,
     equipment,
     unitPrice,
-    images: filesProp(page, '缩略图预览'),
+    images: localImages.length ? localImages : filesProp(page, imageProperty),
     projects,
     description: [
       activities.join(', '),
