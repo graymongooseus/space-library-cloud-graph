@@ -1,11 +1,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { mergeGraphWithOverrides } from './display-overrides-lib.mjs';
 import { buildGraphFromSpaces } from './notion-graph-lib.mjs';
 import { localImagesForPage, readImageManifest } from './notion-image-freeze.mjs';
 
 const root = path.resolve('.');
 const envPath = path.join(root, '.env');
 const outputPath = path.join(root, 'generated', 'notion-graph.json');
+const mergedOutputPath = path.join(root, 'generated', 'notion-graph-merged.json');
+const overridesPath = path.join(root, 'admin', 'display-overrides.json');
 const imageManifestPath = path.join(root, 'generated', 'notion-image-manifest.json');
 
 function loadEnvFile(filePath) {
@@ -19,6 +22,11 @@ function loadEnvFile(filePath) {
     values[trimmed.slice(0, index).trim()] = trimmed.slice(index + 1).trim().replace(/^["']|["']$/g, '');
   }
   return values;
+}
+
+function loadJsonFile(filePath) {
+  if (!existsSync(filePath)) return {};
+  return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
 const env = { ...process.env, ...loadEnvFile(envPath) };
@@ -205,12 +213,16 @@ for (const page of pages) {
 }
 
 const graph = buildGraphFromSpaces(spaces);
+const displayOverrides = loadJsonFile(overridesPath);
+const mergedGraph = mergeGraphWithOverrides(graph, displayOverrides);
 
 mkdirSync(path.dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(graph, null, 2)}\n`, 'utf8');
+writeFileSync(mergedOutputPath, `${JSON.stringify(mergedGraph, null, 2)}\n`, 'utf8');
 
 console.log(`Fetched spaces: ${spaces.length}`);
 console.log(`Resolved projects: ${projectCache.size}`);
 console.log(`Graph nodes: ${graph.nodes.length}`);
 console.log(`Graph links: ${graph.links.length}`);
 console.log(`Wrote ${path.relative(root, outputPath)}`);
+console.log(`Wrote ${path.relative(root, mergedOutputPath)}`);
