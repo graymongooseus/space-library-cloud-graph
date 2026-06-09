@@ -16,6 +16,7 @@ if (typeof ForceGraph3D === 'undefined' && typeof module !== 'undefined' && modu
   window.ForceGraph3D = module.exports.default || module.exports;
 }
 </script>
+<script src="vendor/echarts.min.js?v=fg1770"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; height: 100%; }
@@ -29,6 +30,59 @@ body {
 #graph-container {
   position: fixed;
   inset: 0;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 900ms ease, transform 1200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.intro-active #graph-container {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.72);
+}
+
+body.intro-active .top-tools,
+body.intro-active .active-filters,
+body.intro-active .theme-palette {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.graph-revealed #graph-container {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.home-return {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 150;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 50%;
+  background: rgba(12,12,16,0.72);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.34);
+  backdrop-filter: blur(16px);
+}
+body.graph-revealed .home-return {
+  display: flex;
+}
+.home-return:hover,
+.home-return:focus-visible {
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.12);
+  outline: none;
+}
+.home-return svg {
+  width: 22px;
+  height: 22px;
 }
 
 .top-tools {
@@ -305,6 +359,489 @@ body {
   cursor: pointer;
 }
 
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255,127,14,0.12), transparent 26%),
+    radial-gradient(circle at 48% 52%, rgba(31,119,180,0.13), transparent 36%),
+    #000;
+  transition: opacity 760ms ease, visibility 760ms ease;
+}
+body.graph-revealed .intro-overlay {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.intro-stage {
+  position: relative;
+  width: min(680px, calc(100vw - 32px));
+  aspect-ratio: 1;
+}
+.intro-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(176px, 30vw, 270px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255,255,255,0.28), transparent 12%),
+    radial-gradient(circle at 50% 50%, rgba(31,119,180,0.18), transparent 62%),
+    rgba(5,10,18,0.9);
+  box-shadow:
+    inset -18px -24px 42px rgba(0,0,0,0.36),
+    0 0 42px rgba(88,166,255,0.22),
+    0 0 120px rgba(31,119,180,0.24);
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+  font: inherit;
+}
+.intro-core:hover,
+.intro-core:focus-visible {
+  box-shadow:
+    0 0 54px rgba(255,244,168,0.26),
+    0 0 130px rgba(31,119,180,0.32);
+  outline: none;
+}
+.intro-globe {
+  position: absolute;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
+  z-index: 0;
+  display: block;
+}
+.intro-core::before,
+.intro-core::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.intro-core::before {
+  inset: 16px;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 55%, rgba(255,255,255,0.22) 56%, transparent 58%),
+    conic-gradient(from 0deg, transparent 0 18%, rgba(255,255,255,0.18) 20%, transparent 24% 56%, rgba(88,166,255,0.18) 58%, transparent 63% 100%);
+  opacity: 0.42;
+  animation: introSphereRotate 18s linear infinite;
+}
+.intro-core::after {
+  inset: -24px;
+  border: 1px solid rgba(255,255,255,0.16);
+  z-index: -1;
+  animation: introPulse 3.2s ease-in-out infinite;
+}
+.intro-title {
+  position: relative;
+  z-index: 2;
+  width: min-content;
+  font-size: clamp(22px, 4vw, 40px);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+.intro-branch {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(29vw, 228px);
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,127,14,0.05), rgba(255,244,168,0.72));
+  transform-origin: left center;
+  opacity: 0;
+  transition: opacity 420ms ease, transform 720ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.intro-branch-research {
+  transform: rotate(-148deg) scaleX(0.12);
+}
+.intro-branch-projects {
+  transform: rotate(32deg) scaleX(0.12);
+}
+.intro-overlay.growth-open .intro-branch-research {
+  opacity: 0.76;
+  transform: rotate(-148deg) scaleX(1);
+}
+.intro-overlay.growth-open .intro-branch-projects {
+  opacity: 0.76;
+  transform: rotate(32deg) scaleX(1);
+}
+.intro-node {
+  position: absolute;
+  width: min(310px, calc(100vw - 48px));
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  background: rgba(14,16,24,0.48);
+  box-shadow: 0 22px 64px rgba(0,0,0,0.42);
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(18px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+.intro-node-research {
+  left: 2%;
+  top: 9%;
+  transform: translate(24px, 18px) scale(0.96);
+}
+.intro-node-projects {
+  right: 2%;
+  bottom: 7%;
+  transform: translate(-24px, 18px) scale(0.96);
+}
+.intro-overlay.growth-open .intro-node {
+  opacity: 1;
+  pointer-events: auto;
+}
+.intro-overlay.growth-open .intro-node-research,
+.intro-overlay.growth-open .intro-node-projects {
+  transform: translate(0, 0) scale(1);
+}
+.intro-node h1 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.18;
+}
+.intro-node p {
+  margin: 0 0 14px;
+  color: rgba(255,255,255,0.78);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.intro-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 16px 0;
+}
+.intro-metric {
+  padding: 10px 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+}
+.intro-metric strong {
+  display: block;
+  font-size: 17px;
+}
+.intro-metric span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255,255,255,0.56);
+  font-size: 11px;
+}
+.intro-expand {
+  width: 100%;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 24px;
+  background: rgba(255,127,14,0.78);
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+}
+.intro-expand-research {
+  margin-top: 14px;
+  background: rgba(31,119,180,0.72);
+}
+.research-placeholder {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: end;
+  gap: 6px;
+  height: 92px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+}
+.research-placeholder span {
+  display: block;
+  border-radius: 999px 999px 3px 3px;
+  background: linear-gradient(180deg, rgba(255,244,168,0.82), rgba(31,119,180,0.52));
+  animation: researchBars 2.4s ease-in-out infinite;
+}
+.research-placeholder span:nth-child(1) { height: 36%; }
+.research-placeholder span:nth-child(2) { height: 68%; animation-delay: 0.2s; }
+.research-placeholder span:nth-child(3) { height: 48%; animation-delay: 0.4s; }
+.research-placeholder span:nth-child(4) { height: 82%; animation-delay: 0.6s; }
+.research-placeholder span:nth-child(5) { height: 56%; animation-delay: 0.8s; }
+
+.research-dashboard {
+  position: fixed;
+  inset: 0;
+  z-index: 360;
+  display: none;
+  background: rgba(1,6,14,0.86);
+  backdrop-filter: blur(18px);
+}
+.research-dashboard.active {
+  display: block;
+}
+.research-dashboard-shell {
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px;
+}
+.research-dashboard-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 18px;
+  max-width: 1240px;
+  margin: 0 auto 18px;
+}
+.research-dashboard-title h2 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.12;
+}
+.research-dashboard-title p {
+  max-width: 720px;
+  margin: 8px 0 0;
+  color: rgba(255,255,255,0.68);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.research-dashboard-close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+}
+.research-dashboard-close svg {
+  width: 22px;
+  height: 22px;
+}
+.research-controls,
+.research-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.research-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+.research-chart-controls {
+  max-width: none;
+  margin: 0 0 10px;
+}
+.research-control {
+  min-width: 220px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 12px;
+  background: rgba(0,0,0,0.58);
+  color: #fff;
+  padding: 0 12px;
+  backdrop-filter: blur(14px);
+}
+.research-control:focus-visible {
+  border-color: rgba(255,184,107,0.9);
+  box-shadow: 0 0 0 3px rgba(255,184,107,0.22);
+  outline: none;
+}
+.research-control option {
+  background: #05080f;
+  color: #fff;
+}
+.research-card {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  background: rgba(10,18,30,0.68);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+}
+.research-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 14px;
+}
+.research-card {
+  min-height: 260px;
+  padding: 16px;
+}
+.research-card-wide {
+  grid-column: 1 / -1;
+}
+.research-card h3 {
+  margin: 0 0 12px;
+  color: rgba(255,255,255,0.9);
+  font-size: 15px;
+}
+.research-card-note {
+  margin: -4px 0 12px;
+  color: rgba(255,244,168,0.68);
+  font-size: 12px;
+}
+.research-chart-name {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  color: rgba(255,255,255,0.58);
+  font-size: 11px;
+}
+.research-bars {
+  display: grid;
+  gap: 8px;
+}
+.research-group-bars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.research-echart {
+  width: 100%;
+  height: 430px;
+}
+.research-group-panel {
+  display: grid;
+  gap: 9px;
+}
+.research-group-title {
+  color: rgba(255,255,255,0.78);
+  font-size: 13px;
+  font-weight: 700;
+}
+.research-group-bar-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 86px;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255,255,255,0.72);
+  font-size: 12px;
+}
+.research-grow-fill {
+  width: 0;
+  animation: growBar 980ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.research-bar-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(160px, 2fr) 92px;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+}
+.research-bar-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+}
+.research-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #66d9e8, #fff4a8);
+}
+.research-stack {
+  display: grid;
+  gap: 12px;
+}
+.research-stack-track {
+  display: flex;
+  height: 22px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+}
+.research-stack-segment {
+  min-width: 2px;
+}
+.research-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  color: rgba(255,255,255,0.62);
+  font-size: 12px;
+}
+.research-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+.research-profile {
+  display: grid;
+  gap: 10px;
+}
+.research-profile-row {
+  display: grid;
+  grid-template-columns: 132px 1fr 80px;
+  gap: 10px;
+  align-items: center;
+  color: rgba(255,255,255,0.72);
+  font-size: 12px;
+}
+.research-scatter {
+  width: 100%;
+  min-height: 290px;
+}
+.research-empty {
+  padding: 22px;
+  color: rgba(255,255,255,0.68);
+}
+.intro-sprout {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff4a8;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+.intro-overlay.growth-open .intro-sprout {
+  animation: sproutOut 980ms ease forwards;
+}
+
+@keyframes introPulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.96); }
+  50% { opacity: 0.62; transform: scale(1.04); }
+}
+@keyframes introSphereRotate {
+  to { transform: rotate(360deg); }
+}
+@keyframes researchBars {
+  0%, 100% { transform: scaleY(0.72); opacity: 0.58; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+@keyframes growBar {
+  to { width: var(--bar-width); }
+}
+@keyframes sproutOut {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  18% { opacity: 0.92; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1); }
+}
+
 @media (max-width: 760px) {
   .top-tools {
     left: 12px;
@@ -322,16 +859,64 @@ body {
     left: 12px;
     bottom: 12px;
   }
+  .intro-stage {
+    width: min(520px, calc(100vw - 20px));
+  }
+  .intro-node {
+    width: min(260px, calc(100vw - 32px));
+    padding: 14px;
+  }
+  .intro-node-research {
+    left: 50%;
+    top: 2%;
+    transform: translate(-50%, 12px) scale(0.96);
+  }
+  .intro-node-projects {
+    right: 50%;
+    bottom: 0;
+    transform: translate(50%, 12px) scale(0.96);
+  }
+  .intro-overlay.growth-open .intro-node-research {
+    transform: translate(-50%, 0) scale(1);
+  }
+  .intro-overlay.growth-open .intro-node-projects {
+    transform: translate(50%, 0) scale(1);
+  }
+  .research-placeholder {
+    display: none;
+  }
+  .research-dashboard-shell {
+    padding: 18px 12px;
+  }
+  .research-dashboard-header,
+  .research-grid {
+    grid-template-columns: 1fr;
+  }
+  .research-bar-row,
+  .research-group-bar-row,
+  .research-profile-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .research-group-bars {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
-<body>
+<body class="intro-active">
 <div class="top-tools">
   <select class="filter-select" id="schoolNameFilter"><option value="">School Name</option></select>
   <select class="filter-select" id="schoolFilter"><option value="">School Type</option></select>
   <button class="filter-clear" id="resetView" aria-label="重置视图" title="重置视图">&#8634;</button>
 </div>
 <div class="active-filters" id="activeFilters" aria-live="polite"></div>
+<button class="home-return" id="homeReturn" type="button" aria-label="返回首页">
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 14 4 9l5-5"/>
+    <path d="M4 9h10a6 6 0 0 1 0 12h-2"/>
+  </svg>
+</button>
 <div class="theme-palette" id="themePalette" aria-label="Color Scheme">
   <h3>Color Scheme</h3>
   <label class="theme-control">School Project <input type="color" data-theme-key="project" value="#ff7f0e"></label>
@@ -340,9 +925,94 @@ body {
 </div>
 
 <div id="graph-container"></div>
+<div class="intro-overlay" id="educationIntro" aria-label="Education Project intro">
+  <div class="intro-stage">
+    <div class="intro-branch intro-branch-research" aria-hidden="true"></div>
+    <div class="intro-branch intro-branch-projects" aria-hidden="true"></div>
+    <button class="intro-core" id="introCore" type="button" aria-label="展开 Education Projects">
+      <canvas class="intro-globe" id="introGlobe" aria-hidden="true"></canvas>
+      <div class="intro-title">Click</div>
+    </button>
+    <span class="intro-sprout" style="--x:-212px;--y:-132px"></span>
+    <span class="intro-sprout" style="--x:214px;--y:132px"></span>
+    <div class="intro-node intro-node-research" role="region" aria-labelledby="researchIntroTitle">
+      <h1 id="researchIntroTitle">RESEARCH</h1>
+      <p>Reserved branch for research data, charts, and future visual effects.</p>
+      <div class="research-placeholder" aria-label="Research chart placeholder">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <button class="intro-expand intro-expand-research" id="introExpandResearch" type="button">EXPAND RESEARCH</button>
+    </div>
+    <div class="intro-node intro-node-projects" role="region" aria-labelledby="projectsIntroTitle">
+      <h1 id="projectsIntroTitle">PROJECTS</h1>
+      <p>Open the current 3D project cloud with school projects, space nodes, and relationship links.</p>
+      <div class="intro-metrics" aria-label="研究成果摘要">
+        <div class="intro-metric"><strong id="introProjectCount">--</strong><span>学校项目</span></div>
+        <div class="intro-metric"><strong id="introSpaceCount">--</strong><span>空间节点</span></div>
+        <div class="intro-metric"><strong id="introLinkCount">--</strong><span>关系连接</span></div>
+      </div>
+      <button class="intro-expand" id="introExpand" type="button">EXPAND PROJECTS</button>
+    </div>
+  </div>
+</div>
 <div id="tooltip"></div>
 <div class="load-error" role="alert" aria-live="polite"></div>
 <div id="detailOverlay"></div>
+<div class="research-dashboard" id="researchDashboard" aria-hidden="true">
+  <div class="research-dashboard-shell">
+    <div class="research-dashboard-header">
+      <div class="research-dashboard-title">
+        <h2>Education Projects Research Dashboard</h2>
+        <p>Compare campus scale, building efficiency, student capacity, boarding intensity, and program composition across schools.</p>
+      </div>
+      <button class="research-dashboard-close" id="researchDashboardClose" type="button" aria-label="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14 4 9l5-5"/>
+          <path d="M4 9h10a6 6 0 0 1 0 12h-2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="research-grid">
+      <section class="research-card research-card-wide">
+        <span class="research-chart-name">Chart 01 - All Schools Area Comparison</span>
+        <h3>Building Area, Building Area per Student, and Land Area per Student</h3>
+        <div class="research-card-note">Highlighted gold bars are linked to PROJECTS. Click a linked school to open its project node.</div>
+        <div class="research-echart" id="researchTypeAreaBars"></div>
+      </section>
+      <section class="research-card research-card-wide">
+        <span class="research-chart-name">Chart 03 - Building Program Stack</span>
+        <h3>Above-Ground Program Areas plus Underground Building Area</h3>
+        <div class="research-echart" id="researchRanking"></div>
+      </section>
+      <div class="research-controls research-card-wide">
+        <select class="research-control" id="researchSchoolSelect" aria-label="Select school for Chart 04 and Chart 05"></select>
+        <select class="research-control" id="researchMetricSelect" aria-label="Select Chart 04 and Chart 05 view"></select>
+      </div>
+      <section class="research-card">
+        <span class="research-chart-name">Chart 04 - Selected School Profile</span>
+        <h3>Selected School Vertical Profile</h3>
+        <div class="research-profile" id="researchProfile"></div>
+      </section>
+      <section class="research-card">
+        <span class="research-chart-name">Chart 05 - Program Composition</span>
+        <h3>Program Composition</h3>
+        <div class="research-stack" id="researchComposition"></div>
+      </section>
+      <section class="research-card research-card-wide">
+        <span class="research-chart-name">Chart 06 - Investment and Unit Cost Area</span>
+        <h3>Investment Total and Unit Cost Benchmark</h3>
+        <div class="research-card-note">Area chart based on the provided image data. Linked points can open PROJECTS.</div>
+        <div class="research-controls research-chart-controls">
+          <select class="research-control" id="researchCurrencySelect" aria-label="Select Chart 06 unit cost currency">
+            <option value="RMB">Unit Cost in RMB (¥)</option>
+            <option value="USD">Unit Cost in USD ($)</option>
+          </select>
+        </div>
+        <div class="research-echart" id="researchScatter"></div>
+      </section>
+    </div>
+  </div>
+</div>
 <div id="lightbox"></div>
 
 <script>
@@ -359,11 +1029,36 @@ let hoverFocus = { nodeId: null, nodeIds: new Set(), linkKeys: new Set() };
 let selectedDetailNode = null;
 let hoverSuppressUntil = 0;
 let hoverDisabledUntilPointerMove = false;
-let draggingNode = null;
-let dragRecoveryTimer = 0;
+let introExpanded = false;
+let introGlobeAnimationFrame = 0;
+let researchData = null;
+let selectedResearchSchoolId = '';
+let selectedResearchProfileView = 'overview';
+let selectedResearchCurrency = 'RMB';
+let researchTypeAreaChart = null;
+let researchProgramStackChart = null;
+let researchCostChart = null;
 const nodeObjectsById = new Map();
 const SPACE_NODE_RADIUS_SCALE = 1;
 const OTHER_NODE_RADIUS_SCALE = 0.75;
+
+const RESEARCH_METRICS = {
+  totalBuildingArea: { label: 'Total Building Area', unit: 'm2' },
+  landArea: { label: 'Campus Land Area', unit: 'm2' },
+  studentCount: { label: 'Students', unit: 'people' },
+  staffCount: { label: 'Staff', unit: 'people' },
+  boardingStudents: { label: 'Boarding Students', unit: 'people' },
+  studentDormArea: { label: 'Dormitory Area', unit: 'm2' },
+  buildingAreaPerStudent: { label: 'Building Area / Student', unit: 'm2/person' },
+  teachingAreaPerStudent: { label: 'Teaching Area / Student', unit: 'm2/person' },
+  landAreaPerStudent: { label: 'Land Area / Student', unit: 'm2/person' },
+  dormAreaPerBoarder: { label: 'Dorm Area / Boarder', unit: 'm2/person' },
+  floorAreaRatio: { label: 'FAR', unit: 'ratio' },
+  greenRate: { label: 'Green Rate', unit: '%' },
+  boardingRate: { label: 'Boarding Rate', unit: '%' },
+};
+const RESEARCH_COLORS = ['#66d9e8', '#fff4a8', '#8ce99a', '#ffb86b', '#c7d2fe', '#ff8fa3', '#9be7c0'];
+const RMB_PER_USD = 7.2;
 
 const VISUAL_THEME = {
   project: { color: '#ff7f0e', halo: '#ff7f0e', minRadius: 8, maxRadius: 18, opacity: 0.9, haloOpacity: 0.035 },
@@ -464,8 +1159,6 @@ function initGraph(data) {
     .linkOpacity(linkOpacity)
     .linkWidth(linkWidth)
     .enableNodeDrag(true)
-    .onNodeDrag(handleNodeDrag)
-    .onNodeDragEnd(handleNodeDragEnd)
     .onNodeHover(handleNodeHover)
     .onNodeClick(handleNodeClick);
 
@@ -477,7 +1170,10 @@ function initGraph(data) {
   addSceneLights();
   Graph.cameraPosition({ x: 0, y: 0, z: 1250 }, { x: 0, y: 0, z: 0 }, 0);
   resetCameraControls();
-  setTimeout(() => focusInitialGraph(900), 1200);
+  updateIntroMetrics();
+  setTimeout(() => {
+    if (introExpanded) focusInitialGraph(900);
+  }, 1200);
   updateActiveFilterChips();
 }
 
@@ -786,50 +1482,6 @@ function clearHoverFocus() {
   hoverFocus = buildHoverState(null);
   showTooltip(null);
   refreshNodeAppearance();
-}
-
-function setCameraControlsEnabled(enabled) {
-  const controls = Graph && Graph.controls && Graph.controls();
-  if (!controls) return;
-  controls.enabled = Boolean(enabled);
-  controls.update();
-}
-
-function releaseDraggedNode() {
-  if (!draggingNode) return;
-  draggingNode.fx = undefined;
-  draggingNode.fy = undefined;
-  draggingNode.fz = undefined;
-  draggingNode = null;
-  if (Graph) Graph.d3ReheatSimulation();
-}
-
-function recoverNodeDrag() {
-  window.clearTimeout(dragRecoveryTimer);
-  releaseDraggedNode();
-  setCameraControlsEnabled(true);
-}
-
-function scheduleDragRecovery() {
-  window.clearTimeout(dragRecoveryTimer);
-  dragRecoveryTimer = window.setTimeout(recoverNodeDrag, 700);
-}
-
-function handleNodeDrag(node) {
-  if (!node) return;
-  draggingNode = node;
-  setCameraControlsEnabled(false);
-  node.fx = node.x;
-  node.fy = node.y;
-  node.fz = node.z;
-  scheduleDragRecovery();
-  if (Graph) Graph.d3ReheatSimulation();
-}
-
-function handleNodeDragEnd(node) {
-  draggingNode = node || draggingNode;
-  window.setTimeout(recoverNodeDrag, 120);
-  window.setTimeout(() => setCameraControlsEnabled(true), 80);
 }
 
 function endpointId(endpoint) {
@@ -1203,6 +1855,828 @@ function openLightbox(imageUrl) {
   lightbox.classList.add('active');
 }
 
+function makeIntroEarthTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  const ocean = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  ocean.addColorStop(0, '#102a5a');
+  ocean.addColorStop(0.45, '#0b6b94');
+  ocean.addColorStop(1, '#07162f');
+  ctx.fillStyle = ocean;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = 'rgba(104,178,112,0.86)';
+  const landShapes = [
+    [[120,150],[190,98],[276,130],[318,202],[264,248],[168,230]],
+    [[402,118],[510,88],[594,136],[572,220],[486,246],[418,198]],
+    [[638,210],[742,184],[812,238],[790,324],[680,318]],
+    [[238,300],[326,286],[374,352],[318,420],[222,386]],
+    [[820,94],[914,126],[948,202],[874,230],[806,176]]
+  ];
+  landShapes.forEach(points => {
+    ctx.beginPath();
+    points.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+    ctx.closePath();
+    ctx.fill();
+  });
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= canvas.width; x += 128) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 64; y < canvas.height; y += 64) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+  return new THREE.CanvasTexture(canvas);
+}
+
+function initIntroGlobe() {
+  const canvas = document.getElementById('introGlobe');
+  if (!canvas || typeof THREE === 'undefined') return;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.z = 4.3;
+
+  const globeGroup = new THREE.Group();
+  const radius = 1.46;
+  const lineMaterial = new THREE.LineBasicMaterial({
+    color: 0xb9d8ff,
+    transparent: true,
+    opacity: 0.56
+  });
+  const faintLineMaterial = new THREE.LineBasicMaterial({
+    color: 0x5ba7f4,
+    transparent: true,
+    opacity: 0.22
+  });
+
+  const shell = new THREE.Mesh(
+    new THREE.SphereGeometry(radius, 48, 32),
+    new THREE.MeshBasicMaterial({
+      color: 0x6fb7ff,
+      transparent: true,
+      opacity: 0.1,
+      depthWrite: false
+    })
+  );
+  globeGroup.add(shell);
+
+  const makeLatitude = latitude => {
+    const y = Math.sin(latitude) * radius;
+    const ringRadius = Math.cos(latitude) * radius;
+    const points = [];
+    for (let i = 0; i < 144; i++) {
+      const angle = (i / 144) * Math.PI * 2;
+      points.push(new THREE.Vector3(Math.cos(angle) * ringRadius, y, Math.sin(angle) * ringRadius));
+    }
+    return new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), latitude === 0 ? lineMaterial : faintLineMaterial);
+  };
+
+  const makeMeridian = longitude => {
+    const points = [];
+    for (let i = 0; i <= 144; i++) {
+      const latitude = -Math.PI / 2 + (i / 144) * Math.PI;
+      const ringRadius = Math.cos(latitude) * radius;
+      points.push(new THREE.Vector3(Math.cos(longitude) * ringRadius, Math.sin(latitude) * radius, Math.sin(longitude) * ringRadius));
+    }
+    return new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), faintLineMaterial);
+  };
+
+  [-45, 0, 45].forEach(degree => globeGroup.add(makeLatitude(THREE.MathUtils.degToRad(degree))));
+  [30, 105].forEach(degree => globeGroup.add(makeMeridian(THREE.MathUtils.degToRad(degree))));
+  globeGroup.rotation.set(-0.22, 0.18, -0.2);
+  scene.add(globeGroup);
+
+  const glow = new THREE.Mesh(
+    new THREE.SphereGeometry(1.54, 48, 32),
+    new THREE.MeshBasicMaterial({ color: 0x6fb7ff, transparent: true, opacity: 0.08 })
+  );
+  scene.add(glow);
+
+  const render = () => {
+    const size = canvas.clientWidth || 256;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(size, size, false);
+    globeGroup.rotation.y += 0.0046;
+    glow.rotation.y -= 0.0014;
+    renderer.render(scene, camera);
+    introGlobeAnimationFrame = requestAnimationFrame(render);
+  };
+  if (introGlobeAnimationFrame) cancelAnimationFrame(introGlobeAnimationFrame);
+  render();
+}
+
+function updateIntroMetrics() {
+  const projectCount = graphData.nodes.filter(node =>
+    node.category === 'Education Project' ||
+    node.id?.startsWith('project_')
+  ).length;
+  const spaceCount = graphData.nodes.filter(node =>
+    node.id?.startsWith('space_')
+  ).length;
+  const introProjectCount = document.getElementById('introProjectCount');
+  const introSpaceCount = document.getElementById('introSpaceCount');
+  const introLinkCount = document.getElementById('introLinkCount');
+  if (introProjectCount) introProjectCount.textContent = projectCount;
+  if (introSpaceCount) introSpaceCount.textContent = spaceCount;
+  if (introLinkCount) introLinkCount.textContent = graphData.links.length;
+}
+
+function openEducationGrowth() {
+  const intro = document.getElementById('educationIntro');
+  if (!intro) return;
+  intro.classList.add('growth-open');
+}
+
+function revealEducationGraph() {
+  introExpanded = true;
+  document.body.classList.remove('intro-active');
+  document.body.classList.add('graph-revealed');
+  const intro = document.getElementById('educationIntro');
+  if (intro) intro.classList.add('growth-open');
+  if (!Graph) return;
+  Graph.graphData(cloneGraph(graphData));
+  Graph.d3ReheatSimulation();
+  window.setTimeout(() => focusInitialGraph(1400), 120);
+}
+
+function expandResearch() {
+  openEducationGrowth();
+  const dashboard = document.getElementById('researchDashboard');
+  dashboard.classList.add('active');
+  dashboard.setAttribute('aria-hidden', 'false');
+  renderResearchDashboard();
+}
+
+function closeResearchDashboard() {
+  const dashboard = document.getElementById('researchDashboard');
+  dashboard.classList.remove('active');
+  dashboard.setAttribute('aria-hidden', 'true');
+}
+
+function returnFromResearchDashboard() {
+  closeResearchDashboard();
+  returnToEducationHome();
+}
+
+async function loadResearchDashboardData() {
+  try {
+    const response = await fetch('generated/research-dashboard.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    researchData = await response.json();
+    selectedResearchSchoolId = researchData.schools?.[0]?.id || '';
+    fillResearchControls();
+  } catch (error) {
+    console.warn('Failed to load research dashboard data', error);
+  }
+}
+
+function fillResearchControls() {
+  if (!researchData) return;
+  const schoolSelect = document.getElementById('researchSchoolSelect');
+  const metricSelect = document.getElementById('researchMetricSelect');
+  schoolSelect.innerHTML = researchData.schools
+    .map(school => `<option value="${escapeHtml(school.id)}">${escapeHtml(researchSchoolName(school))}</option>`)
+    .join('');
+  metricSelect.innerHTML = [
+    ['overview', 'Building + Students'],
+    ['building', 'Building Only'],
+    ['students', 'Students Only'],
+  ].map(([value, label]) => `<option value="${value}">${escapeHtml(label)}</option>`).join('');
+  schoolSelect.value = selectedResearchSchoolId;
+  metricSelect.value = selectedResearchProfileView;
+}
+
+function researchSchoolName(school) {
+  return school?.englishName || school?.name || '';
+}
+
+function researchMetricValue(school, metricKey) {
+  if (!school) return null;
+  const metrics = school.metrics || {};
+  const derived = school.derived || {};
+  if (metricKey === 'buildingAreaPerStudent') return metrics.buildingAreaPerStudent ?? derived.buildingAreaPerStudentCalc;
+  if (metricKey === 'teachingAreaPerStudent') return metrics.teachingAreaPerStudent ?? derived.teachingAreaPerStudentCalc;
+  return metrics[metricKey] ?? derived[metricKey] ?? null;
+}
+
+function formatResearchValue(value, unit = '') {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return '-';
+  const number = Number(value);
+  const compact = Math.abs(number) >= 100000 ? `${Math.round(number / 1000).toLocaleString()}k` : number.toLocaleString(undefined, { maximumFractionDigits: number < 10 ? 2 : 0 });
+  if (unit === 'percent' || unit === '%') return `${number.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
+  if (unit === 'ratio') return number.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  return compact;
+}
+
+function wrapAxisLabel(value, maxLineLength = 12) {
+  const words = String(value || '').split(/\s+/).filter(Boolean);
+  if (!words.length) return '';
+  const lines = [];
+  let currentLine = '';
+  words.forEach(word => {
+    const nextLine = currentLine ? `${currentLine} ${word}` : word;
+    if (nextLine.length > maxLineLength && currentLine) {
+      lines.push(currentLine);
+      currentLine = word;
+      return;
+    }
+    currentLine = nextLine;
+  });
+  if (currentLine) lines.push(currentLine);
+  return lines.slice(0, 4).join('\n');
+}
+
+function unitCostValueRmb(value) {
+  const number = Number(value) || 0;
+  return selectedResearchCurrency === 'USD' ? number / RMB_PER_USD : number;
+}
+
+function investmentValueWan(value) {
+  const number = Number(value) || 0;
+  return selectedResearchCurrency === 'USD' ? number * 10000 / RMB_PER_USD : number;
+}
+
+function formatInvestmentCost(value) {
+  const number = Number(value) || 0;
+  if (selectedResearchCurrency === 'USD') {
+    return `$${(number / 1000000).toLocaleString(undefined, { maximumFractionDigits: 1 })}M`;
+  }
+  return `¥${number.toLocaleString(undefined, { maximumFractionDigits: 0 })}万`;
+}
+
+function formatUnitCost(value) {
+  const number = Number(value) || 0;
+  if (selectedResearchCurrency === 'USD') {
+    return `$${number.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+  }
+  return `¥${number.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+}
+
+function researchTooltipMetric(school, label, key, unit) {
+  return `${escapeHtml(label)}: ${formatResearchValue(researchMetricValue(school, key), unit)}`;
+}
+
+function sumResearchMetric(metricKey) {
+  return researchData.schools.reduce((sum, school) => sum + (Number(researchMetricValue(school, metricKey)) || 0), 0);
+}
+
+function averageResearchMetric(metricKey) {
+  const values = researchData.schools
+    .map(school => Number(researchMetricValue(school, metricKey)))
+    .filter(value => Number.isFinite(value) && value > 0);
+  return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
+}
+
+function schoolsByType() {
+  return (researchData.schoolTypes || [])
+    .map(type => ({
+      type,
+      schools: researchData.schools.filter(school => school.schoolType === type)
+    }))
+    .filter(group => group.schools.length);
+}
+
+function aggregateGroupMetric(schools, metricKey, mode = 'average') {
+  const values = schools
+    .map(school => Number(researchMetricValue(school, metricKey)))
+    .filter(value => Number.isFinite(value) && value > 0);
+  if (!values.length) return null;
+  if (mode === 'sum') return values.reduce((sum, value) => sum + value, 0);
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function selectedResearchSchool() {
+  return researchData?.schools?.find(school => school.id === selectedResearchSchoolId) || researchData?.schools?.[0] || null;
+}
+
+function openProjectFromResearchSchool(school) {
+  const projectNodeId = school?.projectLink?.projectNodeId;
+  if (!projectNodeId || !nodesById.has(projectNodeId)) return;
+  closeResearchDashboard();
+  revealEducationGraph();
+  window.setTimeout(() => {
+    const projectNode = nodesById.get(projectNodeId);
+    if (projectNode) handleNodeClick(projectNode);
+  }, 520);
+}
+
+function renderResearchDashboard() {
+  if (!researchData) {
+    loadResearchDashboardData().then(renderResearchDashboard);
+    return;
+  }
+  fillResearchControls();
+  renderResearchTypeAreaBars();
+  renderResearchRanking();
+  renderResearchProfile();
+  renderResearchComposition();
+  renderResearchScatter();
+  window.setTimeout(() => {
+    if (researchTypeAreaChart) researchTypeAreaChart.resize();
+    if (researchProgramStackChart) researchProgramStackChart.resize();
+    if (researchCostChart) researchCostChart.resize();
+  }, 0);
+}
+
+function renderGroupedBars(containerId, chartMetrics) {
+  const groups = schoolsByType();
+  const allValues = groups.flatMap(group => chartMetrics.map(metric => aggregateGroupMetric(group.schools, metric.key, metric.mode) || 0));
+  const maxValue = Math.max(...allValues, 1);
+  document.getElementById(containerId).innerHTML = groups.map(group => `
+    <div class="research-group-panel">
+      <div class="research-group-title">${escapeHtml(group.type)} (${group.schools.length})</div>
+      ${chartMetrics.map(metric => {
+        const value = aggregateGroupMetric(group.schools, metric.key, metric.mode) || 0;
+        const width = Math.max(3, value / maxValue * 100);
+        return `
+          <div class="research-group-bar-row">
+            <div>${escapeHtml(metric.label)}</div>
+            <div class="research-bar-track"><div class="research-bar-fill research-grow-fill" style="--bar-width:${width}%;background:${metric.color}"></div></div>
+            <div>${formatResearchValue(value, metric.unit)}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `).join('');
+}
+
+function renderResearchTypeAreaBars() {
+  const container = document.getElementById('researchTypeAreaBars');
+  if (typeof echarts === 'undefined') {
+    renderGroupedBars('researchTypeAreaBars', [
+      { key: 'totalBuildingArea', label: 'Building Area', unit: 'm2', mode: 'average', color: 'linear-gradient(90deg,#66d9e8,#74c0fc)' },
+      { key: 'buildingAreaPerStudent', label: 'Bldg / Student', unit: 'm2/person', mode: 'average', color: 'linear-gradient(90deg,#fff4a8,#ffd43b)' },
+      { key: 'landAreaPerStudent', label: 'Land / Student', unit: 'm2/person', mode: 'average', color: 'linear-gradient(90deg,#8ce99a,#51cf66)' },
+    ]);
+    return;
+  }
+  if (!researchTypeAreaChart) {
+    researchTypeAreaChart = echarts.init(container, null, { renderer: 'canvas' });
+  }
+  const schools = researchData.schools;
+  const schoolNames = schools.map(school => researchSchoolName(school));
+  const schoolTypes = schools.map(school => school.schoolType || '');
+  const metricSeries = [
+    { name: 'Building Area', key: 'totalBuildingArea', unit: 'm2', yAxisIndex: 0, color: '#66d9e8' },
+    { name: 'Bldg / Student', key: 'buildingAreaPerStudent', unit: 'm2/person', yAxisIndex: 1, color: '#fff4a8' },
+    { name: 'Land / Student', key: 'landAreaPerStudent', unit: 'm2/person', yAxisIndex: 1, color: '#8ce99a' },
+  ];
+  researchTypeAreaChart.setOption({
+    backgroundColor: 'transparent',
+    color: metricSeries.map(metric => metric.color),
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      backgroundColor: 'rgba(12,16,24,0.94)',
+      borderColor: 'rgba(255,255,255,0.14)',
+      textStyle: { color: '#fff' },
+      formatter(params) {
+        const index = params[0]?.dataIndex || 0;
+        const school = schools[index];
+        const projectLabel = school?.projectLink?.projectLabel;
+        const lines = [
+          `<strong>${escapeHtml(schoolNames[index])}</strong>`,
+          `<span>${escapeHtml(schoolTypes[index])}${school?.name ? ` · ${escapeHtml(school.name)}` : ''}</span>`,
+          projectLabel ? `<span style="color:#fff4a8">Linked PROJECTS node: ${escapeHtml(projectLabel)} · click to open</span>` : '<span>No PROJECTS link yet</span>',
+          researchTooltipMetric(school, 'Campus land area', 'landArea', 'm2'),
+          researchTooltipMetric(school, 'Total building area', 'totalBuildingArea', 'm2'),
+          researchTooltipMetric(school, 'FAR', 'floorAreaRatio', 'ratio'),
+          researchTooltipMetric(school, 'Green rate', 'greenRate', '%'),
+          researchTooltipMetric(school, 'Building density', 'buildingDensity', '%')
+        ];
+        params.forEach(param => {
+          const metric = metricSeries.find(item => item.name === param.seriesName);
+          lines.push(`${param.marker}${escapeHtml(param.seriesName)}: ${formatResearchValue(param.value, metric?.unit || '')}`);
+        });
+        return lines.join('<br>');
+      }
+    },
+    legend: {
+      top: 0,
+      right: 0,
+      textStyle: { color: 'rgba(255,255,255,0.72)' }
+    },
+    grid: {
+      left: 62,
+      right: 70,
+      top: 58,
+      bottom: 148
+    },
+    dataZoom: [
+      { type: 'inside', start: 0, end: 100 },
+      {
+        type: 'slider',
+        bottom: 18,
+        height: 18,
+        start: 0,
+        end: 100,
+        borderColor: 'rgba(255,255,255,0.12)',
+        fillerColor: 'rgba(102,217,232,0.18)',
+        handleStyle: { color: '#66d9e8' },
+        textStyle: { color: 'rgba(255,255,255,0.58)' }
+      }
+    ],
+    xAxis: {
+      type: 'category',
+      data: schoolNames,
+      axisTick: { alignWithLabel: true },
+      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.22)' } },
+      axisLabel: {
+        rotate: 42,
+        interval: 0,
+        width: 118,
+        overflow: 'break',
+        color: 'rgba(255,255,255,0.66)',
+        fontSize: 11,
+        lineHeight: 14,
+        margin: 20,
+        formatter: value => wrapAxisLabel(value, 13)
+      }
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: 'Building Area',
+        nameTextStyle: { color: 'rgba(255,255,255,0.58)' },
+        axisLabel: { color: 'rgba(255,255,255,0.58)', formatter: value => formatResearchValue(value, 'm2') },
+        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } }
+      },
+      {
+        type: 'value',
+        name: 'Per Student',
+        nameTextStyle: { color: 'rgba(255,255,255,0.58)' },
+        axisLabel: { color: 'rgba(255,255,255,0.58)', formatter: value => formatResearchValue(value, 'm2/person') },
+        splitLine: { show: false }
+      }
+    ],
+    series: metricSeries.map(metric => ({
+      name: metric.name,
+      type: 'bar',
+      yAxisIndex: metric.yAxisIndex,
+      barMaxWidth: 18,
+      label: {
+        show: true,
+        position: 'top',
+        rotate: 0,
+        distance: 6,
+        color: 'rgba(255,255,255,0.62)',
+        fontSize: 10,
+        formatter: value => formatResearchValue(value.value, metric.unit)
+      },
+      emphasis: { focus: 'series' },
+      data: schools.map(school => {
+        const value = Number(researchMetricValue(school, metric.key)) || 0;
+        if (!school.projectLink) return value;
+        return {
+          value,
+          itemStyle: {
+            color: metric.name === 'Building Area' ? '#ffb86b' : metric.color,
+            borderColor: '#fff4a8',
+            borderWidth: 2,
+            shadowColor: 'rgba(255,244,168,0.55)',
+            shadowBlur: 12
+          }
+        };
+      })
+    })),
+    animationDuration: 900,
+    animationEasing: 'cubicOut'
+  }, true);
+  researchTypeAreaChart.off('click');
+  researchTypeAreaChart.on('click', params => {
+    const school = schools[params.dataIndex];
+    openProjectFromResearchSchool(school);
+  });
+}
+
+function renderResearchRanking() {
+  const container = document.getElementById('researchRanking');
+  const stackMetrics = [
+    { name: 'Teaching / Office', key: 'teachingOfficeArea', color: '#66d9e8' },
+    { name: 'Student Dormitory', key: 'studentDormArea', color: '#c7d2fe' },
+    { name: 'Sports', key: 'sportsArea', color: '#8ce99a' },
+    { name: 'Living Support', key: 'livingSupportArea', color: '#ffb86b' },
+    { name: 'Staff Dormitory', key: 'staffDormArea', color: '#ff8fa3' },
+    { name: 'Underground Area', key: 'undergroundArea', color: '#91a7ff' },
+  ];
+  const schools = researchData.schools
+    .map(school => ({
+      school,
+      total: stackMetrics.reduce((sum, metric) => sum + (Number(researchMetricValue(school, metric.key)) || 0), 0)
+    }))
+    .filter(item => item.total > 0)
+    .sort((a, b) => a.total - b.total);
+  if (typeof echarts === 'undefined') {
+    const maxValue = Math.max(...schools.map(item => item.total), 1);
+    container.innerHTML = schools.map(item => `
+      <div class="research-bar-row">
+        <div>${escapeHtml(researchSchoolName(item.school))}</div>
+        <div class="research-bar-track"><div class="research-bar-fill" style="width:${Math.max(2, item.total / maxValue * 100)}%"></div></div>
+        <div>${formatResearchValue(item.total, 'm2')}</div>
+      </div>
+    `).join('');
+    return;
+  }
+  if (!researchProgramStackChart) {
+    researchProgramStackChart = echarts.init(container, null, { renderer: 'canvas' });
+  }
+  researchProgramStackChart.setOption({
+    backgroundColor: 'transparent',
+    color: stackMetrics.map(metric => metric.color),
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      backgroundColor: 'rgba(12,16,24,0.94)',
+      borderColor: 'rgba(255,255,255,0.14)',
+      textStyle: { color: '#fff' },
+      formatter(params) {
+        const index = params[0]?.dataIndex || 0;
+        const item = schools[index];
+        const lines = [
+          `<strong>${escapeHtml(researchSchoolName(item.school))}</strong>`,
+          `<span>${escapeHtml(item.school.schoolType || '')}${item.school.name ? ` · ${escapeHtml(item.school.name)}` : ''}</span>`,
+          `Stack total: ${formatResearchValue(item.total, 'm2')}`
+        ];
+        params.forEach(param => {
+          lines.push(`${param.marker}${escapeHtml(param.seriesName)}: ${formatResearchValue(param.value, 'm2')}`);
+        });
+        return lines.join('<br>');
+      }
+    },
+    legend: {
+      top: 0,
+      right: 0,
+      textStyle: { color: 'rgba(255,255,255,0.72)' }
+    },
+    grid: {
+      left: 210,
+      right: 54,
+      top: 58,
+      bottom: 44
+    },
+    xAxis: {
+      type: 'value',
+      axisLabel: { color: 'rgba(255,255,255,0.58)', formatter: value => formatResearchValue(value, 'm2') },
+      splitLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } }
+    },
+    yAxis: {
+      type: 'category',
+      data: schools.map(item => researchSchoolName(item.school)),
+      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.22)' } },
+      axisLabel: {
+        color: 'rgba(255,255,255,0.68)',
+        width: 184,
+        overflow: 'truncate',
+        fontSize: 11
+      }
+    },
+    series: stackMetrics.map(metric => ({
+      name: metric.name,
+      type: 'bar',
+      stack: 'building-program',
+      emphasis: { focus: 'series' },
+      label: { show: false },
+      data: schools.map(item => Number(researchMetricValue(item.school, metric.key)) || 0)
+    })),
+    animationDuration: 900,
+    animationEasing: 'cubicOut'
+  }, true);
+}
+
+function renderResearchProfile() {
+  const school = selectedResearchSchool();
+  const buildingProfile = [
+    ['Building Area', 'totalBuildingArea', 'm2'],
+    ['Land Area', 'landArea', 'm2'],
+    ['Building / Student', 'buildingAreaPerStudent', 'm2/person'],
+    ['FAR', 'floorAreaRatio', 'ratio'],
+    ['Green Rate', 'greenRate', '%'],
+  ];
+  const studentProfile = [
+    ['Students', 'studentCount', 'people'],
+    ['Staff', 'staffCount', 'people'],
+    ['Boarding Students', 'boardingStudents', 'people'],
+    ['Boarding Rate', 'boardingRate', '%'],
+  ];
+  const profile = selectedResearchProfileView === 'building'
+    ? buildingProfile
+    : selectedResearchProfileView === 'students'
+      ? studentProfile
+      : [...buildingProfile, ...studentProfile];
+  document.getElementById('researchProfile').innerHTML = profile.map(([label, key, unit]) => {
+    const value = Number(researchMetricValue(school, key)) || 0;
+    const avg = Number(averageResearchMetric(key)) || value || 1;
+    const width = Math.min(100, Math.max(4, value / Math.max(avg * 1.6, value) * 100));
+    return `
+      <div class="research-profile-row">
+        <div>${escapeHtml(label)}</div>
+        <div class="research-bar-track"><div class="research-bar-fill" style="width:${width}%"></div></div>
+        <div>${formatResearchValue(value, unit)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderStack(containerId, title, values) {
+  const total = values.reduce((sum, item) => sum + item.value, 0);
+  if (!total) return '';
+  const track = values.map((item, index) => `
+    <div class="research-stack-segment" style="width:${item.value / total * 100}%;background:${RESEARCH_COLORS[index % RESEARCH_COLORS.length]}"></div>
+  `).join('');
+  const legend = values.map((item, index) => `
+    <span><span class="research-dot" style="background:${RESEARCH_COLORS[index % RESEARCH_COLORS.length]}"></span>${escapeHtml(item.label)} ${Math.round(item.value / total * 100)}%</span>
+  `).join('');
+  return `<div><h3>${escapeHtml(title)}</h3><div class="research-stack-track">${track}</div><div class="research-legend">${legend}</div></div>`;
+}
+
+function renderResearchComposition() {
+  const school = selectedResearchSchool();
+  const buildingLabels = {
+    kindergartenArea: 'Kindergarten',
+    teachingOfficeArea: 'Teaching/Office',
+    studentDormArea: 'Student Dorm',
+    sportsArea: 'Sports',
+    livingSupportArea: 'Living',
+    staffDormArea: 'Staff Dorm',
+    otherArea: 'Other',
+  };
+  const studentLabels = {
+    preKStudents: 'PreK-K',
+    primaryStudents: 'Primary',
+    middleStudents: 'Middle',
+    highStudents: 'High',
+  };
+  const buildingValues = Object.entries(buildingLabels).map(([key, label]) => ({ label, value: Number(school.buildingMix?.[key]) || 0 })).filter(item => item.value > 0);
+  const studentValues = Object.entries(studentLabels).map(([key, label]) => ({ label, value: Number(school.studentMix?.[key]) || 0 })).filter(item => item.value > 0);
+  const sections = [];
+  if (selectedResearchProfileView !== 'students') {
+    sections.push(renderStack('researchComposition', 'Building Program Mix', buildingValues));
+  }
+  if (selectedResearchProfileView !== 'building') {
+    sections.push(renderStack('researchComposition', 'Student Stage Mix', studentValues));
+  }
+  document.getElementById('researchComposition').innerHTML = sections.filter(Boolean).join('') || '<div class="research-empty">No composition data for this school.</div>';
+}
+
+function renderResearchScatter() {
+  const container = document.getElementById('researchScatter');
+  const currencySelect = document.getElementById('researchCurrencySelect');
+  if (currencySelect) currencySelect.value = selectedResearchCurrency;
+  const costItems = researchData.costBenchmarks || [];
+  if (!costItems.length) {
+    container.innerHTML = '<div class="research-empty">No investment benchmark data yet.</div>';
+    return;
+  }
+  if (typeof echarts === 'undefined') {
+    container.innerHTML = costItems.map(item => `
+      <div class="research-bar-row">
+        <div>${escapeHtml(item.name)}</div>
+        <div class="research-bar-track"><div class="research-bar-fill" style="width:${Math.min(100, item.investmentTotalWan / 104000 * 100)}%"></div></div>
+        <div>${formatResearchValue(item.investmentTotalWan, '')}</div>
+      </div>
+    `).join('');
+    return;
+  }
+  if (!researchCostChart) {
+    researchCostChart = echarts.init(container, null, { renderer: 'canvas' });
+  }
+  const names = costItems.map(item => item.name);
+  const investmentSeriesName = selectedResearchCurrency === 'USD' ? 'Investment Total (USD)' : 'Investment Total (RMB)';
+  const unitCostSeriesName = selectedResearchCurrency === 'USD' ? 'Unit Cost (USD)' : 'Unit Cost (RMB)';
+  researchCostChart.setOption({
+    backgroundColor: 'transparent',
+    color: ['#70c8cf', '#f2c768'],
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(12,16,24,0.94)',
+      borderColor: 'rgba(255,255,255,0.14)',
+      textStyle: { color: '#fff' },
+      formatter(params) {
+        const index = params[0]?.dataIndex || 0;
+        const item = costItems[index];
+        const lines = [
+          `<strong>${escapeHtml(item.name)}</strong>`,
+          item.projectLink ? `<span style="color:#fff4a8">Linked PROJECTS node: ${escapeHtml(item.projectLink.projectLabel)} · click to open</span>` : '<span>No PROJECTS link yet</span>'
+        ];
+        params.forEach(param => {
+          if (param.seriesName === investmentSeriesName) {
+            lines.push(`${param.marker}${escapeHtml(param.seriesName)}: ${formatInvestmentCost(param.value)}`);
+          } else {
+            lines.push(`${param.marker}${escapeHtml(param.seriesName)}: ${formatUnitCost(param.value)}`);
+          }
+        });
+        return lines.join('<br>');
+      }
+    },
+    legend: {
+      top: 0,
+      left: 0,
+      textStyle: { color: 'rgba(255,255,255,0.72)' }
+    },
+    grid: {
+      left: 72,
+      right: 72,
+      top: 58,
+      bottom: 142
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: names,
+      axisLine: { lineStyle: { color: 'rgba(255,255,255,0.22)' } },
+      axisLabel: {
+        rotate: 0,
+        interval: 0,
+        width: 108,
+        overflow: 'break',
+        color: 'rgba(255,255,255,0.66)',
+        fontSize: 11,
+        lineHeight: 14,
+        margin: 18,
+        formatter: value => wrapAxisLabel(value, 13)
+      }
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: selectedResearchCurrency === 'USD' ? 'USD M' : 'RMB 万',
+        axisLabel: { color: 'rgba(255,255,255,0.58)', formatter: value => formatInvestmentCost(value) },
+        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } }
+      },
+      {
+        type: 'value',
+        name: selectedResearchCurrency === 'USD' ? 'USD' : 'RMB',
+        axisLabel: { color: 'rgba(255,255,255,0.58)', formatter: value => formatUnitCost(value) },
+        splitLine: { show: false }
+      }
+    ],
+    series: [
+      {
+        name: investmentSeriesName,
+        type: 'line',
+        smooth: true,
+        yAxisIndex: 0,
+        areaStyle: { opacity: 0.34 },
+        symbolSize: 9,
+        emphasis: { focus: 'series' },
+        data: costItems.map(item => ({
+          value: investmentValueWan(item.investmentTotalWan),
+          itemStyle: item.projectLink ? { borderColor: '#fff4a8', borderWidth: 3, shadowBlur: 12, shadowColor: 'rgba(255,244,168,0.55)' } : {}
+        }))
+      },
+      {
+        name: unitCostSeriesName,
+        type: 'line',
+        smooth: true,
+        yAxisIndex: 1,
+        areaStyle: { opacity: 0.28 },
+        symbolSize: 9,
+        emphasis: { focus: 'series' },
+        data: costItems.map(item => ({
+          value: unitCostValueRmb(item.unitCostYuan),
+          itemStyle: item.projectLink ? { borderColor: '#fff4a8', borderWidth: 3, shadowBlur: 12, shadowColor: 'rgba(255,244,168,0.55)' } : {}
+        }))
+      }
+    ],
+    animationDuration: 900,
+    animationEasing: 'cubicOut'
+  }, true);
+  researchCostChart.off('click');
+  researchCostChart.on('click', params => {
+    const item = costItems[params.dataIndex];
+    if (item?.projectLink?.projectNodeId) {
+      openProjectFromResearchSchool({ projectLink: item.projectLink });
+    }
+  });
+}
+
+function returnToEducationHome() {
+  introExpanded = false;
+  document.body.classList.add('intro-active');
+  document.body.classList.remove('graph-revealed');
+  document.getElementById('detailOverlay').classList.remove('active');
+  document.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lightbox').innerHTML = '';
+  selectedDetailNode = null;
+  hoverSuppressUntil = Date.now() + 400;
+  hoverDisabledUntilPointerMove = false;
+  clearHoverFocus();
+  if (Graph) {
+    Graph.cameraPosition({ x: 0, y: 0, z: 1250 }, { x: 0, y: 0, z: 0 }, 800);
+  }
+}
+
 function handleNodeClick(node) {
   selectedDetailNode = node;
   clearHoverFocus();
@@ -1236,6 +2710,29 @@ function handleNodeClick(node) {
 }
 
 document.getElementById('resetView').onclick = resetGraphView;
+document.getElementById('introCore').addEventListener('click', openEducationGrowth);
+document.getElementById('introExpand').addEventListener('click', revealEducationGraph);
+document.getElementById('introExpandResearch').addEventListener('click', expandResearch);
+document.getElementById('homeReturn').addEventListener('click', returnToEducationHome);
+document.getElementById('researchDashboardClose').addEventListener('click', returnFromResearchDashboard);
+document.getElementById('researchSchoolSelect').addEventListener('change', event => {
+  selectedResearchSchoolId = event.target.value;
+  renderResearchDashboard();
+});
+document.getElementById('researchMetricSelect').addEventListener('change', event => {
+  selectedResearchProfileView = event.target.value;
+  renderResearchDashboard();
+});
+document.getElementById('researchCurrencySelect').addEventListener('change', event => {
+  selectedResearchCurrency = event.target.value;
+  renderResearchScatter();
+});
+document.getElementById('researchRanking').addEventListener('click', event => {
+  const row = event.target.closest('[data-research-school]');
+  if (!row) return;
+  selectedResearchSchoolId = row.getAttribute('data-research-school');
+  renderResearchDashboard();
+});
 document.getElementById('schoolNameFilter').addEventListener('change', handleFilterChange);
 document.getElementById('schoolFilter').addEventListener('change', handleFilterChange);
 document.querySelectorAll('#themePalette input[type="color"]').forEach(input => {
@@ -1258,12 +2755,9 @@ document.getElementById('lightbox').addEventListener('click', event => {
   event.currentTarget.classList.remove('active');
   event.currentTarget.innerHTML = '';
 });
-window.addEventListener('pointerup', recoverNodeDrag);
-window.addEventListener('mouseup', recoverNodeDrag);
-window.addEventListener('touchend', recoverNodeDrag);
-window.addEventListener('blur', recoverNodeDrag);
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
+    closeResearchDashboard();
     closeDetail();
     document.getElementById('lightbox').classList.remove('active');
   }
@@ -1280,11 +2774,17 @@ window.addEventListener('mousemove', event => {
 });
 
 window.addEventListener('resize', () => {
-  if (!Graph) return;
-  Graph.width(window.innerWidth);
-  Graph.height(window.innerHeight);
+  if (Graph) {
+    Graph.width(window.innerWidth);
+    Graph.height(window.innerHeight);
+  }
+  if (researchTypeAreaChart) researchTypeAreaChart.resize();
+  if (researchProgramStackChart) researchProgramStackChart.resize();
+  if (researchCostChart) researchCostChart.resize();
 });
 
+initIntroGlobe();
+loadResearchDashboardData();
 waitForGraphLibrary();
 </script>
 </body>
