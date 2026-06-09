@@ -1070,12 +1070,19 @@ const VISUAL_THEME = {
   highlight: '#fff4a8'
 };
 
+const DEFAULT_GRAPH_DATA_URL = 'space-library-graph.json';
+
 function getGraphDataUrl() {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get('data');
-  if (!requested) return 'space-library-graph.json';
+  if (!requested) {
+    params.set('data', DEFAULT_GRAPH_DATA_URL);
+    const nextUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+    window.history.replaceState(null, '', nextUrl);
+    return DEFAULT_GRAPH_DATA_URL;
+  }
   if (/^https?:\/\//i.test(requested) || requested.includes('..')) {
-    return 'space-library-graph.json';
+    return DEFAULT_GRAPH_DATA_URL;
   }
   return requested;
 }

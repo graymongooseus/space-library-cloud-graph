@@ -81,6 +81,8 @@ test('3d cloud page preserves no-override link rendering defaults', () => {
 test('3d cloud page loads 3d-force-graph and keeps the local data parameter guard', () => {
   assert.match(html3d, /3d-force-graph/);
   assert.match(html3d, /function getGraphDataUrl\(/);
+  assert.match(html3d, /const DEFAULT_GRAPH_DATA_URL = 'space-library-graph\.json'/);
+  assert.match(html3d, /window\.history\.replaceState\(null, '', nextUrl\)/);
   assert.match(html3d, /requested\.includes\('\.\.'\)/);
   assert.match(html3d, /space-library-graph\.json/);
 });
