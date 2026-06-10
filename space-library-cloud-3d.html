@@ -1029,6 +1029,8 @@ let hoverFocus = { nodeId: null, nodeIds: new Set(), linkKeys: new Set() };
 let selectedDetailNode = null;
 let hoverSuppressUntil = 0;
 let hoverDisabledUntilPointerMove = false;
+let draggingNode = null;
+let dragRecoveryTimer = 0;
 let introExpanded = false;
 let introGlobeAnimationFrame = 0;
 let researchData = null;
@@ -1166,6 +1168,8 @@ function initGraph(data) {
     .linkOpacity(linkOpacity)
     .linkWidth(linkWidth)
     .enableNodeDrag(true)
+    .onNodeDrag(handleNodeDrag)
+    .onNodeDragEnd(handleNodeDragEnd)
     .onNodeHover(handleNodeHover)
     .onNodeClick(handleNodeClick);
 
@@ -1489,6 +1493,50 @@ function clearHoverFocus() {
   hoverFocus = buildHoverState(null);
   showTooltip(null);
   refreshNodeAppearance();
+}
+
+function setCameraControlsEnabled(enabled) {
+  const controls = Graph && Graph.controls && Graph.controls();
+  if (!controls) return;
+  controls.enabled = Boolean(enabled);
+  controls.update();
+}
+
+function releaseDraggedNode() {
+  if (!draggingNode) return;
+  draggingNode.fx = undefined;
+  draggingNode.fy = undefined;
+  draggingNode.fz = undefined;
+  draggingNode = null;
+  if (Graph) Graph.d3ReheatSimulation();
+}
+
+function recoverNodeDrag() {
+  window.clearTimeout(dragRecoveryTimer);
+  releaseDraggedNode();
+  setCameraControlsEnabled(true);
+}
+
+function scheduleDragRecovery() {
+  window.clearTimeout(dragRecoveryTimer);
+  dragRecoveryTimer = window.setTimeout(recoverNodeDrag, 700);
+}
+
+function handleNodeDrag(node) {
+  if (!node) return;
+  draggingNode = node;
+  setCameraControlsEnabled(false);
+  node.fx = node.x;
+  node.fy = node.y;
+  node.fz = node.z;
+  scheduleDragRecovery();
+  if (Graph) Graph.d3ReheatSimulation();
+}
+
+function handleNodeDragEnd(node) {
+  draggingNode = node || draggingNode;
+  window.setTimeout(recoverNodeDrag, 120);
+  window.setTimeout(() => setCameraControlsEnabled(true), 80);
 }
 
 function endpointId(endpoint) {
@@ -2762,6 +2810,10 @@ document.getElementById('lightbox').addEventListener('click', event => {
   event.currentTarget.classList.remove('active');
   event.currentTarget.innerHTML = '';
 });
+window.addEventListener('pointerup', recoverNodeDrag);
+window.addEventListener('mouseup', recoverNodeDrag);
+window.addEventListener('touchend', recoverNodeDrag);
+window.addEventListener('blur', recoverNodeDrag);
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
     closeResearchDashboard();

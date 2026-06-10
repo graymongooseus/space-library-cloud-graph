@@ -146,8 +146,8 @@ test('3d cloud page exposes visual hierarchy and focus interactions', () => {
   assert.match(html3d, /function focusNode\(/);
   assert.match(html3d, /function focusRelatedGraph\(/);
   assert.match(html3d, /\.enableNodeDrag\(true\)/);
-  assert.doesNotMatch(html3d, /\.onNodeDrag\(/);
-  assert.doesNotMatch(html3d, /\.onNodeDragEnd\(/);
+  assert.match(html3d, /\.onNodeDrag\(handleNodeDrag\)/);
+  assert.match(html3d, /\.onNodeDragEnd\(handleNodeDragEnd\)/);
   assert.match(html3d, /Graph\.d3VelocityDecay\(0\.42\)/);
   assert.match(html3d, /Graph\.cameraPosition\(\{ x: 0, y: 0, z: 1250 \}/);
   assert.match(html3d, /Graph\.cameraPosition\([^;]+node[^;]+1800\)/s);
@@ -337,14 +337,16 @@ test('3d cloud page shows persistent school project labels', () => {
   assert.match(html3d, /group\.add\(label\)/);
 });
 
-test('3d cloud page uses force graph default node dragging', () => {
-  assert.match(html3d, /\.enableNodeDrag\(true\)/);
-  assert.doesNotMatch(html3d, /function setCameraControlsEnabled\(/);
-  assert.doesNotMatch(html3d, /function handleNodeDrag\(/);
-  assert.doesNotMatch(html3d, /function handleNodeDragEnd\(/);
-  assert.doesNotMatch(html3d, /function recoverNodeDrag\(/);
-  assert.doesNotMatch(html3d, /function scheduleDragRecovery\(/);
-  assert.doesNotMatch(html3d, /window\.addEventListener\('pointerup', recoverNodeDrag\)/);
+test('3d cloud page temporarily disables camera controls while dragging nodes', () => {
+  assert.match(html3d, /function setCameraControlsEnabled\(/);
+  assert.match(html3d, /function handleNodeDrag\(/);
+  assert.match(html3d, /function handleNodeDragEnd\(/);
+  assert.match(html3d, /function recoverNodeDrag\(/);
+  assert.match(html3d, /function scheduleDragRecovery\(/);
+  assert.match(html3d, /setCameraControlsEnabled\(false\)/);
+  assert.match(html3d, /setCameraControlsEnabled\(true\)/);
+  assert.match(html3d, /window\.addEventListener\('pointerup', recoverNodeDrag\)/);
+  assert.match(html3d, /Graph\.d3ReheatSimulation\(\)/);
 });
 
 test('3d cloud page does not start ambient drift or auto rotation', () => {
