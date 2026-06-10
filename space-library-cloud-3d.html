@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPACE LIBRARY 空间产品库 · 3D 知识关系云图</title>
+<title>GONGMING LIU - EDUCATION RESEARCH</title>
 <script src="vendor/three.min.js?v=fg1770"></script>
 <script>
 if (typeof THREE === 'undefined' && typeof module !== 'undefined' && module.exports && module.exports.REVISION) {
@@ -1115,12 +1115,7 @@ const DEFAULT_GRAPH_DATA_URL = 'space-library-graph.json';
 function getGraphDataUrl() {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get('data');
-  if (!requested) {
-    params.set('data', DEFAULT_GRAPH_DATA_URL);
-    const nextUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
-    window.history.replaceState(null, '', nextUrl);
-    return DEFAULT_GRAPH_DATA_URL;
-  }
+  if (!requested) return DEFAULT_GRAPH_DATA_URL;
   if (/^https?:\/\//i.test(requested) || requested.includes('..')) {
     return DEFAULT_GRAPH_DATA_URL;
   }

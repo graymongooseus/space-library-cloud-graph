@@ -82,7 +82,7 @@ test('3d cloud page loads 3d-force-graph and keeps the local data parameter guar
   assert.match(html3d, /3d-force-graph/);
   assert.match(html3d, /function getGraphDataUrl\(/);
   assert.match(html3d, /const DEFAULT_GRAPH_DATA_URL = 'space-library-graph\.json'/);
-  assert.match(html3d, /window\.history\.replaceState\(null, '', nextUrl\)/);
+  assert.doesNotMatch(html3d, /window\.history\.replaceState/);
   assert.match(html3d, /requested\.includes\('\.\.'\)/);
   assert.match(html3d, /space-library-graph\.json/);
 });
