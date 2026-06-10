@@ -379,7 +379,7 @@ body.graph-revealed .intro-overlay {
 }
 .intro-stage {
   position: relative;
-  width: min(680px, calc(100vw - 32px));
+  width: min(820px, calc(100vw - 32px));
   aspect-ratio: 1;
 }
 .intro-core {
@@ -459,7 +459,7 @@ body.graph-revealed .intro-overlay {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(29vw, 228px);
+  width: min(34vw, 276px);
   height: 2px;
   background: linear-gradient(90deg, rgba(255,127,14,0.05), rgba(255,244,168,0.72));
   transform-origin: left center;
@@ -482,8 +482,8 @@ body.graph-revealed .intro-overlay {
 }
 .intro-node {
   position: absolute;
-  width: min(310px, calc(100vw - 48px));
-  padding: 18px;
+  width: min(286px, calc(100vw - 48px));
+  padding: 16px;
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 10px;
   background: rgba(14,16,24,0.48);
@@ -494,13 +494,13 @@ body.graph-revealed .intro-overlay {
   transition: opacity 520ms ease, transform 520ms ease;
 }
 .intro-node-research {
-  left: 2%;
-  top: 9%;
+  left: -2%;
+  top: 4%;
   transform: translate(24px, 18px) scale(0.96);
 }
 .intro-node-projects {
-  right: 2%;
-  bottom: 7%;
+  right: -2%;
+  bottom: 4%;
   transform: translate(-24px, 18px) scale(0.96);
 }
 .intro-overlay.growth-open .intro-node {
@@ -509,7 +509,7 @@ body.graph-revealed .intro-overlay {
 }
 .intro-overlay.growth-open .intro-node-research,
 .intro-overlay.growth-open .intro-node-projects {
-  transform: translate(0, 0) scale(1);
+  transform: translate(0, 0) scale(0.92);
 }
 .intro-node h1 {
   margin: 0 0 10px;
@@ -590,9 +590,22 @@ body.graph-revealed .intro-overlay {
   display: none;
   background: rgba(1,6,14,0.86);
   backdrop-filter: blur(18px);
+  opacity: 0;
+  transform: scale(0.72);
+  transform-origin: center center;
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .research-dashboard.active {
   display: block;
+}
+.research-dashboard.entered {
+  opacity: 1;
+  transform: scale(1);
+}
+.research-dashboard.closing {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.72);
 }
 .research-dashboard-shell {
   height: 100%;
@@ -860,27 +873,52 @@ body.graph-revealed .intro-overlay {
     bottom: 12px;
   }
   .intro-stage {
-    width: min(520px, calc(100vw - 20px));
+    width: min(360px, calc(100vw - 20px));
+    height: min(680px, calc(100vh - 24px));
+    aspect-ratio: auto;
+  }
+  .intro-core {
+    width: clamp(132px, 38vw, 172px);
   }
   .intro-node {
-    width: min(260px, calc(100vw - 32px));
-    padding: 14px;
+    width: min(228px, calc(100vw - 40px));
+    padding: 12px;
+  }
+  .intro-node h1 {
+    font-size: 18px;
+  }
+  .intro-node p {
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .intro-metrics {
+    gap: 5px;
+    margin: 10px 0;
+  }
+  .intro-metric {
+    padding: 7px 5px;
+  }
+  .intro-expand {
+    height: 36px;
+    font-size: 13px;
   }
   .intro-node-research {
     left: 50%;
-    top: 2%;
+    top: 16px;
     transform: translate(-50%, 12px) scale(0.96);
   }
   .intro-node-projects {
-    right: 50%;
-    bottom: 0;
-    transform: translate(50%, 12px) scale(0.96);
+    left: 50%;
+    right: auto;
+    bottom: 16px;
+    transform: translate(-50%, 12px) scale(0.96);
   }
   .intro-overlay.growth-open .intro-node-research {
-    transform: translate(-50%, 0) scale(1);
+    transform: translate(-50%, 0) scale(0.86);
   }
   .intro-overlay.growth-open .intro-node-projects {
-    transform: translate(50%, 0) scale(1);
+    transform: translate(-50%, 0) scale(0.86);
   }
   .research-placeholder {
     display: none;
@@ -2068,20 +2106,27 @@ function revealEducationGraph() {
 function expandResearch() {
   openEducationGrowth();
   const dashboard = document.getElementById('researchDashboard');
+  dashboard.classList.remove('closing', 'entered');
   dashboard.classList.add('active');
   dashboard.setAttribute('aria-hidden', 'false');
+  window.requestAnimationFrame(() => dashboard.classList.add('entered'));
   renderResearchDashboard();
 }
 
 function closeResearchDashboard() {
   const dashboard = document.getElementById('researchDashboard');
-  dashboard.classList.remove('active');
+  dashboard.classList.remove('active', 'closing', 'entered');
   dashboard.setAttribute('aria-hidden', 'true');
 }
 
 function returnFromResearchDashboard() {
-  closeResearchDashboard();
-  returnToEducationHome();
+  const dashboard = document.getElementById('researchDashboard');
+  dashboard.classList.remove('entered');
+  dashboard.classList.add('closing');
+  window.setTimeout(() => {
+    closeResearchDashboard();
+    returnToEducationHome();
+  }, 420);
 }
 
 async function loadResearchDashboardData() {

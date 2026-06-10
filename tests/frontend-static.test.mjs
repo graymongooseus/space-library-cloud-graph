@@ -181,6 +181,12 @@ test('3d cloud page starts with education project growth intro', () => {
   assert.match(html3d, /function returnToEducationHome\(/);
   assert.match(html3d, /id="researchDashboardClose"[^>]*aria-label="返回首页"/);
   assert.match(html3d, /function returnFromResearchDashboard\(\)/);
+  assert.match(html3d, /\.research-dashboard\.entered/);
+  assert.match(html3d, /\.research-dashboard\.closing/);
+  assert.match(html3d, /window\.requestAnimationFrame\(\(\) => dashboard\.classList\.add\('entered'\)\)/);
+  assert.match(html3d, /dashboard\.classList\.add\('closing'\)/);
+  assert.match(html3d, /width: min\(360px, calc\(100vw - 20px\)\)/);
+  assert.match(html3d, /transform: translate\(-50%, 0\) scale\(0\.86\)/);
   assert.match(html3d, /researchDashboardClose'\)\.addEventListener\('click', returnFromResearchDashboard\)/);
   assert.match(html3d, /function loadResearchDashboardData\(/);
   assert.match(html3d, /generated\/research-dashboard\.json/);
